@@ -1,5 +1,4 @@
 // jasmine : login, register,forget pw, update pw
-
 const { Schema, model } = require('mongoose');
 
 const schema = new Schema({
@@ -7,11 +6,29 @@ const schema = new Schema({
         type: String,
         required: true
     },
-    owner_ID: Schema.Types.ObjectId,
-    description: String,
-    scores: [Number]
+    email:{
+        type: String,
+        required: true,
+        unique: true
+    },
+    role: String,
+    contact:{
+        type: String,
+        required: true
+    },
+    address:{
+        type: String,
+    },
+    username:{
+        type: String,
+        required: true
+    },
+    password:{
+        type: String,
+        required: true
+    },
+    
 });
-
 
 // TO DO verify hash
 schema.statics.login = async function(username, password) {
