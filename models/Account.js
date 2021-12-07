@@ -17,11 +17,6 @@ const schema = new Schema({
     },
     address:{
         type: String,
-        required: false
-    },
-    contact:{
-        type: String,
-        required: false
     },
     username:{
         type: String,
@@ -31,43 +26,55 @@ const schema = new Schema({
         type: String,
         required: true
     },
-    created_at:{
-        type: String,
-        required: false
-    },
-    updated_at:{
-        type: String,
-        required: false
-    },
+    
 });
 
 // CRUD - create
-schema.statics.addParticipant = function(name) {
-    const participant = new this({
+schema.statics.addAccount = function(name, email, role, contact, address, username, password) {
+    const accounts = new this({
         name: name,
-        description: '',
-        scores: []
+        email: email,
+        role: role,
+        contact: contact,
+        address: address,
+        username: username,
+        password: password
     });
-    return participant.save();
+    return accounts.save();
 }
 
 // CRUD - read
-schema.statics.getParticipant = function(queryName) {
-    return this.findOne({name: queryName});
+schema.statics.getAccounts = function() {
+    return this.find();
 }
 
 // CRUD - update
-schema.methods.addScore = function(score) {
-    this.scores.push(score);
+schema.methods.updateAccount = function(name, email, role, contact, address, username) {
+    this.name = name,
+    this.email = email,
+    this.role = role,
+    this.contact = contact,
+    this.address = address,
+    this.username = username
     return this.save();
 }
 
 // CRUD - delete
-schema.methods.removeParticipant = function() {
+schema.methods.deleteAccount = function() {
     return this.remove();
 }
 
-const Participant = model('Participant', schema);
+schema.statics.deleteAccountByUsername = async function(username){
+    const user = await this.findOne({
+        username
+    })
+    if (user){
+        return user.remove();
+    }
+    return null;
+}
 
-module.exports = { Participant };
+const Account = model('Account', schema);
+
+module.exports = { Account };
 
