@@ -5,9 +5,40 @@ const schema = new Schema({
         type: String,
         required: true
     },
-    owner_ID: Schema.Types.ObjectId,
-    description: String,
-    scores: [Number]
+    email:{
+        type: String,
+        required: true,
+        unique: true
+    },
+    role: String,
+    contact:{
+        type: String,
+        required: true
+    },
+    address:{
+        type: String,
+        required: false
+    },
+    contact:{
+        type: String,
+        required: false
+    },
+    username:{
+        type: String,
+        required: true
+    },
+    password:{
+        type: String,
+        required: true
+    },
+    created_at:{
+        type: String,
+        required: false
+    },
+    updated_at:{
+        type: String,
+        required: false
+    },
 });
 
 // CRUD - create
