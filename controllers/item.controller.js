@@ -2,7 +2,7 @@ const Item = require('../Item');
 
 module.exports = {
     // GET
-    getItems(): async function(req, res) {
+    getItems: async function(req, res) {
         try {
             const items = await Item.getItems();
 
@@ -15,7 +15,7 @@ module.exports = {
         }
     },
     // GET
-    getItem(): async function(req, res) {
+    getItem: async function(req, res) {
         try {
             const { id } = req.params;
 
@@ -37,7 +37,7 @@ module.exports = {
         }
     },
     // POST
-    addItem(): async function(req, res) {
+    addItem: async function(req, res) {
         try {
             const { name, unit_price, barcode_ID, vendor_ID } = req.body;
 
@@ -52,7 +52,7 @@ module.exports = {
         }
     },
     // POST
-    updateItem(): async function(req, res) {
+    updateItem: async function(req, res) {
         try {
             const { name, quantity, unit_price, barcode_ID, vendor_ID } = req.body;
 
@@ -73,7 +73,7 @@ module.exports = {
         }
     },
     // GET
-    deleteItem(): function(req, res) {
+    deleteItem: function(req, res) {
         try {
             const { id } = req.params;
 
