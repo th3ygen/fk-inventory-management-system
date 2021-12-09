@@ -48,6 +48,10 @@ schema.statics.getAccounts = function() {
     return this.find();
 }
 
+schema.statics.getAccount = function(id) {
+    return this.findById(id);
+}
+
 // CRUD - update
 schema.methods.updateAccount = function(name, email, role, contact, address, username) {
     this.name = name,
