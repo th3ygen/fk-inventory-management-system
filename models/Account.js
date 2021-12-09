@@ -1,7 +1,11 @@
 const { Schema, model } = require('mongoose');
 
 const schema = new Schema({
-    name: {
+    account_ID:{
+        type: Schema.Types.ObjectId,
+        required: true
+    },
+    name:{
         type: String,
         required: true
     },
@@ -45,37 +49,34 @@ schema.statics.addAccount = function(name, email, role, contact, address, userna
 
 // CRUD - read
 schema.statics.getAccounts = function() {
-    return this.find();
+    return this.find({});
 }
 
-schema.statics.getAccount = function(id) {
-    return this.findById(id);
+schema.statics.getAccount = function(account_ID) {
+    return this.findById(account_ID);
 }
 
 // CRUD - update
-schema.methods.updateAccount = function(name, email, role, contact, address, username) {
-    this.name = name,
-    this.email = email,
-    this.role = role,
-    this.contact = contact,
-    this.address = address,
-    this.username = username
-    return this.save();
+schema.statics.updateAccount = async function(account_ID, name, email, role, contact, address, username) {
+    const account = await this.findById(account_ID);
+
+    if(account){
+        account.name = name;
+        account.email = email;
+        account.role = role;
+        account.contact = contact;
+        account.address = address;
+        account.username = username;
+
+        return account.save();
+    }
+
+    return null;
 }
 
 // CRUD - delete
-schema.methods.deleteAccount = function() {
-    return this.remove();
-}
-
-schema.statics.deleteAccountByUsername = async function(username){
-    const user = await this.findOne({
-        username
-    })
-    if (user){
-        return user.remove();
-    }
-    return null;
+schema.statics.deleteAccount = function(account_ID) {
+    return this.findByIdAndDelete(account_ID);
 }
 
 const Account = model('Account', schema);

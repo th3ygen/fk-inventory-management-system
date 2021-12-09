@@ -1,9 +1,9 @@
-const Item = require('../Account');
+//const Account = require('../Account');
 const { Account } = require('../models/Account');
 
 module.exports = {
     // GET
-    getAccounts: async function(req, res) {
+    getAccounts: async function(_req, res) {
         try {
             const account = await Account.getAccounts();
 
@@ -18,9 +18,9 @@ module.exports = {
     // GET
     getAccount: async function(req, res) {
         try {
-            const {id} = req.params;
+            const {account_ID} = req.params;
 
-            const account = await Account.getAccount(id);
+            const account = await Account.getAccount(account_ID);
 
             if (account) {
                 res.status(200).json(account);
@@ -76,9 +76,9 @@ module.exports = {
     // GET
     deleteAccount: function(req, res) {
         try {
-            const { username } = req.params;
+            const { account_ID } = req.params;
 
-            await Account.deleteAccount(username);
+            await Account.deleteAccount(account_ID);
 
             res.status(200).json({
                 message: 'Account deleted'
