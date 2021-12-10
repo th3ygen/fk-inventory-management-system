@@ -49,18 +49,31 @@ schema.statics.addVendors = function(company_name, brand, contact, address, emai
 
 // get vendor
 schema.statics.getVendor = function(queryName) {
-    return findOne({ company_name: queryName });
+    return this.findOne({ company_name: queryName });
+}
+// get all vendor
+schema.statics.getAllVendors = function() {
+    return this.findOne();
 }
 
 // update vendor
-schema.methods.editVendor = function(score) {
-    this.scores.push(score);
-    return this.save();
+schema.methods.updateVendors = function(vendor_ID,company_name,brand,contact,address,email,pic_name,pic_contact) {
+    const filter = { vendor_ID: vendor_ID};
+    const update = {
+        company_name: company_name,
+        brand: brand,
+        contact: contact,
+        address: address,
+        email: email,
+        pic_name: pic_name,
+        pic_contact: pic_contact
+    };
+    return this.findOneAndUpdate(filter,update);
 }
 
 // delete vendor
-schema.methods.removeVendor = function() {
-    return this.remove();
+schema.methods.removeVendor = function(id) {
+    return this.remove(id);
 }
 
 const Vendors = model('Vendors', schema);
