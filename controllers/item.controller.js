@@ -1,4 +1,4 @@
-const Item = require('../Item');
+const Item = require('models/Item');
 
 module.exports = {
     // GET
