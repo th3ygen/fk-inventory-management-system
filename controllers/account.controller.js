@@ -38,7 +38,7 @@ module.exports = {
         }
     },
     // POST
-    addItem: async function(req, res) {
+    addAccount: async function(req, res) {
         try {
             const { name, email, role, contact, address, username, password } = req.body;
 
