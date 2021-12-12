@@ -32,8 +32,8 @@ function App() {
 		<div className="App">
 			<Routes>
 				<Route path="/user" element={<UserLayout />}>
-					<Route index element={<TestPage />} />
-					{/* <Route path="/tests" element={<TestPage />} /> */}
+					<Route index element={<Home />} />
+					<Route path="tests" element={<TestPage />} />
 				</Route>
 				<Route path="/admin" element={<AdminLayout />}>
 					<Route index element={<Home />} />

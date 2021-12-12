@@ -12,8 +12,12 @@ export default function UserLayout() {
             name: 'User',
         },
         {  
-            path: '/user/profile',
-            name: 'Profile',
+            path: '/user/tests',
+            name: 'Test',
+        },
+        {  
+            path: '/user/manage',
+            name: 'Manage',
         }
     ];
 
