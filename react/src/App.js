@@ -8,6 +8,9 @@ import AdminLayout from "layouts/Admin.layout";
 // pages
 import TestPage from "page/Test";
 
+// Inventory page
+import ManageInventoryPage from 'page/common/inventory/Manage';
+
 function Home() {
 	return (
 		<header className="App-header">
@@ -33,6 +36,7 @@ function App() {
 			<Routes>
 				<Route path="/user" element={<UserLayout />}>
 					<Route index element={<Home />} />
+					<Route path="inventory" element={<ManageInventoryPage />} />
 					<Route path="tests" element={<TestPage />} />
 				</Route>
 				<Route path="/admin" element={<AdminLayout />}>
