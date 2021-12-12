@@ -70,11 +70,11 @@ module.exports = {
             });
         }
     },
-    approveOrder: function(req, res){
+    approveOrder: async function(req, res){
         try{
             
             const { orderID, status, managerRemarks, managerID } = req.body;
-            const order = await Order.updateOrder(orderId, status, managerRemarks, managerID);
+            const order = await Order.approveOrder(orderId, status, managerRemarks, managerID);
             if(order){
                 res.status(200).json(orders);
             }
