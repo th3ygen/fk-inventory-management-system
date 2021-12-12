@@ -1,6 +1,5 @@
 const { Schema, model } = require('mongoose');
 const Vendor = require ('./Vendor');
-const OrderItem = require('./OrderItem')
 
 const schema = new Schema({
     
@@ -25,6 +24,9 @@ schema.statics.getOrders = function() {
     return this.find({});
 }
 
+schema.statics.getOrder = function(id){
+    return this.findById(id);
+}
 
 /* 
     orderItems: {
