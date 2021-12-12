@@ -64,7 +64,7 @@ schema.statics.updateOrder = async function (orderId, comment, orderItems) {
     return order.save();
 }
 
-schema.statics.approveOrder = async function(orderID, status, managerRemarks, managerID){
+schema.statics.verifiedOrder = async function(orderID, status, managerRemarks, managerID){
 
     const order = await this.findById(orderID);
 
