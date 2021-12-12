@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+<<<<<<< HEAD
   return (
     <div className="App">
       <header className="App-header">
@@ -20,6 +21,21 @@ function App() {
       </header>
     </div>
   );
+=======
+	return (
+		<div className="App">
+			<Routes>
+				<Route path="/user" element={<UserLayout />}>
+					<Route index element={<Home />} />
+					<Route path="tests" element={<TestPage />} />
+				</Route>
+				<Route path="/admin" element={<AdminLayout />}>
+					<Route index element={<Home />} />
+				</Route>
+			</Routes>
+		</div>
+	);
+>>>>>>> 0d43f40 (nav link click area fix)
 }
 
 export default App;

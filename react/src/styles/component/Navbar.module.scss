@@ -1,0 +1,101 @@
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    height: 100vh;
+    width: 200px;
+
+    background: linear-gradient(0deg, #2179FFFF 0%, #297FE2FF 100%);
+    color: white;
+
+    & > .title-card {
+        width: 80%;
+        height: fit-content;
+
+        padding: 10px;
+
+        margin: 0 auto;
+        margin-top: 20px;
+
+        background: #ffffff2a;
+
+        display: flex;
+        align-items: center;
+
+        gap: 10px;
+
+        border-radius: 5px;
+
+        .logo {
+            width: 40px;
+            height: 40px;
+
+            background: #327CC7;
+
+            border-radius: 5px;
+
+            object-fit: cover;
+        }
+
+        .text {
+            display: flex;
+            flex-direction: column;
+
+            text-align: start;
+
+            .title {
+                font-size: .9rem;
+                font-weight: bold;
+            }
+
+            .label {
+                font-size: .7rem;
+                font-weight: bold;
+            }
+        }
+    }
+
+    & > .links {
+        display: flex;
+        flex-direction: column;
+
+        height: fit-content;
+        width: 100%;
+
+        margin-top: 30px;
+
+        & .link {
+            display: flex;
+            gap: 10px;
+
+            align-items: center;
+
+            padding: 12px 30px;
+
+            color: white !important;
+            text-decoration: none !important;
+
+            span {
+                font-size: .8rem;
+            }
+
+            &.active {
+                background: #ffffff2a;
+            }
+
+            transition: .3s all;
+            .icon {
+                transition: .1s all;
+            }
+            &:hover {
+                background: #ffffff2a;
+                cursor: pointer;
+                
+                .icon {
+                    transform: scale(1.4);
+                }
+            }
+        }
+    }
+}
