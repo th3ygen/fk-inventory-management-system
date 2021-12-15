@@ -8,8 +8,8 @@ import Topbar from 'components/Topbar.component';
 export default function UserLayout() {
     const paths = [
         {
-            path: '/user',
-            name: 'User',
+            path: '/user/inventory',
+            name: 'Inventory',
         },
         {  
             path: '/user/tests',
