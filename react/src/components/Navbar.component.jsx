@@ -40,9 +40,11 @@ export default function Navbar({ ...props }) {
                 </div>
 				<div className={styles.links}>
 					{props.paths.map((path, index) => (
-						<CustomLink key={index} to={path.path} className={styles.link}>
-							{path.name}
-						</CustomLink>
+						<div key={index} className={styles.link}>
+							<CustomLink to={path.path}>
+								{path.name}
+							</CustomLink>
+						</div>
 					))}
 				</div>
 			</nav>

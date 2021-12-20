@@ -1,19 +1,19 @@
 import { Outlet } from 'react-router-dom';
 
-import styles from 'styles/layout/User.module.scss';
-
 import Navbar from 'components/Navbar.component';
 import Topbar from 'components/Topbar.component';
 
-export default function UserLayout() {
+import styles from 'styles/layout/Admin.module.scss';
+
+export default function AdminLayout() {
     const paths = [
         {
-            path: '/user',
-            name: 'User',
+            path: '/settings',
+            name: 'Setting',
         },
         {  
-            path: '/user/profile',
-            name: 'Profile',
+            path: '/admin/test',
+            name: 'Test',
         }
     ];
 
