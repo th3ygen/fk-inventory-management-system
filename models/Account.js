@@ -1,4 +1,4 @@
-// jasmine : login, register,forget pw, update pw
+
 const { Schema, model } = require('mongoose');
 
 const schema = new Schema({
@@ -30,6 +30,52 @@ const schema = new Schema({
     
 });
 
+// CRUD - create
+schema.statics.addAccount = function(name, email, role, contact, address, username, password) {
+    const accounts = new this({
+        name: name,
+        email: email,
+        role: role,
+        contact: contact,
+        address: address,
+        username: username,
+        password: password
+    });
+    return accounts.save();
+}
+
+// CRUD - read
+schema.statics.getAccounts = function() {
+    return this.find({});
+}
+
+schema.statics.getAccount = function(account_ID) {
+    return this.findById(account_ID);
+}
+
+// CRUD - update
+schema.statics.updateAccount = async function(account_ID, name, email, role, contact, address, username) {
+    const account = await this.findById(account_ID);
+
+    if(account){
+        account.name = name;
+        account.email = email;
+        account.role = role;
+        account.contact = contact;
+        account.address = address;
+        account.username = username;
+
+        return account.save();
+    }
+
+    return null;
+}
+
+// CRUD - delete
+schema.statics.deleteAccount = function(account_ID) {
+    return this.findByIdAndDelete(account_ID);
+}
+
 // TO DO verify hash
 schema.statics.login = async function(username, password) {
     const user = await this.findOne ({username})
@@ -57,7 +103,6 @@ schema.statics.updatePW = async function (username,password){
         return user.save()
     }
 }
-
 
 const Account = model('Account', schema);
 
