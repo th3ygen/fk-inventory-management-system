@@ -95,7 +95,7 @@ schema.statics.deleteAccount = function (account_ID) {
 	return this.findByIdAndDelete(account_ID);
 };
 
-// TODO verify hash
+
 schema.statics.login = async function (username, password) {
 	const user = await this.findOne({ username });
 
@@ -124,7 +124,7 @@ schema.statics.register = function (username, password, email, contact) {
     password = bcrypt.hashSync(password, 10);
 
 	const user = new this({ username, password, email, contact });
-    
+
 	return user.save();
 };
 
