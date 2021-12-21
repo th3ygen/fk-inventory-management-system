@@ -8,13 +8,29 @@ import styles from 'styles/layout/Admin.module.scss';
 export default function AdminLayout() {
     const paths = [
         {
-            path: '/settings',
-            name: 'Setting',
+            path: '/admin/accounts',
+            name: 'Accounts',
         },
-        {  
-            path: '/admin/test',
-            name: 'Test',
-        }
+        {
+            path: '/admin/inventory',
+            name: 'Inventory',
+        },
+        {
+            path: '/admin/orders',
+            name: 'Orders',
+        },
+        {
+            path: '/admin/vendors',
+            name: 'Vendors',
+        },
+        {
+            path: '/admin/report',
+            name: 'Report',
+        },
+        {
+            path: '/admin/inbox',
+            name: 'Inbox',
+        },
     ];
 
     return (

@@ -12,13 +12,25 @@ export default function UserLayout() {
             name: 'Inventory',
         },
         {  
-            path: '/user/tests',
-            name: 'Test',
+            path: '/user/orders',
+            name: 'Orders',
         },
         {  
-            path: '/user/manage',
-            name: 'Manage',
-        }
+            path: '/user/vendors',
+            name: 'Vendors',
+        },
+        {  
+            path: '/user/vendors',
+            name: 'Vendors',
+        },
+        {
+            path: '/user/report',
+            name: 'Report',
+        },
+        {
+            path: '/user/inbox',
+            name: 'Inbox',
+        },
     ];
 
     return (
