@@ -11,6 +11,8 @@ import TestPage from "page/Test";
 // Inventory page
 import ManageInventoryPage from 'page/common/inventory/Manage';
 
+import ForgotPasswordPage from 'page/common/ForgotPassword';
+
 function Home() {
 	return (
 		<header className="App-header">
@@ -34,6 +36,7 @@ function App() {
 	return (
 		<div className="App">
 			<Routes>
+				<Route path="/ForgotPassword" element={<ForgotPasswordPage />} />
 				<Route path="/user" element={<UserLayout />}>
 					<Route index element={<Home />} />
 					<Route path="inventory" element={<ManageInventoryPage />} />
