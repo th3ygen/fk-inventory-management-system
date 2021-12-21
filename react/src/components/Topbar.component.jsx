@@ -1,15 +1,16 @@
-import { useResolvedPath } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import styles from 'styles/component/Topbar.module.scss';
 
 export default function Topbar() {
+    const title = useLocation().pathname.split('/');
 
     return (
         <div className={`${styles.container}`} >
             <div className={styles.bar}>
                 <div className={styles.head}>
                     <div className={styles.title}>
-                        Lorem itsum
+                        { (title[2]) ? title[2] : title[1] }
                     </div>
                 </div>
                 <div className={styles['user-action']}>
