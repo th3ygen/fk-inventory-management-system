@@ -11,6 +11,9 @@ import TestPage from "page/Test";
 // Inventory page
 import ManageInventoryPage from 'page/common/inventory/Manage';
 
+// Report page
+import DisplayReportPage from 'page/common/report/DisplayReport';
+
 function Home() {
 	return (
 		<header className="App-header">
@@ -37,6 +40,7 @@ function App() {
 				<Route path="/user" element={<UserLayout />}>
 					<Route index element={<Home />} />
 					<Route path="inventory" element={<ManageInventoryPage />} />
+					<Route path="report" element={<DisplayReportPage />} />
 					<Route path="tests" element={<TestPage />} />
 				</Route>
 				<Route path="/admin" element={<AdminLayout />}>
