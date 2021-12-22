@@ -1,4 +1,15 @@
-.containter {
-    width: 100%;
-    padding: 50px;
+.container {
+    display: flex;
+    gap: 30px;
+
+
+    .itemsSoldTable {
+        flex: 1 1 70%;
+    }
+
+    .topSoldList {
+        flex: 1 1 30%;
+
+        padding-top: 57.5px;
+    }
 }
