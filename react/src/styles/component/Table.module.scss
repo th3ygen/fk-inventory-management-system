@@ -46,6 +46,9 @@
     font-size: 14px;
     color: #00000067;
 }
+.num {
+    color: #2179FFFF;
+}
 
 .table {
     display: flex;
@@ -73,6 +76,7 @@
         .col {
             font-weight: 600;
             font-size: 14px;
+            color: #2179FFFF;
         }
     }
 
@@ -97,6 +101,9 @@
 
             .value {
                 font-size: 14px;
+                font-weight: 400;
+
+                color: #777777;
             }
         }
     }
