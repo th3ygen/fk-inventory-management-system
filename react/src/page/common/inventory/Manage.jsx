@@ -1,6 +1,6 @@
 import styles from 'styles/common/inventory/Manage.module.scss';
 
-import NumberWidget from 'components/NumberWidget'
+import NumberWidget from 'components/NumberWidget.component'
 
 function ManageInventory() {
     return (
