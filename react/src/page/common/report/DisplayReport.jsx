@@ -49,6 +49,10 @@ function DisplayReport() {
 
 	const topSold = [
 		{
+			Name: "Item 5",
+			"Total Sold": "50",
+		},
+		{
 			Name: "Item 1",
 			"Total Sold": "10",
 		},
@@ -63,10 +67,6 @@ function DisplayReport() {
 		{
 			Name: "Item 4",
 			"Total Sold": "40",
-		},
-		{
-			Name: "Item 5",
-			"Total Sold": "50",
 		},
 	];
 
@@ -129,7 +129,7 @@ function DisplayReport() {
 	const [count, setCount] = useState(1);
 
 	const testClick = () => {
-		let newData = test;
+		let newData = profit;
 
 		newData.push({
 			date: new Date(2021, 0, 13 + count).getTime(),
@@ -144,11 +144,14 @@ function DisplayReport() {
 
 	// sort the topSold array by quantity
 	topSold.sort((a, b) => {
-		return b.quantity - a.quantity;
+		return a.quantity - b.quantity;
 	});
 
 	return (
 		<div className={styles.container}>
+			{/* 
+				TODO folder design 
+			*/}
 			<div className={styles.itemsSoldTable}>
 				<Table title="Items sold" data={itemsData} />
 			</div>
