@@ -18,6 +18,21 @@ export default function UserLayout() {
         {  
             path: '/user/manage',
             name: 'Manage',
+        },
+
+        {  
+            path: '/user/add',
+            name: 'Add',
+        },
+
+        {  
+            path: '/user/update',
+            name: 'Update',
+        },
+
+        {  
+            path: '/user/order',
+            name: 'Order',
         }
     ];
 

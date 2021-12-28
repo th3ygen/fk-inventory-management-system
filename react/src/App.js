@@ -11,6 +11,11 @@ import TestPage from "page/Test";
 // Inventory page
 import ManageInventoryPage from 'page/common/inventory/Manage';
 
+// Order page
+import AddOrderPage from 'page/common/order/AddOrder';
+import ApproveOrderPage from 'page/common/order/ApproveOrder';
+import UpdateOrderPage from 'page/common/order/UpdateOrder';
+
 function Home() {
 	return (
 		<header className="App-header">
@@ -37,6 +42,9 @@ function App() {
 				<Route path="/user" element={<UserLayout />}>
 					<Route index element={<Home />} />
 					<Route path="inventory" element={<ManageInventoryPage />} />
+					<Route path="order" element={<ApproveOrderPage />} />
+					<Route path="add" element={<AddOrderPage />} />
+					<Route path="update" element={<UpdateOrderPage />} />
 					<Route path="tests" element={<TestPage />} />
 				</Route>
 				<Route path="/admin" element={<AdminLayout />}>
