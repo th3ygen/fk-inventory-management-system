@@ -34,7 +34,7 @@ function Table({ ...props }) {
 	};
 
 	return (
-		<FolderCard className={styles.container} title="Items sold">
+		<FolderCard className={styles.container} title={props.title}>
 			<div className={styles.header}>
 				<div className={styles.filters}>
 					<div className={styles.filter}>
