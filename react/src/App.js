@@ -15,6 +15,9 @@ import ManageInventoryPage from 'page/common/inventory/Manage';
 import DisplayReportPage from 'page/common/report/DisplayReport';
 import ForgotPasswordPage from 'page/common/ForgotPassword';
 
+// Account page
+import ManageAccountPage from 'page/admin/account/ManageAccount';
+
 function Home() {
 	return (
 		<header className="App-header">
@@ -43,10 +46,14 @@ function App() {
 					<Route index element={<Home />} />
 					<Route path="inventory" element={<ManageInventoryPage />} />
 					<Route path="report" element={<DisplayReportPage />} />
+					<Route path="accounts" element={<ManageAccountPage />} />
 					<Route path="tests" element={<TestPage />} />
 				</Route>
 				<Route path="/admin" element={<AdminLayout />}>
 					<Route index element={<Home />} />
+					<Route path="accounts" element={<ManageAccountPage />} />
+					<Route path="report" element={<DisplayReportPage />} />
+					<Route path="inventory" element={<ManageInventoryPage />} />
 				</Route>
 			</Routes>
 		</div>
