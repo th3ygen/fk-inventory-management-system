@@ -11,13 +11,13 @@ function DisplayReport() {
 	const itemsData = {
 		header: ["Header 1", "Header 2", "Header 3", "Header 4"],
 		items: [
-			[1337, "Pencil", "Item 2", "Active", "Item 4"],
-			[12, "Item 1", "Item 2", "Disabled", "Item 4"],
+			[1337, "Pencil", "Item 2", "Active:#71e071", "Item 4"],
+			[12, "Item 1", "Item 2", "Disabled:#ff7171", "Item 4"],
 			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
 			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
 			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
 			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[14, "Test", "Item 2", "Item 3", "Item 4"],
+			[14, "Test", "Item 2", "Item 3:#F1e071", "Item 4"],
 			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
 			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
 			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
@@ -44,11 +44,6 @@ function DisplayReport() {
 			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
 		],
 		colWidthPercent: ["30%", "10%", "10%", "10%"],
-		isBadge: [false, false, true, false],
-		badgeColor: [
-			["", "", "#71e071", ""],
-			["", "", "#ff7171", ""],
-		],
 		centered: [false, true, true, true],
 		actions: [
 			{
