@@ -52,7 +52,6 @@
     width: 100%;
     
     .cols {
-        padding: 0 20px;
         padding-right: 38px;
 
         display: flex;
@@ -62,7 +61,6 @@
 
         .data {
             display: flex;
-            width: calc(100% - 50px);
         }
 
         .col {
@@ -73,7 +71,7 @@
     }
 
     .rows {
-        padding: 0 20px;
+        padding-right: 28px;
 
         display: flex;
         flex-direction: column;
@@ -91,11 +89,8 @@
             padding: 10px 0;
 
             border-top: 2px solid rgba(0, 0, 0, 0.096);
-
             .data {
                 display: flex;
-                
-                width: calc(100% - 100px);
                 .value {
                     display: flex;
                     
@@ -108,11 +103,6 @@
                         
                         color: #777777;
                         padding: 2px 0;
-                        
-                        &.badge {
-                            padding: 2px 10px;
-                            border-radius: 5px;
-                        }
                     }
                     
                 }
@@ -124,7 +114,7 @@
                 display: flex;
                 flex-direction: column;
                 gap: 5px;
-                align-self: flex-end;
+                align-items: center;
 
                 .action {
                     width: fit-content;
@@ -140,6 +130,13 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
+
+                    transition: .3s all;
+
+                    &:hover {
+                        background-color: #2179FFFF;
+                        color: #FFFFFF;
+                    }
                 }
             }
 
