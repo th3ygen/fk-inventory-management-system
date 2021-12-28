@@ -1,6 +1,11 @@
 import { useState } from "react";
 import styles from "styles/component/Table.module.scss";
 
+/* 
+	TODO item as badge
+	TODO item as button (hook)
+*/
+
 function Table({ ...props }) {
     const [items, setItems] = useState(props.data.items);
 
