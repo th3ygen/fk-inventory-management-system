@@ -41,7 +41,7 @@ function ManageAccount() {
 			["1234","Item 1", "Item 2", "Item 3", "Item 4"],
 			["1234","Item 1", "Item 2", "Item 3", "Item 4"],
 		],
-		colWidthPercent: ["30%", "20%", "20%", "20%"],
+		colWidthPercent: ["20%", "20%", "20%", "20%"],
 		isBadge: [false, false, false, false],
 		badgeColor: [
 			["", "", "#71e071", ""],
@@ -66,12 +66,18 @@ function ManageAccount() {
 	};
 
     return (
-		<div className={styles.container}>
-			{/* 
-				TODO folder design 
-			*/}
-			<div className={styles.accountTable}>
-				<Table title="Accounts" data={accountData} />
+		<div className={styles.header}>
+			<h2>Account Data</h2>
+			<div className={styles.title}>
+				<h5>Here's the list of all the accounts.</h5>
+			</div>
+			<div className={styles.container}>
+				{/* 
+					TODO folder design 
+				*/}
+				<div className={styles.accountTable}>
+					<Table title="Accounts" data={accountData} />
+				</div>
 			</div>
 		</div>
 	);

@@ -1,23 +1,23 @@
-.container {
-    display: flex;
-    gap: 30px;
-
-    flex-wrap: wrap;
-
-    .accountTable {
-        flex: 1 1 60%;
-        margin: 35px;
+.header {
+    h2 {
+        margin: 0px;
     }
 
-    .topSoldList {
-        flex: 1 1 30%;
-
-        padding-top: 57.5px;
+    h5 {
+        margin-top: 0px;
+        font-weight: normal;
+        font-style: italic;
     }
 
-    .profitTrend {
-        flex: 1 1 100%;
+    .container {
+        display: flex;
+        gap: 30px;
 
-        height: fit-content;
+        flex-wrap: wrap;
+
+        .accountTable {
+            flex: 1 1 60%;
+    
+        }
     }
 }
