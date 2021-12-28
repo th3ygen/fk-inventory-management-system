@@ -1,4 +1,20 @@
-.containter {
-    width: 100%;
-    padding: 50px;
+.container {
+    display: flex;
+    gap: 30px;
+
+    flex-wrap: wrap;
+
+    .itemsSoldTable {
+        flex: 1 1 60%;
+    }
+
+    .topSoldList {
+        flex: 1 1 30%;
+    }
+
+    .profitTrend {
+        flex: 1 1 100%;
+
+        height: fit-content;
+    }
 }
