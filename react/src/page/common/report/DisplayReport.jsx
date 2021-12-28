@@ -11,8 +11,8 @@ function DisplayReport() {
 	const itemsData = {
 		header: ["Header 1", "Header 2", "Header 3", "Header 4"],
 		items: [
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
+			["Item 1", "Item 2", "Active", "Item 4"],
+			["Item 1", "Item 2", "Disabled", "Item 4"],
 			["Item 1", "Item 2", "Item 3", "Item 4"],
 			["Item 1", "Item 2", "Item 3", "Item 4"],
 			["Item 1", "Item 2", "Item 3", "Item 4"],
@@ -44,6 +44,11 @@ function DisplayReport() {
 			["Item 1", "Item 2", "Item 3", "Item 4"],
 		],
 		colWidthPercent: ["30%", "10%", "10%", "10%"],
+		isBadge: [false, false, true, false],
+		badgeColor: [
+			["", "", "#71e071", ""],
+			["", "", "#ff7171", ""],
+		],
 		centered: [false, true, true, true],
 	};
 
