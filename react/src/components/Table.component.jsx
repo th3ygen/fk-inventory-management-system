@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import * as ReactIcons from 'react-icons/fa'
+
 import FolderCard from "components/FolderCard";
 
 import styles from "styles/component/Table.module.scss";
@@ -9,7 +11,7 @@ function Table({ ...props }) {
 
 	const findByName = (name) => {
 		const item = items.filter((item) =>
-			item[0].toLowerCase().includes(name.toLowerCase())
+			item[1].toLowerCase().includes(name.toLowerCase())
 		);
 
 		if (item) {
@@ -24,6 +26,11 @@ function Table({ ...props }) {
 		} else {
 			setItems(props.data.items);
 		}
+	};
+
+	const Icon = ({ name }) => {
+		const TagName = ReactIcons[name];
+		return !!TagName ? <TagName /> : <p>{name}</p>;
 	};
 
 	return (
@@ -44,22 +51,27 @@ function Table({ ...props }) {
 			<div className={styles.table}>
 				<div className={styles.cols}>
 					<div className={styles.num}>#</div>
-					{props.data.header.map((item, index) => (
-						<div
-							className={styles.col}
-							key={index}
-							style={{
-								flex: `1 1 ${props.data.colWidthPercent[index]}`,
-								textAlign: `${
-									props.data.centered[index]
-										? "center"
-										: "start"
-								}`,
-							}}
-						>
-							{item}
-						</div>
-					))}
+					<div className={styles.data}>
+						{props.data.header.map((item, index) => (
+							<div
+								className={styles.col}
+								key={index}
+								style={{
+									flex: `1 1 ${props.data.colWidthPercent[index]}`,
+									textAlign: `${
+										props.data.centered[index]
+											? "center"
+											: "start"
+									}`,
+								}}
+							>
+								{item}
+							</div>
+						))}
+					</div>
+					{props.data.actions && (
+						<div className={styles.col}>Actions</div>
+					)}
 				</div>
 				<div className={styles.rows}>
 					{items.map((i, x) => (
@@ -67,54 +79,69 @@ function Table({ ...props }) {
 							<div className={styles.no} key={x}>
 								{x + 1}
 							</div>
-							{i.map((item, index) => (
-								<div
-									className={styles.value}
-									key={index}
-									style={{
-										flex: `1 1 ${props.data.colWidthPercent[index]}`,
-										justifyContent: `${
-											props.data.centered[index]
-												? "center"
-												: "flex-start"
-										}`,
-									}}
-								>
+							<div className={styles.data}>
+								{i.slice(1, i.length).map((item, index) => (
 									<div
-										className={`${
-											props.data.isBadge[index]
-												? styles.badge
-												: ""
-										}`}
+										className={styles.value}
+										key={index}
 										style={{
-											border: `${
-												props.data.isBadge[index]
-													? props.data.badgeColor[
-															x
-													  ] &&
-													  "2px solid " +
-															props.data
-																.badgeColor[x][
-																index
-															]
-													: "initial"
-											}`,
-											background: `${
-												props.data.isBadge[index]
-													? props.data.badgeColor[
-															x
-													  ] &&
-													  props.data.badgeColor[x][
-															index
-													  ] + "1A"
-													: "initial"
+											flex: `1 1 ${props.data.colWidthPercent[index]}`,
+											justifyContent: `${
+												props.data.centered[index]
+													? "center"
+													: "flex-start"
 											}`,
 										}}
 									>
-										{item}
+										<div
+											className={`${
+												props.data.isBadge[index]
+													? styles.badge
+													: ""
+											}`}
+											style={{
+												border: `${
+													props.data.isBadge[index]
+														? props.data.badgeColor[
+																x
+														  ] &&
+														  "2px solid " +
+																props.data
+																	.badgeColor[
+																	x
+																][index]
+														: "initial"
+												}`,
+												background: `${
+													props.data.isBadge[index]
+														? props.data.badgeColor[
+																x
+														  ] &&
+														  props.data.badgeColor[
+																x
+														  ][index] + "1A"
+														: "initial"
+												}`,
+											}}
+										>
+											{item}
+										</div>
 									</div>
-								</div>
-							))}
+								))}
+							</div>
+							<div className={styles.actions}>
+								{props.data.actions.map((item, y) => (
+									<div
+										key={y}
+										className={styles.action}
+										onClick={() =>
+											item.callback(items[x][0])
+										}
+									>
+										<Icon name={item.icon}/>
+									</div>
+								))}
+							</div>
 						</div>
 					))}
 				</div>
