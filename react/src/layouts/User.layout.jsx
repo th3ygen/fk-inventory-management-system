@@ -16,8 +16,8 @@ export default function UserLayout() {
             name: 'Orders',
         },
         {  
-            path: '/user/vendors',
-            name: 'Vendors',
+            path: '/user/accounts',
+            name: 'Accounts',
         },
         {  
             path: '/user/vendors',
