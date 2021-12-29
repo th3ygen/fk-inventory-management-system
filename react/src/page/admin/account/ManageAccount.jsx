@@ -67,9 +67,9 @@ function ManageAccount() {
 
     return (
 		<div className={styles.header}>
-			<h2>Account Data</h2>
+			<h2 className={styles.header2}>Account Data</h2>
 			<div className={styles.title}>
-				<h5>Here's the list of all the accounts.</h5>
+				<h5 className={styles.header5}>Here's the list of all the accounts.</h5>
 			</div>
 			<div className={styles.container}>
 				{/* 
