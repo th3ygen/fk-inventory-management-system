@@ -1,8 +1,52 @@
 import styles from 'styles/common/order/Add.module.scss';
 
-import { FaUndo } from 'react-icons/fa';
+import { FaUndo,FaReply,FaEraser,FaSpellCheck } from 'react-icons/fa';
+
+// components
+import Table from "components/Table.component";
 
 function AddOrder() {
+
+    const itemList = {
+		header: ["Item", "Sub Price"],
+		items: [
+			["1234","Item 1", "Item 2"],
+			["1234","Item 1", "Item 2"],
+			["1234","Item 1", "Item 2"],
+			["1234","Item 1", "Item 2"],
+			["1234","Item 1", "Item 2"],
+			["1234","Test", "Item 2"],
+			["1234","Item 1", "Item 2"],
+			["1234","Item 1", "Item 2"],
+			["1234","Item 1", "Item 2"],
+			["1234","Item 1", "Item 2"],
+			["1234","Item 1", "Item 2"],
+			["1234","Item 1", "Item 2"],
+			["1234","Item 1", "Item 2"],
+			["1234","Item 1", "Item 2"],
+			["1234","Item 1", "Item 2"],
+			["1234","Item 1", "Item 2"],
+			["1234","Item 1", "Item 2"],
+			["1234","Item 1", "Item 2"],
+		],
+		colWidthPercent: ["20%", "20%", "20%", "20%"],
+		isBadge: [false, false, false, false],
+		badgeColor: [
+			["", "", "#71e071", ""],
+			["", "", "#ff7171", ""],
+		],
+		centered: [false, true, true, true],
+
+		actions: [
+			{
+				icon: "FaReply",
+				callback: (n) => {
+					console.log('editing', n);
+				},
+			},
+		]
+	};
+
     return (
         <div className={styles.content}>
             <div className={styles.order}>
@@ -20,55 +64,46 @@ function AddOrder() {
                         <label className={styles.formLabel} for="remarks">Remarks </label>
                         <textarea className={styles.remarks} id="remarks"></textarea>
                     </div>
-                    .
-                    <label className={styles.formLabel} for="itemName">Item Name </label>
-                    <input className={styles.formInput} type="text"/><br className={styles.spacing}></br>
-                    <label className={styles.formLabel} for="unitPrice">Unit Price </label>
-                    <input className={styles.formInput} type="number" /><br className={styles.spacing}></br>
-                    <label className={styles.formLabel} for="quantity">Quantity </label>
-                    <input className={styles.formInput} type="number" /><br className={styles.spacing}></br>
-                    <div className={styles.itemButton}>
-                        <div className={styles.button}>ADD</div>
+                    <div className={styles.orderInput}>
+                        <label className={styles.formLabel} for="itemName">Item Name </label>
+                        <input className={styles.formInput} type="text"/>
                     </div>
-                </div>
-
-                <div className={styles.butOrder}>
-                    <div className={styles.button}>RESET</div>
-                    <div className={styles.button}>SUBMIT FOR APPROVAL</div>
-                    <input type="hidden" name="status" id="status" value="Submit for Approval"></input>
+                    <div className={styles.orderInput}>
+                        <label className={styles.formLabel} for="unitPrice">Unit Price </label>
+                        <input className={styles.formInput} type="number" />
+                    </div>
+                    <div className={styles.orderInput}>
+                        <label className={styles.formLabel} for="quantity">Quantity </label>
+                        <input className={styles.formInput} type="number" />
+                    </div>
+                    <div className={styles.itemButton}>
+                        <div className={styles.button}><FaReply/> Update List </div>
+                        
+                    </div>
                 </div>
             </div>
 
             <div className={styles.itemList}>
-                <div className={styles.listTitle}>
-                    ORDERED ITEMS
-                </div>
-                <div className={styles.items}>
-                    <div className={styles.sItem}>
-                        <div className={styles.sItemDetail}>
-                            <div className={styles.itemName}>Gula</div>
-                            <div className={styles.subPrice}>23.00</div>
+				<div className={styles.itemTable}>
+					<Table title="Item List" data={itemList} />
+				</div>
+                <div className={styles.summary}>
+                    <div className={styles.sumTitle}>Summary</div>
+                    <div className={styles.sumContent}>
+                        <div className={styles.contSum}>
+                            <label className={styles.formLabel} for="grandTotal">Grand Total: </label>
+                            <label className={styles.formLabel} for="gTotal">RM 0.00 </label>
                         </div>
-                        <div className={styles.sItemButton}>
-                            <div className={styles.updateB} id="update"><FaUndo/></div>
+                        <div className={styles.contSum}>
+                            <label className={styles.formLabel} for="vendorSummary">Vendor: </label>
+                            <p className={styles.formLabel} for="vendorS">K2 SDN BHD </p>
+                        </div>
+                        <div className={styles.butOrder}>
+                            <div className={styles.button}><FaEraser/> Reset</div>
+                            <div className={styles.button}><FaSpellCheck/>Submit for Approval</div>
+                            <input type="hidden" name="status" id="status" value="Submit for Approval"></input>
                         </div>
                     </div>
-                
-                    <div className={styles.sItem}>
-                        <div className={styles.sItemDetail}>
-                            <div className={styles.itemName}>Gula</div>
-                            <div className={styles.subPrice}>23.00</div>
-                        </div>
-                        <div className={styles.sItemButton}>
-                            <div className={styles.updateB} id="update"><FaUndo/></div>
-                        </div>
-                    
-                    </div>
-                </div>
-            
-                <div className={styles.gTotal}>
-                    <div className={styles.grand}>GRAND TOTAL = </div>
-                    <div className={styles.result}> RM 0.00 </div>
                 </div>
             </div>
         </div>
