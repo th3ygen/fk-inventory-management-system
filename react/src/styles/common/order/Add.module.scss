@@ -1,18 +1,13 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-h2{
-    color:aliceblue;
+.spacing{
+    display: block;
+    margin: 10px 0;
 }
 
 .content{
     width: calc(100% - 50px);
-    height: calc(100vh - 100px);
+    height: fit-content;
     margin-left: 20px;
     padding: 10px;
-    background:  linear-gradient(0deg, #2179FFFF 0%, #297FE2FF 100%);
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
@@ -22,71 +17,94 @@ h2{
     width: calc(100% - 500px);
     display: flex;
     flex-wrap: wrap;
-    row-gap: 35px; 
 }
 
-fieldset{
+.orderForm{
     width: 100%;
+    height: fit content;
     padding: 20px;
-    background-color: RGB(78,168,227);
-    border: 1px solid lightblue;
-    border-radius: 10px;
+    background-color:white;
+    border-top: 3px solid #2179FFFF;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-fieldset > legend{
-    margin-left: 0rem;
-    background-color:RGB(94,96,206);
-    border: 2px solid white;
-    border-radius: 10px;
-    padding: 0 0.5rem;
-    font-weight: bold;
-    height: 30px;
+.fTitle{
+    background-color:#2179FFFF;
+    border: 1px solid #2179FFFF;
+    border-radius: 0 20px 0 0;
+    padding: 20px;
+    height: fit-content;
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 16px;
 }
 
-label{
+.formLabel{
     width: 100px;
     display: inline-block;
-    color: white;
+    color: black;
+    text-align: initial;
 }
 
-input{
+.formInput{
     width: calc(100% - 120px);
     height: 25px;
     opacity: 50%;
-    background-color: RGB(83,144,217);
-    border: 2px solid white;
-    border-radius: 10px;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 5px;
     text-align: center;
 }
 
-#vendorDetail{
+.formInput:hover{
+    border: 2px solid #2179FFFF;
+}
+
+.vendorDetail{
     width: 100%;
+    height: 8vh;
+    opacity: 50%;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 10px;
+
+}
+
+.vendorDetail:hover{
+    border: 2px solid #2179FFFF;
+}
+
+.remarks{
+    width: calc(100% - 110px);
     height: 6vh;
     opacity: 50%;
-    background-color: RGB(83,144,217);
-    border: 2px solid white;
+    background-color: white;
+    border: 2px solid black;
     border-radius: 10px;
     text-align: center;
+    margin-top: 5px;
 }
 
-#remarks{
-    width: calc(100% - 110px);
-    height: 5vh;
-    opacity: 50%;
-    background-color: RGB(83,144,217);
-    border: 2px solid white;
-    border-radius: 10px;
-    text-align: center;
+.remarks:hover{
+    border: 2px solid #2179FFFF;
 }
 
-select{
+.formSelect{
     width: calc(100% - 110px);
     height: 4vh;
     opacity: 50%;
-    background-color: RGB(83,144,217);
-    border: 2px solid white;
+    background-color: white;
+    border: 2px solid black;
     border-radius: 10px;
     text-align: center;
+}
+
+.formSelect:hover{
+    border: 2px solid #2179FFFF;
 }
 
 .itemButton{
@@ -97,24 +115,37 @@ select{
 
 .button{
     width: 200px;
-    height: 4vh;
-    background-color: RGB(83,144,217);
+    height: 5vh;
+    background-color: #2179FFFF;
     border: 2px solid white;
     text-align: center;
     border-radius: 10px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .2s all;
+    cursor: pointer;
+    user-select: none;
 }
 
 .updateB{
     width: 60px;
     height: 40px;
-    background-color: RGB(83,144,217);
+    background-color: #2179FFFF;
     border: 2px solid white;
     text-align: center;
     border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .button:hover{
-    background-color: thistle;
+    background-color: white;
+    color: #2179FFFF;
+    border: 2px solid #2179FFFF;
+
 }
 
 .butOrder{
@@ -130,6 +161,7 @@ select{
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .listTitle{
