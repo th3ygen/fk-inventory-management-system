@@ -34,6 +34,8 @@ export default function UserLayout() {
             icon: 'FaInbox',
         },
 
+        {
+
             path: '/user/manage',
             name: 'Manage',
         },
