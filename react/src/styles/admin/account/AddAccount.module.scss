@@ -12,8 +12,11 @@
     .container {
         display: flex;
         gap: 30px;
-        // background-color: #2179FFFF;
+        background-color: #2179FFFF;
         border-bottom: 10px;
+        border-radius: 4px;
+        padding: 15px;
+        color: white;
 
         flex-wrap: wrap;
 
@@ -22,41 +25,59 @@
     
         }
     }
+    
 }
 
-.newAccount {
-    background-color: #2179FFFF;
-    padding: 50px;
+.inputArea {
+    width: 200%; 
+    height: 29px;
+    border-radius: 4px;
+    margin-top: 4px;
 }
 
 .formAddAccount {
-    justify-content: center;
-    width: 100px;
+    margin: 10px;
 }
 
-.Addbutton {
-    width: fit-content;
-    padding: 5px 10px;
-    background-color: white;
-    border: 1px solid #2179FFFF;
-    text-align: center;
-    border-radius: 4px;
-    color: #2179FFFF;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: .2s all;
-    cursor: pointer;
-    user-select: none;
-    gap: 10px;
+.role {
+    margin-right: 20px;
 }
 
-.addButton:hover {
-    background-color: #2179FFFF;
-    color: white;
-    border: 1px solid #2179FFFF;
-
+.radio {
+    display: inline-block;
+    margin-right: 40px;
 }
+
+// .newAccount {
+//     background-color: #297FE2FF;
+//     padding: 50px;
+//     border-radius: 4px;
+// }
+
+
+// .Addbutton {
+//     width: fit-content;
+//     padding: 5px 10px;
+//     background-color: white;
+//     border: 1px solid #2179FFFF;
+//     text-align: center;
+//     border-radius: 4px;
+//     color: #2179FFFF;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     transition: .2s all;
+//     cursor: pointer;
+//     user-select: none;
+//     gap: 10px;
+// }
+
+// .addButton:hover {
+//     background-color: #2179FFFF;
+//     color: white;
+//     border: 1px solid #2179FFFF;
+
+// }
 
 // .Addbutton{
 //     width: 100%;
