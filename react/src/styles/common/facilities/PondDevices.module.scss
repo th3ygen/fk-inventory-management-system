@@ -1,0 +1,33 @@
+.container {
+    .header {
+        margin-bottom: 3rem;
+        .title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            font-size: 1rem;
+        }
+    }
+	.body {
+		display: flex;
+		gap: 30px;
+
+		flex-wrap: wrap;
+
+		.itemsSoldTable {
+			flex: 1 1 60%;
+		}
+
+		.topSoldList {
+			flex: 1 1 30%;
+		}
+
+		.profitTrend {
+			flex: 1 1 100%;
+
+			height: fit-content;
+		}
+	}
+}

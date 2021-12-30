@@ -9,7 +9,7 @@ export default function Topbar() {
             <div className={styles.bar}>
                 <div className={styles.head}>
                     <div className={styles.title}>
-                        FK Inventory Management System
+                        Performance observation system
                     </div>
                 </div>
                 <div className={styles['user-action']}>

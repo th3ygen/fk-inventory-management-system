@@ -1,15 +1,11 @@
-import { useLayoutEffect, useEffect, useState, useRef } from "react";
+import { useLayoutEffect, useEffect, useRef } from "react";
 
 // amcharts
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
-import FolderCard from "components/FolderCard";
-
-import styles from "styles/component/DateAxisLineChart.module.scss";
-
-function LineChart({ ...props }) {
+function SimpleLineChart(props) {
 	const ch = useRef(null);
 
 	useLayoutEffect(() => {
@@ -29,6 +25,7 @@ function LineChart({ ...props }) {
 			am5xy.ValueAxis.new(root, {
 				extraTooltipPrecision: 1,
 				renderer: am5xy.AxisRendererY.new(root, {}),
+				visible: false,
 			})
 		);
 
@@ -37,11 +34,19 @@ function LineChart({ ...props }) {
 			am5xy.DateAxis.new(root, {
 				baseInterval: { timeUnit: "day", count: 1 },
 				renderer: am5xy.AxisRendererX.new(root, {}),
+				visible: false,
 			})
 		);
 
 		xAxis.get("dateFormats")["day"] = "MM/dd";
 		xAxis.get("periodChangeDateFormats")["day"] = "MMMM";
+
+		xAxis.get("renderer").grid.template.setAll({
+			visible: false,
+		});
+		yAxis.get("renderer").grid.template.setAll({
+			visible: false,
+		});
 
 		// Create series
 		function createSeries(name, field) {
@@ -56,14 +61,14 @@ function LineChart({ ...props }) {
 				})
 			);
 
-			series.bullets.push(function () {
+			/* series.bullets.push(function () {
 				return am5.Bullet.new(root, {
 					sprite: am5.Circle.new(root, {
 						radius: 5,
 						fill: series.get("fill"),
 					}),
 				});
-			});
+			}); */
 
 			series.strokes.template.set("strokeWidth", 2);
 
@@ -85,42 +90,37 @@ function LineChart({ ...props }) {
 			})
 		);
 
-		xAxis.set(
+		/* xAxis.set(
 			"tooltip",
 			am5.Tooltip.new(root, {
 				themeTags: ["axis"],
 			})
-		);
+		); */
 
-		yAxis.set(
+		/* yAxis.set(
 			"tooltip",
 			am5.Tooltip.new(root, {
 				themeTags: ["axis"],
 			})
-		);
+		); */
 
 		return () => {
 			root.dispose();
 		};
 	}, []);
 
-	// update data on props change
 	useEffect(() => {
 		ch.current.data.setAll(props.data);
 	}, [props.data, props.data.length]);
 
 	return (
-		<FolderCard className={styles.container} title={props.title}>
-			<div className={styles.body}>
-				<div className={styles.chart}>
-					<div
-						id={props.label}
-						style={{ width: "100%", height: props.height }}
-					></div>
-				</div>
-			</div>
-		</FolderCard>
+		<div style={{border: "1px solid #2179FFFF"}}>
+			<div
+				id={props.label}
+				style={{ width: "100%", height: `${props.height}` }}
+			></div>
+		</div>
 	);
 }
 
-export default LineChart;
+export default SimpleLineChart;

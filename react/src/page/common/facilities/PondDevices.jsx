@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 // components
 import Table from "components/Table.component";
 import TopList from "components/TopList.component";
 import DateAxisLineChart from "components/DateAxisLineChart.component";
+import DeviveData from "components/DeviceData.component";
 
-import styles from "styles/common/report/DisplayReport.module.scss";
+import styles from "styles/common/facilities/PondDevices.module.scss";
 
 function DisplayReport() {
 	const itemsData = {
@@ -163,22 +164,29 @@ function DisplayReport() {
 
 	return (
 		<div className={styles.container}>
-			{/* 
-				TODO folder design 
-			*/}
-			<div className={styles.itemsSoldTable}>
-				<Table title="Items sold" data={itemsData} />
+			<div className={styles.header}>
+				<div className={styles.text}>
+					<div className={styles.title}>Pond devices</div>
+					<div className={styles.subtitle}>Monitor each pond devices in real-time</div>
+				</div>
 			</div>
-			<div className={styles.topSoldList}>
-				<TopList title="Hot items" data={topSold} />
-			</div>
-			<div className={styles.profitTrend} onClick={testClick}>
-				<DateAxisLineChart
-					title="Profit trend"
-					data={profit}
-					label="Profit"
-					height="250px"
-				/>
+			<div className={styles.body}>
+				{/* <div className={styles.itemsSoldTable}>
+					<Table title="Items sold" data={itemsData} />
+				</div>
+				<div className={styles.topSoldList}>
+					<TopList title="Hot items" data={topSold} />
+				</div> */}
+				<div className={styles.profitTrend} onClick={testClick}>
+					<DeviveData />
+					<DateAxisLineChart
+						title="Profit trend"
+						data={profit}
+						label="Profit2"
+						height="250px"
+					/>
+				</div>
+
 			</div>
 		</div>
 	);

@@ -13,16 +13,11 @@ import ManageInventoryPage from 'page/common/inventory/Manage';
 
 
 // Report page
-import DisplayReportPage from 'page/common/report/DisplayReport';
+import DisplayReportPage from 'page/common/facilities/PondDevices';
 import ForgotPasswordPage from 'page/common/ForgotPassword';
 
 // Account page
 import ManageAccountPage from 'page/admin/account/ManageAccount';
-
-// Order page
-import AddOrderPage from 'page/common/order/AddOrder';
-import ApproveOrderPage from 'page/common/order/ApproveOrder';
-import UpdateOrderPage from 'page/common/order/UpdateOrder';
 
 
 function Home() {
@@ -51,15 +46,10 @@ function App() {
 				<Route path="/ForgotPassword" element={<ForgotPasswordPage />} />
 				<Route path="/user" element={<UserLayout />}>
 					<Route index element={<Home />} />
-					<Route path="inventory" element={<ManageInventoryPage />} />
+					<Route path="productivity" element={<DisplayReportPage />} />
 
-					<Route path="report" element={<DisplayReportPage />} />
-					<Route path="accounts" element={<ManageAccountPage />} />
-					<Route path="order" element={<ApproveOrderPage />} />
-					<Route path="add" element={<AddOrderPage />} />
-					<Route path="update" element={<UpdateOrderPage />} />
-
-					<Route path="tests" element={<TestPage />} />
+					<Route path="visualization" element={<DisplayReportPage />} />
+					<Route path="facilities" element={<DisplayReportPage />} />
 				</Route>
 				<Route path="/admin" element={<AdminLayout />}>
 					<Route index element={<Home />} />

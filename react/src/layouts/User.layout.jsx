@@ -8,30 +8,25 @@ import Topbar from 'components/Topbar.component';
 export default function UserLayout() {
     const paths = [
         {
-            path: '/user/inventory',
-            name: 'Inventory',
+            path: '/user/productivity',
+            name: 'Productivity',
             icon: 'FaBox',
         },
         {  
-            path: '/user/orders',
-            name: 'Orders',
+            path: '/user/visualization',
+            name: 'Visualization',
             icon: 'FaReceipt',
         },
         {  
 
-            path: '/user/vendors',
-            name: 'Vendors',
+            path: '/user/facilities',
+            name: 'Facilites',
             icon: 'FaShoppingBag',
         },
         {
-            path: '/user/report',
-            name: 'Report',
+            path: '/user/',
+            name: 'Home',
             icon: 'FaClipboardList',
-        },
-        {
-            path: '/user/inbox',
-            name: 'Inbox',
-            icon: 'FaInbox',
         },
 
     ];
