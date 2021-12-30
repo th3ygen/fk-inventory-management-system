@@ -71,8 +71,8 @@ function ManageAccount() {
 				<div className={styles.title}>
 					<h5 className={styles.header5}>Here's the list of all the accounts.</h5>
 					<div className={styles.butAdd}>
-                    <div className={styles.button}><FaUserPlus /> Add Account</div>
-                </div>
+                    	<div className={styles.button}><FaUserPlus /> Add Account</div>
+                	</div>
 				</div>
 				<div className={styles.container}>
 					{/* 

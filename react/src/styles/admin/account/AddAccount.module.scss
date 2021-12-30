@@ -12,6 +12,8 @@
     .container {
         display: flex;
         gap: 30px;
+        // background-color: #2179FFFF;
+        border-bottom: 10px;
 
         flex-wrap: wrap;
 
@@ -22,7 +24,17 @@
     }
 }
 
-.button{
+.newAccount {
+    background-color: #2179FFFF;
+    padding: 50px;
+}
+
+.formAddAccount {
+    justify-content: center;
+    width: 100px;
+}
+
+.Addbutton {
     width: fit-content;
     padding: 5px 10px;
     background-color: white;
@@ -39,15 +51,15 @@
     gap: 10px;
 }
 
-.button:hover{
+.addButton:hover {
     background-color: #2179FFFF;
     color: white;
     border: 1px solid #2179FFFF;
 
 }
 
-.butAdd{
-    width: 100%;
-    display: flex;
-    justify-content: right;
-}
+// .Addbutton{
+//     width: 100%;
+//     display: flex;
+//     justify-content: right;
+// }

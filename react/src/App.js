@@ -50,10 +50,10 @@ function App() {
 					<Route path="accounts" element={<ManageAccountPage />} />
 					<Route path="tests" element={<TestPage />} />
 				</Route>
-				<Route path="/AddAccount" element={<AddAccountPage />}></Route>
 				<Route path="/admin" element={<AdminLayout />}>
 					<Route index element={<Home />} />
 					<Route path="accounts" element={<ManageAccountPage />} />
+					<Route path="/admin/accounts/AddAccount" element={<AddAccountPage />}></Route>
 					<Route path="report" element={<DisplayReportPage />} />
 					<Route path="inventory" element={<ManageInventoryPage />} />
 				</Route>
