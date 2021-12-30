@@ -17,6 +17,7 @@ import ForgotPasswordPage from 'page/common/ForgotPassword';
 
 // Account page
 import ManageAccountPage from 'page/admin/account/ManageAccount';
+import AddAccountPage from 'page/admin/account/AddAccount';
 
 function Home() {
 	return (
@@ -49,6 +50,7 @@ function App() {
 					<Route path="accounts" element={<ManageAccountPage />} />
 					<Route path="tests" element={<TestPage />} />
 				</Route>
+				<Route path="/AddAccount" element={<AddAccountPage />}></Route>
 				<Route path="/admin" element={<AdminLayout />}>
 					<Route index element={<Home />} />
 					<Route path="accounts" element={<ManageAccountPage />} />
