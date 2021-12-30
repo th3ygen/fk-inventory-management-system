@@ -72,6 +72,8 @@ function LineChart({ ...props }) {
 				.label.set("text", "[bold]{name}[/]: {valueY}");
 
 			ch.current = series;
+			series.appear(1000);
+			chart.appear(1000, 100);
 		}
 
 		createSeries(props.label, "value");

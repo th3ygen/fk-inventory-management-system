@@ -1,4 +1,4 @@
-const mqtt = require('./services/mqtt.service.js.js');
+const mqtt = require('../services/mqtt.service.js').client;
 
 const Device = require('../models/Device.js');
 const Data = require('../models/Data.js');
@@ -6,18 +6,35 @@ const Data = require('../models/Data.js');
 mqtt.on('message', async (topic, message) => {
     const dir = topic.split('/');
 
+    console.log(topic, message.toString());
+
+    const parseData = (payload) => {
+        let res = {};
+
+        payload.toString().split('&').forEach(item => {
+            const [key, value] = item.split('=');
+            res[key] = value;
+        });
+
+        return res;
+    };
+
     try {
         if (dir[0] === 'device' && dir[2] === 'data') {
-            const deviceId = dir[1];
-            const data = JSON.parse(message);
+            const name = dir[1];
+            const data = parseData(message);
     
-            let device = await Device.find({ data.name });
+            console.log(name, data);
+
+            let device = await Device.findOne({ name });
 
             if (!device) {
                 device = await Device.create({
-                    name: data.name,
+                    name,
                     description: data.description,
                 });
+
+                mqtt.publish('server/state', "NEWDEVICE");
             }
 
             await Data.create({
@@ -36,6 +53,6 @@ mqtt.on('message', async (topic, message) => {
         }
 
     } catch(e) {
-        console.log(e);
+        console.log("ERROR:", e.message);
     }
 });

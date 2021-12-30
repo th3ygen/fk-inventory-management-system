@@ -1,8 +1,8 @@
-const { Schema, models, model, Schema } = require('mongoose');
+const { Schema, models, model } = require('mongoose');
 
 const DeviceSchema = new Schema({
     name: String,
     description: String,
 });
 
-module.export = models.Device || model('Device', DeviceSchema);
+module.exports = models.Device || model('Device', DeviceSchema);

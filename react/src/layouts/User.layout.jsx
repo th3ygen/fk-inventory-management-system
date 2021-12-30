@@ -36,7 +36,7 @@ export default function UserLayout() {
             <Topbar />
             <Navbar paths={ paths }/>
             <div className={ styles.content }>
-                <Outlet />
+                <Outlet path={paths}/>
             </div>
         </div>
     );

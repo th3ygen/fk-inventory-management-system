@@ -12,9 +12,9 @@ module.exports = {
     },
     getData: async (req, res) => {
         try {
-            const { device_id, limit } = req.query;
+            const { id, limit } = req.query;
 
-            if (!device_id) {
+            if (!id) {
                 res.status(400).json({ message: 'Missing device_id' });
             }
 
@@ -22,7 +22,7 @@ module.exports = {
                 res.status(400).json({ message: 'Missing limit' });
             }
 
-            const data = await Data.getData(device_id, limit);
+            const data = await Data.getData(id, limit);
             res.status(200).json(data);
         } catch (error) {
             res.status(500).json({ message: error.message });
@@ -49,7 +49,7 @@ module.exports = {
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
-    }
+    },
     getAverage: async (req, res) => {
         try {
             const { device_id, start, end } = req.query;
@@ -73,4 +73,3 @@ module.exports = {
         }
     }
 };
-}

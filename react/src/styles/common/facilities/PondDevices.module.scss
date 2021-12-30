@@ -10,24 +10,10 @@
             font-size: 1rem;
         }
     }
-	.body {
-		display: flex;
-		gap: 30px;
+}
 
-		flex-wrap: wrap;
-
-		.itemsSoldTable {
-			flex: 1 1 60%;
-		}
-
-		.topSoldList {
-			flex: 1 1 30%;
-		}
-
-		.profitTrend {
-			flex: 1 1 100%;
-
-			height: fit-content;
-		}
-	}
+.charts {
+	display: flex;
+	flex-direction: column;
+	gap: 50px;
 }

@@ -1,12 +1,12 @@
 import { Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
+import mqtt from "mqtt";
+
 import logo from "./logo.svg";
 import "styles/App.module.scss";
 
 import UserLayout from "layouts/User.layout";
 import AdminLayout from "layouts/Admin.layout";
-
-// pages
-import TestPage from "page/Test";
 
 // Inventory page
 import ManageInventoryPage from 'page/common/inventory/Manage';
@@ -40,6 +40,29 @@ function Home() {
 }
 
 function App() {
+	const [mqttClient, setMqttClient] = useState(null);
+
+	const mqttConnect = () => {
+		try {
+			const client = mqtt.connect("ws://localhost:9001");
+			client.on("connect", () => {
+				console.log("Connected to MQTT broker");
+				client.subscribe("server/state");
+
+				setMqttClient(client);
+			});
+			client.on("error", (err) => {
+				console.log("Error connecting to MQTT broker", err);
+			});
+		} catch (error) {
+			console.log("Error connecting to MQTT broker", error);
+		}
+	};
+
+	useEffect(() => {
+		mqttConnect();
+	}, []);
+
 	return (
 		<div className="App">
 			<Routes>
@@ -49,7 +72,7 @@ function App() {
 					<Route path="productivity" element={<DisplayReportPage />} />
 
 					<Route path="visualization" element={<DisplayReportPage />} />
-					<Route path="facilities" element={<DisplayReportPage />} />
+					<Route path="facilities" element={<DisplayReportPage mqtt={mqttClient} />} />
 				</Route>
 				<Route path="/admin" element={<AdminLayout />}>
 					<Route index element={<Home />} />

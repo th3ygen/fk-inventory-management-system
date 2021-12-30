@@ -1,4 +1,4 @@
-const { Schema, models, model, Schema } = require('mongoose');
+const { Schema, models, model } = require('mongoose');
 
 const DataSchema = new Schema({
     device_id: Schema.Types.ObjectId,
@@ -20,7 +20,7 @@ DataSchema.statics.store = async function(device_id, values) {
 }
 
 DataSchema.statics.getData = async function (device_id, limit) {
-    const data = await this.find({ device_id: device_id }).sort({ timestamp: -1 }).limit(limit);
+    const data = await this.find({ device_id: device_id }).sort({ timestamp: -1 }).limit(parseInt(limit));
     return data;
 };
 
@@ -57,4 +57,4 @@ DataSchema.statics.getAverage = async function (device_id, start, end) {
 };
 
 
-module.export = models.Data || model('Data', DataSchema);
+module.exports = models.Data || model('Data', DataSchema);

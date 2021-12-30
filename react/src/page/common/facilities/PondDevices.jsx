@@ -1,166 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // components
 import Table from "components/Table.component";
 import TopList from "components/TopList.component";
 import DateAxisLineChart from "components/DateAxisLineChart.component";
-import DeviveData from "components/DeviceData.component";
+import DeviceData from "components/DeviceData.component";
 
 import styles from "styles/common/facilities/PondDevices.module.scss";
 
-function DisplayReport() {
-	const itemsData = {
-		header: ["Header 1", "Header 2", "Header 3", "Header 4"],
-		items: [
-			[1337, "Pencil", "Item 2", "Active:#71e071", "Item 4"],
-			[12, "Item 1", "Item 2", "Disabled:#ff7171", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[14, "Test", "Item 2", "Item 3:#F1e071", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-		],
-		colWidthPercent: ["30%", "10%", "10%", "10%"],
-		centered: [false, true, true, true],
-		actions: [
-			{
-				icon: "FaEdit",
-				callback: (n) => {
-					console.log('editing', n);
-				},
-			},
-			{
-				icon: "FaTrashAlt",
-				callback: (n) => {
-					console.log('deleting', n);
-				},
-			},
-		]
+function DisplayReport(props) {
+	const [labels, setLabels] = useState([]);
+
+	const requestLabels = async () => {
+		const response = await fetch("http://localhost:8080/api/device/list");
+
+		const data = await response.json();
+
+		const allLabel = data.map((device) => ({
+			label: device.name,
+			id: device._id
+		}));
+
+		setLabels(allLabel);
 	};
 
-	const topSold = [
-		{
-			Name: "Item 5",
-			"Total Sold": "50",
-		},
-		{
-			Name: "Item 1",
-			"Total Sold": "10",
-		},
-		{
-			Name: "Item 2",
-			"Total Sold": "20",
-		},
-		{
-			Name: "Item 3",
-			"Total Sold": "30",
-		},
-		{
-			Name: "Item 4",
-			"Total Sold": "40",
-		},
-	];
+	useEffect(() => {
+		requestLabels();
+	}, []);
 
-	const profitData = [
-		{
-			date: new Date(2021, 0, 1).getTime(),
-			value: 100,
-		},
-		{
-			date: new Date(2021, 0, 2).getTime(),
-			value: 320,
-		},
-		{
-			date: new Date(2021, 0, 3).getTime(),
-			value: 216,
-		},
-		{
-			date: new Date(2021, 0, 4).getTime(),
-			value: 150,
-		},
-		{
-			date: new Date(2021, 0, 5).getTime(),
-			value: 156,
-		},
-		{
-			date: new Date(2021, 0, 6).getTime(),
-			value: 199,
-		},
-		{
-			date: new Date(2021, 0, 7).getTime(),
-			value: 114,
-		},
-		{
-			date: new Date(2021, 0, 8).getTime(),
-			value: 269,
-		},
-		{
-			date: new Date(2021, 0, 9).getTime(),
-			value: 90,
-		},
-		{
-			date: new Date(2021, 0, 10).getTime(),
-			value: 300,
-		},
-		{
-			date: new Date(2021, 0, 11).getTime(),
-			value: 150,
-		},
-		{
-			date: new Date(2021, 0, 12).getTime(),
-			value: 110,
-		},
-		{
-			date: new Date(2021, 0, 13).getTime(),
-			value: 185,
-		},
-	];
+	useEffect(() => {
+		if (props.mqtt) {
+			props.mqtt.on('message', (topic, message) => {
+				const state = message.toString();
 
-	const [profit, setProfit] = useState(profitData);
-	const [count, setCount] = useState(1);
-
-	const testClick = () => {
-		let newData = profit;
-
-		newData.push({
-			date: new Date(2021, 0, 13 + count).getTime(),
-			value: Math.floor(Math.random() * 100),
-		});
-
-		setProfit(newData);
-		console.log('click');
-
-		setCount(count + 1);
-	};
-
-	// sort the topSold array by quantity
-	topSold.sort((a, b) => {
-		return a.quantity - b.quantity;
-	});
+				if (state === 'NEWDEVICE') {
+					requestLabels();
+				}
+			});
+		}
+	}, [props.mqtt])
 
 	return (
 		<div className={styles.container}>
@@ -177,14 +55,38 @@ function DisplayReport() {
 				<div className={styles.topSoldList}>
 					<TopList title="Hot items" data={topSold} />
 				</div> */}
-				<div className={styles.profitTrend} onClick={testClick}>
-					<DeviveData />
-					<DateAxisLineChart
+				<div className={styles.charts}>
+					{labels.map((item, x) => (
+						<DeviceData
+							key={x}
+							name={item.label}
+							uid={item.id}
+							chartHeight={"120px"}
+							mqtt={props.mqtt}
+						/>
+					))}
+					{/* <DeviceData 
+						name={"Pond 1"}
+						chartHeight={"100px"}
+					/>
+					<DeviceData 
+						name={"Pond 2"}
+						chartHeight={"100px"}
+					/>
+					<DeviceData 
+						name={"Pond 3"}
+						chartHeight={"100px"}
+					/>
+					<DeviceData 
+						name={"Pond 4"}
+						chartHeight={"100px"}
+					/> */}
+					{/* <DateAxisLineChart
 						title="Profit trend"
 						data={profit}
 						label="Profit2"
 						height="250px"
-					/>
+					/> */}
 				</div>
 
 			</div>
