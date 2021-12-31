@@ -1,6 +1,6 @@
 import styles from 'styles/common/order/Add.module.scss';
 
-import { FaUndo,FaReply,FaEraser,FaSpellCheck } from 'react-icons/fa';
+import { FaUndo,FaReply,FaEraser,FaCheckSquare } from 'react-icons/fa';
 
 // components
 import Table from "components/Table.component";
@@ -100,7 +100,7 @@ function AddOrder() {
                         </div>
                         <div className={styles.butOrder}>
                             <div className={styles.button}><FaEraser/> Reset</div>
-                            <div className={styles.button}><FaSpellCheck/>Submit for Approval</div>
+                            <div className={styles.button}><FaCheckSquare/>Submit for Approval</div>
                             <input type="hidden" name="status" id="status" value="Submit for Approval"></input>
                         </div>
                     </div>

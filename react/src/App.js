@@ -20,6 +20,7 @@ import ForgotPasswordPage from 'page/common/ForgotPassword';
 import ManageAccountPage from 'page/admin/account/ManageAccount';
 
 // Order page
+import ManageOrderPage from 'page/common/order/ManageOrder';
 import AddOrderPage from 'page/common/order/AddOrder';
 import ApproveOrderPage from 'page/common/order/ApproveOrder';
 import UpdateOrderPage from 'page/common/order/UpdateOrder';
@@ -52,10 +53,10 @@ function App() {
 				<Route path="/user" element={<UserLayout />}>
 					<Route index element={<Home />} />
 					<Route path="inventory" element={<ManageInventoryPage />} />
-
+					<Route path="orders" element={<ManageOrderPage />} />
 					<Route path="report" element={<DisplayReportPage />} />
 					<Route path="accounts" element={<ManageAccountPage />} />
-					<Route path="order" element={<ApproveOrderPage />} />
+					<Route path="approve" element={<ApproveOrderPage />} />
 					<Route path="add" element={<AddOrderPage />} />
 					<Route path="update" element={<UpdateOrderPage />} />
 

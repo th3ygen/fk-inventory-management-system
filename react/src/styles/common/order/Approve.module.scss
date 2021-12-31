@@ -1,8 +1,3 @@
-.spacing{
-    display: block;
-    margin: 10px 0;
-}
-
 .content{
     width: 100%;
     height: fit-content;
@@ -14,6 +9,47 @@
 
 .order{
     flex: 1 1 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.managerTitle{
+    background-color:#2179FFFF;
+    border-bottom: 1px solid white;
+    border-radius: 0 20px 0 0;
+    padding: 0 25px 0 20px;
+    height: 40px;
+    width: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 16px;
+    color: white;
+}
+
+.managerContent{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit content;
+    padding: 20px;
+    background-color:white;
+    border-top: 3px solid #2179FFFF;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    gap: 30px;
+}
+
+.managerLabel{
+    width: 200px;
+    height: fit-content;
+}
+
+.managerInput{
+    width: calc(100% - 220px);
+    height: fit-content;
+    display: flex;
+    align-items: flex-start;
 }
 
 .orderForm{
@@ -38,8 +74,8 @@
     border-bottom: 1px solid white;
     border-radius: 0 20px 0 0;
     padding: 0 25px 0 20px;
-    height: 30px;
-    width: 150px;
+    height: 40px;
+    width: 200px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -87,26 +123,20 @@
     text-align: center;
 }
 
-.formSelect{
-    width: calc(100% - 110px);
-    height: 40px;
-    opacity: 50%;
-    background-color: white;
-    border: none;
-    outline: none;
-    border-bottom: 2px solid black;
-    border-radius: 5px;
-    box-shadow: 0 0 2px 1px #00000000;
-    transition: 0.2s all;
-    text-align: center;
+.formRadioG{
+    display: flex;
+    gap: 5px;
+    justify-content: flex-start;
 }
 
-.itemButton{
+
+.verifyButton{
+    width: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     grid-gap: 10px;
-    gap: 10px;
+    gap: 30px;
     font-size: 0.9rem;
     padding: 5px 10px;
     color: #2961E2;
@@ -131,18 +161,6 @@
     gap: 10px;
 }
 
-.updateB{
-    width: 60px;
-    height: 40px;
-    background-color: #2179FFFF;
-    border: 2px solid white;
-    text-align: center;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .button:hover{
     background-color: white;
     color: #2179FFFF;
@@ -150,17 +168,11 @@
 
 }
 
-.butOrder{
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-}
-
 .itemList{
     flex: 1 1 30%;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 30px;
 }
 
 .itemTable{
@@ -168,35 +180,28 @@
     box-shadow: 0 0 2px 1px #00000000 !important;
 }
 
-.summary{
-    width:100%;
+.contSum{
     display: flex;
-    flex-wrap: wrap;
-    gap: 1px;
-}
-
-.sumTitle{
-    background-color:#2179FFFF;
-    border: 1px solid #2179FFFF;
-    border-radius: 0 20px 0 0;
-    padding: 0 25px 0 20px;
-    height: 30px;
-    width: 150px;
-    display: flex;
-    align-items: center;
     justify-content: flex-start;
-    font-size: 16px;
-    color: white;
+    align-items: flex-start;
+    gap: 10px;
 }
 
-.sumContent{
+.summaryOrder{
+    width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 20px;
+}
+
+.orderDetails{
     width: 100%;
-    height: fit content;
-    padding: 20px;
-    background-color:white;
-    border-top: 3px solid #2179FFFF;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    gap: 30px;
+}
+
+.details{
+    width: calc(100% - 220px);
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
