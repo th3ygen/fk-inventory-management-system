@@ -5,11 +5,11 @@ import { FaRegSave, FaArrowLeft } from 'react-icons/fa';
 // components
 import Table from "components/Table.component";
 
-function AddAccount() {
+function UpdateAccount() {
     return (
         <div>
-            <h2 className={styles.header2}>Add New Account</h2>
-            <h5 className={styles.header5}>Fill out the form to add new account.</h5>
+            <h2 className={styles.header2}>Update Account</h2>
+            <h5 className={styles.header5}>You can view and update the account.</h5>
         <body>
             <div className={styles.form}>
                 <form className={styles.formAccount}>
@@ -20,7 +20,7 @@ function AddAccount() {
                                 <input type="text" className={styles.inputArea} name="name" placeholder="Farikha Dwi"/>
                             </label>
                         </div>
-						<div className={styles.box}>
+                        <div className={styles.box}>
                             <label>
                                 Username
                                 <input type="text" className={styles.inputArea} name="username" placeholder="Enter Username"/>
@@ -29,7 +29,7 @@ function AddAccount() {
                     </div>
 
                     <div className={styles.wrapper}>
-						<div className={styles.box}>
+                        <div className={styles.box}>
                             <label>
                                 Email
                                 <input type="text" className={styles.inputArea} name="email" placeholder="farikhadwi@gmail.com"/>
@@ -62,24 +62,24 @@ function AddAccount() {
 
                 <label>
 					Address
-                    <textarea type="text-area" name="address" className={styles.inputTextArea} id="address" rows={9} placeholder="Enter Address"></textarea>
+                    <textarea type="text-area" name="address" className={styles.inputTextArea} id="address" rows={5} placeholder="Enter Address"></textarea>
 					{/* <input type="text" className={styles.inputArea} name="address" placeholder="Enter Address"/> */}
 				</label>
 
-                    {/* <div className={styles.wrapper}>
+                    <div className={styles.wrapper}>
                         <div className={styles.box}>
                             <label>
                                 Created At
-                                <input type="text" className={styles.inputArea} name="createdAt" />
+                                <input type="text" className={styles.inputArea} name="createdAt" disabled />
                             </label>
                         </div>
                         <div className={styles.box}>
                             <label>
                                 Updated At
-                                <input type="text" className={styles.inputArea} name="updatedAt" />
+                                <input type="text" className={styles.inputArea} name="updatedAt" disabled/>
                             </label>
                         </div>
-                    </div> */}
+                    </div>
                     <div className={styles.wrapper}>
                         <div className={styles.box}>
                             <p align="left">
@@ -99,4 +99,4 @@ function AddAccount() {
     )
 }
 
-export default AddAccount;
+export default UpdateAccount;
