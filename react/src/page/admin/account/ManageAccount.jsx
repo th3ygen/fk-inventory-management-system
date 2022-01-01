@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { FaUserPlus } from 'react-icons/fa';
 
 // components
 import Table from "components/Table.component";
@@ -67,18 +67,21 @@ function ManageAccount() {
 
     return (
 		<div className={styles.header}>
-			<h2>Account Data</h2>
-			<div className={styles.title}>
-				<h5>Here's the list of all the accounts.</h5>
-			</div>
-			<div className={styles.container}>
-				{/* 
-					TODO folder design 
-				*/}
-				<div className={styles.accountTable}>
-					<Table title="Accounts" data={accountData} />
+			<h2 className={styles.header2}>Account Data</h2>
+				<div className={styles.title}>
+					<h5 className={styles.header5}>Here's the list of all the accounts.</h5>
+					<div className={styles.butAdd}>
+                    	<div className={styles.button}><FaUserPlus /> Add Account</div>
+                	</div>
 				</div>
-			</div>
+				<div className={styles.container}>
+					{/* 
+						TODO folder design 
+					*/}
+					<div className={styles.accountTable}>
+						<Table title="Accounts" data={accountData} />
+					</div>
+				</div>
 		</div>
 	);
 }

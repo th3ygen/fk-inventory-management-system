@@ -18,6 +18,9 @@ import ForgotPasswordPage from 'page/common/ForgotPassword';
 
 // Account page
 import ManageAccountPage from 'page/admin/account/ManageAccount';
+import AddAccountPage from 'page/admin/account/AddAccount';
+import UpdateAccountPage from 'page/admin/account/UpdateAccount';
+
 
 // Order page
 import AddOrderPage from 'page/common/order/AddOrder';
@@ -64,6 +67,8 @@ function App() {
 				<Route path="/admin" element={<AdminLayout />}>
 					<Route index element={<Home />} />
 					<Route path="accounts" element={<ManageAccountPage />} />
+					<Route path="/admin/accounts/AddAccount" element={<AddAccountPage />} />
+					<Route path="/admin/accounts/UpdateAccount" element={<UpdateAccountPage />} />
 					<Route path="report" element={<DisplayReportPage />} />
 					<Route path="inventory" element={<ManageInventoryPage />} />
 				</Route>
