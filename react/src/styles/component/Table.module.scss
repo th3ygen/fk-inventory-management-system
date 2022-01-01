@@ -4,7 +4,7 @@
 
 .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding-bottom: 10px;
 }
@@ -34,11 +34,6 @@
     }
 }
 
-.title {
-    padding-bottom: 15px;
-    font-weight: bold;
-    font-size: 24px;
-}
 
 .num, .no {
     width: 50px;
@@ -55,23 +50,18 @@
     flex-direction: column;
     
     width: 100%;
-
-    background: white;
-
-    border-radius: 6px;
-
-    padding: 12px 10px;
-
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     
     .cols {
-        padding: 0 20px;
         padding-right: 38px;
 
         display: flex;
         width: 100%;
         padding-bottom: 7px;
         margin-bottom: 7px;
+
+        .data {
+            display: flex;
+        }
 
         .col {
             font-weight: 600;
@@ -81,7 +71,7 @@
     }
 
     .rows {
-        padding: 0 20px;
+        padding-right: 28px;
 
         display: flex;
         flex-direction: column;
@@ -93,18 +83,63 @@
 
         .row {
             display: flex;
+            justify-content: flex-start;
             width: 100%;
             
             padding: 10px 0;
 
             border-top: 2px solid rgba(0, 0, 0, 0.096);
-
-            .value {
-                font-size: 14px;
-                font-weight: 400;
-
-                color: #777777;
+            .data {
+                display: flex;
+                .value {
+                    display: flex;
+                    
+                    div {
+                        width: fit-content;
+                        height: fit-content;
+                        
+                        font-size: 14px;
+                        font-weight: 400;
+                        
+                        color: #777777;
+                        padding: 2px 0;
+                    }
+                    
+                }
             }
+            
+            .actions {
+                width: 50px;
+
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                align-items: center;
+
+                .action {
+                    width: fit-content;
+
+                    cursor: pointer;
+
+                    padding: 5px;
+                    border: 1px solid #2179FFFF;
+                    border-radius: 4px;
+
+                    color: #2179FFFF;
+
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    transition: .3s all;
+
+                    &:hover {
+                        background-color: #2179FFFF;
+                        color: #FFFFFF;
+                    }
+                }
+            }
+
         }
     }
 }

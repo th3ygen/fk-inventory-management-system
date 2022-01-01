@@ -5,6 +5,8 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
+import FolderCard from "components/FolderCard";
+
 import styles from "styles/component/DateAxisLineChart.module.scss";
 
 function LineChart({ ...props }) {
@@ -108,10 +110,7 @@ function LineChart({ ...props }) {
 	}, [props.data, props.data.length]);
 
 	return (
-		<div className={styles.container}>
-			<div className={styles.header}>
-				<div className={styles.title}>{props.title}</div>
-			</div>
+		<FolderCard className={styles.container} title={props.title}>
 			<div className={styles.body}>
 				<div className={styles.chart}>
 					<div
@@ -120,7 +119,7 @@ function LineChart({ ...props }) {
 					></div>
 				</div>
 			</div>
-		</div>
+		</FolderCard>
 	);
 }
 
