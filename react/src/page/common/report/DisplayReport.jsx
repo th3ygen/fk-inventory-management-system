@@ -9,7 +9,7 @@ import styles from "styles/common/report/DisplayReport.module.scss";
 
 function DisplayReport() {
 	const itemsData = {
-		header: ["Header 1", "Header 2", "Header 3", "Header 4"],
+		header: ["Items Name", "Vendors", "Total Sold", "Item Price"],
 		items: [
 			["Item 1", "Item 2", "Item 3", "Item 4"],
 			["Item 1", "Item 2", "Item 3", "Item 4"],
