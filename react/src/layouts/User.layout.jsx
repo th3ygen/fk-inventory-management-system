@@ -34,25 +34,6 @@ export default function UserLayout() {
             icon: 'FaInbox',
         },
 
-            path: '/user/manage',
-            name: 'Manage',
-        },
-
-        {  
-            path: '/user/add',
-            name: 'Add',
-        },
-
-        {  
-            path: '/user/update',
-            name: 'Update',
-        },
-
-        {  
-            path: '/user/order',
-            name: 'Order',
-        }
-
     ];
 
     return (
