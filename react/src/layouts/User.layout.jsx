@@ -18,6 +18,7 @@ export default function UserLayout() {
             icon: 'FaReceipt',
         },
         {  
+
             path: '/user/vendors',
             name: 'Vendors',
             icon: 'FaShoppingBag',
@@ -32,6 +33,7 @@ export default function UserLayout() {
             name: 'Inbox',
             icon: 'FaInbox',
         },
+
     ];
 
     return (

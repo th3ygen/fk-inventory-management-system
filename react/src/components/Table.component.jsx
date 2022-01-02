@@ -9,20 +9,34 @@ import styles from "styles/component/Table.module.scss";
 function Table({ ...props }) {
 	const [items, setItems] = useState(props.data.items);
 
-	const findByName = (name) => {
-		const item = items.filter((item) =>
-			item[1].toLowerCase().includes(name.toLowerCase())
-		);
+	const findByCol = (input, n) => {
+		let res = [];
+		let resIndexes = [];
 
-		if (item) {
-			setItems(item);
+		if (n.length) {
+			for (let x of n) {
+				res = [...res, ...items.filter((item) => {
+					const index = items.indexOf(item);
+					if (resIndexes.indexOf(index) === -1) {
+						if (item[x] && item[x].toLowerCase().includes(input.toLowerCase())) {
+							resIndexes.push(index);
+							return item;
+						}
+					}
+				})];
+			}
+	
+			if (res.length) {
+				setItems(res);
+			}
 		}
+
 	};
 
 	const onSearch = (e) => {
-		const name = e.target.value;
-		if (name) {
-			findByName(name);
+		const input = e.target.value;
+		if (input) {
+			findByCol(input, props.filterCol || [1]);
 		} else {
 			setItems(props.data.items);
 		}
