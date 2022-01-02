@@ -12,11 +12,11 @@ function ManageAccount() {
 		items: [
 			["1234","Item 1", "Item 2", "Active", "Item 4"],
 			["1234","Farikha Dwi Nur Qossina Januar", "Manager", "farikha_dwi", "qossina321"],
+			["1234","Item 1", "Admin", "rikha300101", "Item 4"],
 			["1234","Item 1", "Item 2", "Item 3", "Item 4"],
 			["1234","Item 1", "Item 2", "Item 3", "Item 4"],
 			["1234","Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234","Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234","Test", "Item 2", "Item 3", "Item 4"],
+			["1234","Test", "Staff", "Item 3", "Item 4"],
 			["1234","Item 1", "Item 2", "Item 3", "Item 4"],
 			["1234","Item 1", "Item 2", "Item 3", "Item 4"],
 			["1234","Item 1", "Item 2", "Item 3", "Item 4"],
@@ -112,7 +112,7 @@ function ManageAccount() {
 						TODO folder design 
 					*/}
 					<div className={styles.accountTable}>
-						<Table title="Accounts" data={accountData} filterCol={[1, 2]} />
+						<Table title="Accounts" data={accountData} filterCol={[1, 2, 3]} />
 					</div>
 				</div>
 		</div>
