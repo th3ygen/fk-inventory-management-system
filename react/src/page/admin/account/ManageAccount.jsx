@@ -70,9 +70,9 @@ function ManageAccount() {
 			<h2 className={styles.header2}>Account Data</h2>
 				<div className={styles.title}>
 					<h5 className={styles.header5}>Here's the list of all the accounts.</h5>
-					<div className={styles.butAdd}>
-                    	<div className={styles.button}><FaUserPlus /> Add Account</div>
-                	</div>
+						<div className={styles.butAdd}>
+							<button className={styles.button}><FaUserPlus /> Add Account</button>
+						</div>
 				</div>
 				<div className={styles.container}>
 					{/* 
@@ -82,8 +82,10 @@ function ManageAccount() {
 						<Table title="Accounts" data={accountData} />
 					</div>
 				</div>
+				<br />
+				<div className={styles.totalAccounts}>Total Accounts : 31</div>
 		</div>
 	);
 }
 
-    export default ManageAccount;
+export default ManageAccount;

@@ -24,11 +24,13 @@
 
 .button{
     width: fit-content;
+    height: 30px;
     padding: 5px 10px;
     background-color: white;
     border: 1px solid #2179FFFF;
     text-align: center;
     border-radius: 4px;
+    font-size: 15px;
     color: #2179FFFF;
     display: flex;
     align-items: center;
@@ -50,4 +52,10 @@
     width: 100%;
     display: flex;
     justify-content: right;
+}
+
+.totalAccounts {
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
 }
