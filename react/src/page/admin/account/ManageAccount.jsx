@@ -2,6 +2,7 @@ import { FaUserPlus } from 'react-icons/fa';
 
 // components
 import Table from "components/Table.component";
+import NumberWidget from "components/NumberWidget.component";
 
 import styles from "styles/admin/account/ManageAccount.module.scss";
 
@@ -65,11 +66,43 @@ function ManageAccount() {
 		]
 	};
 
+	const stats = [
+		{
+			title: "Total Accounts",
+			value: "31",
+			label: "Accounts",
+		},
+		{
+			title: "Total Managers",
+			value: "10",
+			label: "Managers",
+		},
+		{
+			title: "Total Staffs",
+			value: "20",
+			label: "Staffs",
+		},
+		{
+			title: "Total Admins",
+			value: "1",
+			label: "Admins",
+		},
+	];
+
     return (
 		<div className={styles.header}>
 			<h2 className={styles.header2}>Account Data</h2>
 				<div className={styles.title}>
 					<h5 className={styles.header5}>Here's the list of all the accounts.</h5>
+					<div className={styles.stats}>
+						{stats.map((stat, i) => (
+							<NumberWidget
+								title={stat.title}
+								value={stat.value}
+								label={stat.label}
+							/>
+						))}
+					</div>
 						<div className={styles.butAdd}>
 							<button className={styles.button}><FaUserPlus /> Add Account</button>
 						</div>
@@ -79,11 +112,9 @@ function ManageAccount() {
 						TODO folder design 
 					*/}
 					<div className={styles.accountTable}>
-						<Table title="Accounts" data={accountData} />
+						<Table title="Accounts" data={accountData} filterCol={[1, 2]} />
 					</div>
 				</div>
-				<br />
-				<div className={styles.totalAccounts}>Total Accounts : 31</div>
 		</div>
 	);
 }
