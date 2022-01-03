@@ -45,20 +45,7 @@ function DisplayReport() {
 		],
 		colWidthPercent: ["30%", "10%", "10%", "10%"],
 		centered: [false, true, true, true],
-		actions: [
-			{
-				icon: "FaEdit",
-				callback: (n) => {
-					console.log('editing', n);
-				},
-			},
-			{
-				icon: "FaTrashAlt",
-				callback: (n) => {
-					console.log('deleting', n);
-				},
-			},
-		]
+		
 	};
 
 	const topSold = [

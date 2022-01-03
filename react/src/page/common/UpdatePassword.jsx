@@ -8,9 +8,9 @@ import Table from "components/Table.component";
 function UpdateAccount() {
 	return (
 		<div>
-			<h2 className={styles.header2}>Update Account</h2>
+			<h2 className={styles.header2}>Update Password</h2>
 			<h5 className={styles.header5}>
-				You can view and update the account.
+				Please enter password that is not used at other sites.
 			</h5>
 			<body>
 				<div className={styles.form}>
