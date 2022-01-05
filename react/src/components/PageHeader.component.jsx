@@ -1,12 +1,19 @@
+import { useNavigate } from "react-router-dom";
 import * as ReactIcons from "react-icons/fa";
 
 import styles from "styles/component/PageHeader.module.scss";
 
 function PageHeader(props) {
+    const navigate = useNavigate();
+
 	const Icon = ({ name }) => {
 		const TagName = ReactIcons[name];
 		return !!TagName ? <TagName /> : <p>{name}</p>;
 	};
+
+    const redirect = (path) => {
+        navigate(path, { replace: true });
+    };
 
 	return (
 		<div className={styles.container}>
@@ -17,7 +24,7 @@ function PageHeader(props) {
 			<div className={styles.navs}>
 				{props.navs &&
 					props.navs.map((nav, i) => (
-						<div key={i} className={styles.nav}>
+						<div key={i} className={styles.nav} onClick={ () => redirect(nav.path) }>
 							<Icon name={nav.icon} />
 							<span>{nav.name}</span>
 						</div>
