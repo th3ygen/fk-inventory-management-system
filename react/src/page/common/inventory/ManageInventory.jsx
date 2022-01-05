@@ -64,9 +64,37 @@ function ManageInventory() {
 		],
 	};
 
+    const itemsSummary = [
+        {
+            title: "Total sold",
+            label: "Sold",
+            value: "1337",
+        },
+        {
+            title: "Total Items",
+            label: "Items",
+            value: "1337",
+        },
+        {
+            title: "Worth",
+            label: "RM",
+            value: "1337",
+        },
+        {
+            title: "Average Price",
+            label: "RM",
+            value: "1337",
+        },
+    ]
 
 	return (
 		<div className={styles.container}>
+
+            <div className={styles.stats}>
+                {itemsSummary.map((item, i) => (
+                    <NumberWidget key={i} {...item} />
+                ))}
+            </div>
 			<div className={styles.table}>
 				<Table
 					title="Inventory"
