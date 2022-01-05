@@ -6,6 +6,11 @@ import FolderCard from "components/FolderCard";
 
 import styles from "styles/component/Table.module.scss";
 
+/* 
+	TODO item as badge
+	TODO item as button (hook)
+*/
+
 function Table({ ...props }) {
 	const [title, setTitle] = useState("");
 	const [headers, setHeaders] = useState([]);

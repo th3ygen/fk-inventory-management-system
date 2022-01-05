@@ -187,9 +187,6 @@ function DisplayReport() {
 
 	return (
 		<div className={styles.container}>
-			{/* 
-				TODO folder design 
-			*/}
 			<div className={styles.stats}>
 				{stats.map((stat, i) => (
 					<NumberWidget
