@@ -80,7 +80,18 @@ function ManageInventory() {
 
 	return (
 		<div className={styles.container}>
-			<PageHeader title="Manage Inventory" brief="Easily manage your inventory and item details in one page" />
+			<PageHeader
+					title="Manage Inventory"
+					brief="Easily manage your inventory and item details in one page"
+                    navs={[
+                        {
+                            icon: "FaReply",
+                            name: "Add item",
+                            path: "/user/inventory/add",
+                        },
+                    ]}
+                    
+                />
 			<div className={styles.stats}>
 				{itemsSummary.map((item, i) => (
 					<NumberWidget key={i} {...item} />
