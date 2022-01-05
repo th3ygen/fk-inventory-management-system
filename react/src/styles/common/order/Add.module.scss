@@ -1,8 +1,13 @@
-.spacing{
-    display: block;
-    margin: 10px 0;
-}
 
+/* *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+h2{
+    color:aliceblue;
+}
+ */
 .content{
     width: 100%;
     height: fit-content;
@@ -86,7 +91,6 @@
     transition: 0.2s all;
     text-align: center;
 }
-
 .formSelect{
     width: calc(100% - 110px);
     height: 40px;

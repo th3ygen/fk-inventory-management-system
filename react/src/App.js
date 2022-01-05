@@ -9,7 +9,7 @@ import AdminLayout from "layouts/Admin.layout";
 import TestPage from "page/Test";
 
 // Inventory page
-import ManageInventoryPage from 'page/common/inventory/Manage';
+import ManageInventoryPage from 'page/common/inventory/ManageInventory';
 
 
 // Report page
@@ -18,6 +18,9 @@ import ForgotPasswordPage from 'page/common/ForgotPassword';
 
 // Account page
 import ManageAccountPage from 'page/admin/account/ManageAccount';
+import AddAccountPage from 'page/admin/account/AddAccount';
+import UpdateAccountPage from 'page/admin/account/UpdateAccount';
+
 
 // Order page
 import ManageOrderPage from 'page/common/order/ManageOrder';
@@ -65,6 +68,8 @@ function App() {
 				<Route path="/admin" element={<AdminLayout />}>
 					<Route index element={<Home />} />
 					<Route path="accounts" element={<ManageAccountPage />} />
+					<Route path="/admin/accounts/add_account" element={<AddAccountPage />} />
+					<Route path="/admin/accounts/update_account" element={<UpdateAccountPage />} />
 					<Route path="report" element={<DisplayReportPage />} />
 					<Route path="inventory" element={<ManageInventoryPage />} />
 				</Route>
