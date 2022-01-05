@@ -10,7 +10,7 @@ import TestPage from "page/Test";
 
 // Inventory page
 import ManageInventoryPage from 'page/common/inventory/ManageInventory';
-
+import InventoryAddItemPage from 'page/common/inventory/AddItem';
 
 // Report page
 import DisplayReportPage from 'page/common/report/DisplayReport';
@@ -55,6 +55,7 @@ function App() {
 				<Route path="/user" element={<UserLayout />}>
 					<Route index element={<Home />} />
 					<Route path="inventory" element={<ManageInventoryPage />} />
+					<Route path="/user/inventory/add" element={<InventoryAddItemPage />} />
 
 					<Route path="report" element={<DisplayReportPage />} />
 					<Route path="accounts" element={<ManageAccountPage />} />

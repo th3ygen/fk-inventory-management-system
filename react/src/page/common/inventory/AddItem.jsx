@@ -10,7 +10,10 @@ function AddItem () {
     return (
         <div className={styles.container}>
             <div className={styles.form}>
+            wow 
             </div>
         </div>
     );
 }
+
+export default AddItem;
