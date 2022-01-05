@@ -1,3 +1,5 @@
+import { FaArrowRight } from 'react-icons/fa';
+
 import styles from 'styles/component/NumberWidget.module.scss';
 
 function NumberWidget({ ...props }) {
@@ -8,6 +10,7 @@ function NumberWidget({ ...props }) {
             </div>
             <div className={styles.data}>
                 <div className={styles.label}>{ props.label }</div>
+                <FaArrowRight />
                 <div className={styles.value}>{ props.value }</div>
             </div>
         </div>

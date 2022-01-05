@@ -11,6 +11,7 @@ import TestPage from "page/Test";
 // Inventory page
 import ManageInventoryPage from 'page/common/inventory/ManageInventory';
 
+
 // Report page
 import DisplayReportPage from 'page/common/report/DisplayReport';
 import ForgotPasswordPage from 'page/common/ForgotPassword';
@@ -19,6 +20,12 @@ import ForgotPasswordPage from 'page/common/ForgotPassword';
 import ManageAccountPage from 'page/admin/account/ManageAccount';
 import AddAccountPage from 'page/admin/account/AddAccount';
 import UpdateAccountPage from 'page/admin/account/UpdateAccount';
+
+
+// Order page
+import AddOrderPage from 'page/common/order/AddOrder';
+import ApproveOrderPage from 'page/common/order/ApproveOrder';
+import UpdateOrderPage from 'page/common/order/UpdateOrder';
 
 
 function Home() {
@@ -48,8 +55,13 @@ function App() {
 				<Route path="/user" element={<UserLayout />}>
 					<Route index element={<Home />} />
 					<Route path="inventory" element={<ManageInventoryPage />} />
+
 					<Route path="report" element={<DisplayReportPage />} />
 					<Route path="accounts" element={<ManageAccountPage />} />
+					<Route path="order" element={<ApproveOrderPage />} />
+					<Route path="add" element={<AddOrderPage />} />
+					<Route path="update" element={<UpdateOrderPage />} />
+
 					<Route path="tests" element={<TestPage />} />
 				</Route>
 				<Route path="/admin" element={<AdminLayout />}>

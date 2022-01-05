@@ -5,8 +5,19 @@
 
     .header5 {
         margin-top: 0px;
+        margin-bottom: 0px;
         font-weight: normal;
         font-style: italic;
+    }
+
+    .stats {
+        width: 100%;
+
+        display: flex;
+        justify-content: flex-start;
+        gap: 50px;
+
+        padding: 20px 0;
     }
 
     .container {
