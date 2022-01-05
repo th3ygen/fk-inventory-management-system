@@ -50,16 +50,16 @@ function DisplayReport() {
 			{
 				icon: "FaEdit",
 				callback: (n) => {
-					console.log('editing', n);
+					console.log("editing", n);
 				},
 			},
 			{
 				icon: "FaTrashAlt",
 				callback: (n) => {
-					console.log('deleting', n);
+					console.log("deleting", n);
 				},
 			},
-		]
+		],
 	};
 
 	const stats = [
@@ -175,7 +175,7 @@ function DisplayReport() {
 		});
 
 		setProfit(newData);
-		console.log('click');
+		console.log("click");
 
 		setCount(count + 1);
 	};
@@ -200,7 +200,14 @@ function DisplayReport() {
 				))}
 			</div>
 			<div className={styles.itemsSoldTable}>
-				<Table title="Items sold" data={itemsData} filterCol={[1, 2, 4]}/>
+				<Table
+					title="Items sold"
+					headers={itemsData.headers}
+					items={itemsData.items}
+					centered={itemsData.centered}
+					colWidthPercent={itemsData.colWidthPercent}
+					actions={itemsData.actions}
+				/>
 			</div>
 			<div className={styles.topSoldList}>
 				<TopList title="Hot items" data={topSold} />
