@@ -4,14 +4,22 @@
 
     flex-wrap: wrap;
 
+    .stats {
+        width: 100%;
+
+        display: flex;
+        justify-content: flex-start;
+        gap: 50px;
+
+        padding: 20px 0;
+    }
+
     .itemsSoldTable {
         flex: 1 1 60%;
     }
 
     .topSoldList {
         flex: 1 1 30%;
-
-        padding-top: 57.5px;
     }
 
     .profitTrend {

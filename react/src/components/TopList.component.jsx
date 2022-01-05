@@ -1,12 +1,12 @@
+import FolderCard from "components/FolderCard";
+
 import styles from "styles/component/TopList.module.scss";
 
-function TopList({ ...props }) {
+function TopList(props) {
 	const { title, data } = props;
 
 	return (
-		<div className={styles.container}>
-			{title && <div className={styles.title}>{title}</div>}
-
+		<FolderCard className={styles.container} title={title}>
 			<div className={styles.list}>
 				<div className={styles.header}>
 					{Object.keys(data[0]).map((item, index) => {
@@ -36,7 +36,7 @@ function TopList({ ...props }) {
 					})}
 				</div>
 			</div>
-		</div>
+		</FolderCard>
 	);
 }
 

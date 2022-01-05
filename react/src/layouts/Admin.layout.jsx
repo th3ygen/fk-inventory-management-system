@@ -10,26 +10,32 @@ export default function AdminLayout() {
         {
             path: '/admin/accounts',
             name: 'Accounts',
+            icon: 'FaUserFriends',
         },
         {
             path: '/admin/inventory',
             name: 'Inventory',
+            icon: 'FaBox',
         },
         {
             path: '/admin/orders',
             name: 'Orders',
+            icon: 'FaReceipt',
         },
         {
             path: '/admin/vendors',
             name: 'Vendors',
+            icon: 'FaShoppingBag',
         },
         {
             path: '/admin/report',
             name: 'Report',
+            icon: 'FaClipboardList',
         },
         {
             path: '/admin/inbox',
             name: 'Inbox',
+            icon: 'FaInbox',
         },
     ];
 

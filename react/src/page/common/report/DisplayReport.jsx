@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Table from "components/Table.component";
 import TopList from "components/TopList.component";
 import DateAxisLineChart from "components/DateAxisLineChart.component";
+import NumberWidget from "components/NumberWidget.component";
 
 import styles from "styles/common/report/DisplayReport.module.scss";
 
@@ -11,41 +12,78 @@ function DisplayReport() {
 	const itemsData = {
 		header: ["Header 1", "Header 2", "Header 3", "Header 4"],
 		items: [
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Test", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
-			["Item 1", "Item 2", "Item 3", "Item 4"],
+			[1337, "Pencil", "Item 2", "Active:#71e071", "Item 4"],
+			[12, "Item 1", "Item 2", "Disabled:#ff7171", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Far"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[14, "Test", "Item 2", "Item 3:#F1e071", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Dil", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
 		],
 		colWidthPercent: ["30%", "10%", "10%", "10%"],
 		centered: [false, true, true, true],
+		actions: [
+			{
+				icon: "FaEdit",
+				callback: (n) => {
+					console.log('editing', n);
+				},
+			},
+			{
+				icon: "FaTrashAlt",
+				callback: (n) => {
+					console.log('deleting', n);
+				},
+			},
+		]
 	};
+
+	const stats = [
+		{
+			title: "Total Accounts",
+			value: "12,000",
+			label: "Orders",
+		},
+		{
+			title: "Total Managers",
+			value: "12,000",
+			label: "Managers",
+		},
+		{
+			title: "Total Staffs",
+			value: "12,000",
+			label: "Staffs",
+		},
+		{
+			title: "Total Staffs",
+			value: "12,000",
+			label: "Staffs",
+		},
+	];
 
 	const topSold = [
 		{
@@ -152,8 +190,17 @@ function DisplayReport() {
 			{/* 
 				TODO folder design 
 			*/}
+			<div className={styles.stats}>
+				{stats.map((stat, i) => (
+					<NumberWidget
+						title={stat.title}
+						value={stat.value}
+						label={stat.label}
+					/>
+				))}
+			</div>
 			<div className={styles.itemsSoldTable}>
-				<Table title="Items sold" data={itemsData} />
+				<Table title="Items sold" data={itemsData} filterCol={[1, 2, 4]}/>
 			</div>
 			<div className={styles.topSoldList}>
 				<TopList title="Hot items" data={topSold} />

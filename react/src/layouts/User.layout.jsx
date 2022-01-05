@@ -10,27 +10,30 @@ export default function UserLayout() {
         {
             path: '/user/inventory',
             name: 'Inventory',
+            icon: 'FaBox',
         },
         {  
             path: '/user/orders',
             name: 'Orders',
+            icon: 'FaReceipt',
         },
         {  
+
             path: '/user/vendors',
             name: 'Vendors',
-        },
-        {  
-            path: '/user/vendors',
-            name: 'Vendors',
+            icon: 'FaShoppingBag',
         },
         {
             path: '/user/report',
             name: 'Report',
+            icon: 'FaClipboardList',
         },
         {
             path: '/user/inbox',
             name: 'Inbox',
+            icon: 'FaInbox',
         },
+
     ];
 
     return (
