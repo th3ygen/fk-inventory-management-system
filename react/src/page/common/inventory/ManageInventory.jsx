@@ -1,4 +1,3 @@
-
 /* 
     TODO: fetch data
 */
@@ -6,11 +5,12 @@ import { useState, useEffect } from "react";
 
 import NumberWidget from "components/NumberWidget.component";
 import Table from "components/Table.component";
+import PageHeader from "components/PageHeader.component";
 
 import styles from "styles/common/inventory/ManageInventory.module.scss";
 
 function ManageInventory() {
-    const [items, setItems] = useState([]);
+	const [items, setItems] = useState([]);
 
 	const itemsData = {
 		header: ["Header 1", "Header 2", "Header 3", "Header 4"],
@@ -44,50 +44,48 @@ function ManageInventory() {
 		],
 	};
 
-    const itemsSummary = [
-        {
-            title: "Total sold",
-            label: "Sold",
-            value: "1337",
-        },
-        {
-            title: "Total Items",
-            label: "Items",
-            value: "1337",
-        },
-        {
-            title: "Worth",
-            label: "RM",
-            value: "1337",
-        },
-        {
-            title: "Average Price",
-            label: "RM",
-            value: "1337",
-        },
-    ]
+	const itemsSummary = [
+		{
+			title: "Total sold",
+			label: "Sold",
+			value: "1337",
+		},
+		{
+			title: "Total Items",
+			label: "Items",
+			value: "1337",
+		},
+		{
+			title: "Worth",
+			label: "RM",
+			value: "1337",
+		},
+		{
+			title: "Average Price",
+			label: "RM",
+			value: "1337",
+		},
+	];
 
-    const deleteItem = (id) => {
-        // delete item with id from itemsData.items
-        const newItems = items.filter((item) => item[0] !== id);
+	const deleteItem = (id) => {
+		// delete item with id from itemsData.items
+		const newItems = items.filter((item) => item[0] !== id);
 
-        setItems(newItems);
+		setItems(newItems);
+	};
 
-    }
-
-    useEffect(() => {
-        setItems(itemsData.items);
-    }, []);
-
+	useEffect(() => {
+		setItems(itemsData.items);
+	}, []);
 
 	return (
 		<div className={styles.container}>
-
-            <div className={styles.stats}>
-                {itemsSummary.map((item, i) => (
-                    <NumberWidget key={i} {...item} />
-                ))}
-            </div>
+			<PageHeader title="Manage Inventory" brief="Easily manage your inventory and item details in one page" />
+			<div className={styles.stats}>
+				{itemsSummary.map((item, i) => (
+					<NumberWidget key={i} {...item} />
+				))}
+			</div>
 			<div className={styles.table}>
 				<Table
 					title="Inventory"
