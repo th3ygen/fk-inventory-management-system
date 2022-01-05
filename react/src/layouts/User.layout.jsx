@@ -5,7 +5,7 @@ import styles from 'styles/layout/User.module.scss';
 import Navbar from 'components/Navbar.component';
 import Topbar from 'components/Topbar.component';
 
-export default function UserLayout() {
+export default function UserLayout(props) {
     const paths = [
         {
             path: '/user/inventory',
