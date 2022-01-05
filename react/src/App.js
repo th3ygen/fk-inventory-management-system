@@ -9,7 +9,7 @@ import AdminLayout from "layouts/Admin.layout";
 import TestPage from "page/Test";
 
 // Inventory page
-import ManageInventoryPage from 'page/common/inventory/Manage';
+import ManageInventoryPage from 'page/common/inventory/ManageInventory';
 
 // Report page
 import DisplayReportPage from 'page/common/report/DisplayReport';

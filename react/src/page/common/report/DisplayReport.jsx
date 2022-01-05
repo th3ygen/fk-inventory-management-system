@@ -163,9 +163,6 @@ function DisplayReport() {
 
 	return (
 		<div className={styles.container}>
-			{/* 
-				TODO folder design 
-			*/}
 			<div className={styles.itemsSoldTable}>
 				<Table title="Items sold" data={itemsData} />
 			</div>

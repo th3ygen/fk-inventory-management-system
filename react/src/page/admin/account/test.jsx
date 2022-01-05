@@ -10,9 +10,6 @@ function AddAccount(){
 					<h5 className={styles.header5}>Fill out the form to add new account.</h5>
 				</div>
 				<div className={styles.container}>
-					{/* 
-						TODO folder design 
-					*/}
 					<form>
 						<div class={styles.newAccount}>
 							<div class={styles.formAddAccount}>
@@ -228,9 +225,6 @@ function ManageAccount() {
                 	</div>
 				</div>
 				<div className={styles.container}>
-					{/* 
-						TODO folder design 
-					*/}
 					<div className={styles.accountTable}>
 						<Table title="Accounts" data={accountData} />
 					</div>

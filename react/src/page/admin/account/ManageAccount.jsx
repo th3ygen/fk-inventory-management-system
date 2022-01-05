@@ -75,9 +75,6 @@ function ManageAccount() {
 						</div>
 				</div>
 				<div className={styles.container}>
-					{/* 
-						TODO folder design 
-					*/}
 					<div className={styles.accountTable}>
 						<Table title="Accounts" data={accountData} />
 					</div>
