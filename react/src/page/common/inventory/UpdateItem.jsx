@@ -1,4 +1,4 @@
 /* 
-    TODO: Update item form
-    TODO: client validation
+    TODO Update item form
+    TODO client validation
 */
