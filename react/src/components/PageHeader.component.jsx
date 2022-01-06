@@ -12,7 +12,7 @@ function PageHeader(props) {
 	};
 
     const redirect = (path) => {
-        navigate(path, { replace: true });
+        navigate(path, { replace: true, state: props.state || {}});
     };
 
 	return (
