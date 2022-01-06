@@ -2,41 +2,26 @@ import styles from 'styles/common/order/Add.module.scss';
 
 import { FaUndo,FaReply,FaEraser,FaCheckSquare } from 'react-icons/fa';
 
+import { useState, useEffect } from "react";
+
 // components
 import Table from "components/Table.component";
 
 function AddOrder() {
 
+    const [items, setItems] = useState([]);
+
     const itemList = {
 		header: ["Item", "Sub Price"],
 		items: [
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Test", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
+			[1,"Item 1", "Item 2"],
+			[2,"Item 1", "Item 2"],
+			[3,"Item 1", "Item 2"],
+            [4,"Item 1", "Item 2"],
+			[5,"Item 1", "Item 2"],
 		],
-		colWidthPercent: ["20%", "20%", "20%", "20%"],
-		isBadge: [false, false, false, false],
-		badgeColor: [
-			["", "", "#71e071", ""],
-			["", "", "#ff7171", ""],
-		],
+		colWidthPercent: ["30%", "20%", "10%", "10%"],
 		centered: [false, true, true, true],
-
 		actions: [
 			{
 				icon: "FaReply",
@@ -46,6 +31,10 @@ function AddOrder() {
 			},
 		]
 	};
+
+    useEffect(() => {
+		setItems(itemList.items);
+	}, []);
 
     return (
         <div className={styles.content}>
@@ -85,10 +74,16 @@ function AddOrder() {
 
             <div className={styles.itemList}>
 				<div className={styles.itemTable}>
-					<Table title="Item List" data={itemList} />
+                    <Table
+					    title="Item List"
+					    headers={itemList.header}
+					    items={items}
+					    centered={itemList.centered}
+					    colWidthPercent={itemList.colWidthPercent}
+                        actions={itemList.actions}
+				    />
 				</div>
                 <div className={styles.summary}>
-                    <div className={styles.sumTitle}>Summary</div>
                     <div className={styles.sumContent}>
                         <div className={styles.contSum}>
                             <label className={styles.formLabel} for="grandTotal">Grand Total: </label>

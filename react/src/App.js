@@ -59,9 +59,10 @@ function App() {
 					<Route path="orders" element={<ManageOrderPage />} />
 					<Route path="report" element={<DisplayReportPage />} />
 					<Route path="accounts" element={<ManageAccountPage />} />
-					<Route path="approve" element={<ApproveOrderPage />} />
-					<Route path="add" element={<AddOrderPage />} />
-					<Route path="update" element={<UpdateOrderPage />} />
+
+					<Route path="/user/order/approve" element={<ApproveOrderPage />} />
+					<Route path="/user/order/add" element={<AddOrderPage />} />
+					<Route path="/user/order/update" element={<UpdateOrderPage />} />
 
 					<Route path="tests" element={<TestPage />} />
 				</Route>
