@@ -23,6 +23,7 @@ import UpdateAccountPage from 'page/admin/account/UpdateAccount';
 
 
 // Order page
+import ManageOrderPage from 'page/common/order/ManageOrder';
 import AddOrderPage from 'page/common/order/AddOrder';
 import ApproveOrderPage from 'page/common/order/ApproveOrder';
 import UpdateOrderPage from 'page/common/order/UpdateOrder';
@@ -57,9 +58,10 @@ function App() {
 					<Route path="inventory" element={<ManageInventoryPage />} />
 					<Route path="/user/inventory/add" element={<InventoryAddItemPage />} />
 
+					<Route path="orders" element={<ManageOrderPage />} />
 					<Route path="report" element={<DisplayReportPage />} />
 					<Route path="accounts" element={<ManageAccountPage />} />
-					<Route path="order" element={<ApproveOrderPage />} />
+					<Route path="approve" element={<ApproveOrderPage />} />
 					<Route path="add" element={<AddOrderPage />} />
 					<Route path="update" element={<UpdateOrderPage />} />
 
