@@ -2,6 +2,7 @@
     TODO: fetch data
 */
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import NumberWidget from "components/NumberWidget.component";
 import Table from "components/Table.component";
@@ -10,6 +11,8 @@ import PageHeader from "components/PageHeader.component";
 import styles from "styles/common/inventory/ManageInventory.module.scss";
 
 function ManageInventory() {
+	const navigate = useNavigate();
+
 	const [items, setItems] = useState([]);
 
 	const itemsData = {
@@ -32,7 +35,7 @@ function ManageInventory() {
 			{
 				icon: "FaEdit",
 				callback: (n) => {
-					console.log("editing", n);
+					navigate('/user/inventory/edit', { replace: true, state: { item: n } });
 				},
 			},
 			{

@@ -12,7 +12,7 @@ function UpdateItem () {
     return (
         <div className={styles.container}>
             <div className={styles.form}>
-                {location.state && location.state.label }
+                {location.state && location.state.item }
             </div>
         </div>
     );
