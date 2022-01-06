@@ -11,8 +11,8 @@ function PageHeader(props) {
 		return !!TagName ? <TagName /> : <p>{name}</p>;
 	};
 
-    const redirect = (path) => {
-        navigate(path, { replace: true, state: props.state || {}});
+    const redirect = (path, state) => {
+        navigate(path, { replace: true, state});
     };
 
 	return (
@@ -24,7 +24,7 @@ function PageHeader(props) {
 			<div className={styles.navs}>
 				{props.navs &&
 					props.navs.map((nav, i) => (
-						<div key={i} className={styles.nav} onClick={ () => redirect(nav.path) }>
+						<div key={i} className={styles.nav} onClick={ () => redirect(nav.path, nav.state || {}) }>
 							<Icon name={nav.icon} />
 							<span>{nav.name}</span>
 						</div>
