@@ -6,11 +6,6 @@ import FolderCard from "components/FolderCard";
 
 import styles from "styles/component/Table.module.scss";
 
-/* 
-	TODO item as badge
-	TODO item as button (hook)
-*/
-
 function Table({ ...props }) {
 	const [title, setTitle] = useState("");
 	const [headers, setHeaders] = useState([]);
@@ -57,9 +52,6 @@ function Table({ ...props }) {
 		return !!TagName ? <TagName /> : <p>{name}</p>;
 	};
 
-	/* 
-		TODO: useEffect to update items
-	*/
 	useEffect(() => {
 		if (props.title) {
 			setTitle(props.title);
