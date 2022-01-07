@@ -1,4 +1,9 @@
 import { useEffect, useState } from "react";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
+import 'tippy.js/dist/backdrop.css';
+import 'tippy.js/animations/scale.css';
+import 'tippy.js/animations/shift-away.css';
 
 import * as ReactIcons from "react-icons/fa";
 
@@ -20,22 +25,29 @@ function Table({ ...props }) {
 
 		if (n.length) {
 			for (let x of n) {
-				res = [...res, ...items.filter((item) => {
-					const index = items.indexOf(item);
-					if (resIndexes.indexOf(index) === -1) {
-						if (item[x] && item[x].toLowerCase().includes(input.toLowerCase())) {
-							resIndexes.push(index);
-							return item;
+				res = [
+					...res,
+					...items.filter((item) => {
+						const index = items.indexOf(item);
+						if (resIndexes.indexOf(index) === -1) {
+							if (
+								item[x] &&
+								item[x]
+									.toLowerCase()
+									.includes(input.toLowerCase())
+							) {
+								resIndexes.push(index);
+								return item;
+							}
 						}
-					}
-				})];
+					}),
+				];
 			}
-	
+
 			if (res.length) {
 				setItems(res);
 			}
 		}
-
 	};
 
 	const onSearch = (e) => {
@@ -76,7 +88,14 @@ function Table({ ...props }) {
 		if (props.actions) {
 			setActions(props.actions);
 		}
-	}, [props.title, props.items, props.headers, props.colWidthPercent, props.centered, props.actions]);
+	}, [
+		props.title,
+		props.items,
+		props.headers,
+		props.colWidthPercent,
+		props.centered,
+		props.actions,
+	]);
 
 	return (
 		<FolderCard className={styles.container} title={title}>
@@ -113,9 +132,7 @@ function Table({ ...props }) {
 								style={{
 									flex: `1 1 ${colWidthPercent[index]}`,
 									textAlign: `${
-										centered[index]
-											? "center"
-											: "start"
+										centered[index] ? "center" : "start"
 									}`,
 								}}
 							>
@@ -123,9 +140,7 @@ function Table({ ...props }) {
 							</div>
 						))}
 					</div>
-					{actions && (
-						<div className={styles.col}>Actions</div>
-					)}
+					{actions && <div className={styles.col}>Actions</div>}
 				</div>
 				<div className={styles.rows}>
 					{items.map((i, x) => (
@@ -198,15 +213,17 @@ function Table({ ...props }) {
 							{actions && (
 								<div className={styles.actions}>
 									{actions.map((item, y) => (
-										<div
-											key={y}
-											className={styles.action}
-											onClick={() =>
-												item.callback(items[x][0])
-											}
-										>
-											<Icon name={item.icon} />
-										</div>
+										<Tippy key={y} content={item.tooltip} delay={[500, 0]} duration={[100, 100]} animation="scale" inertia="true">
+											<div
+												key={y}
+												className={styles.action}
+												onClick={() =>
+													item.callback(items[x][0])
+												}
+											>
+												<Icon name={item.icon} />
+											</div>
+										</Tippy>
 									))}
 								</div>
 							)}
