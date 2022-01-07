@@ -17,7 +17,7 @@ function ManageInventory() {
 
 	const itemsData = {
 		header: ["Name", "Quantity", "Unit price", "Barcode ID", "Vendor"],
-		items: ["", "", "", "", "", ""],
+		items: [],
 		colWidthPercent: ["30%", "10%", "10%", "10%"],
 		centered: [false, true, true, true],
 		actions: [
@@ -91,12 +91,9 @@ function ManageInventory() {
 					]);
 				});
 
-				console.log(rows);
-
 				setItems(rows);
 			}
 		})();
-		setItems(itemsData.items);
 	}, []);
 
 	return (
