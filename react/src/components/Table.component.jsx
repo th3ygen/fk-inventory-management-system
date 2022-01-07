@@ -190,7 +190,7 @@ function Table({ ...props }) {
 												}`,
 											}}
 										>
-											{item.split(":")[0]}
+											{item.toString().split(":")[0]}
 										</div>
 									</div>
 								))}
