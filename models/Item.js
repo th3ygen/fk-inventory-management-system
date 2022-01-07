@@ -12,6 +12,7 @@ const schema = new Schema({
     quantity: Number,
     unit_price: Number,
     barcode_ID: String,
+    barcode_encoding: String,
 });
 
 schema.statics.getItems = function() {
@@ -22,19 +23,21 @@ schema.statics.getItem = function(id) {
     return this.findById(id);
 }
 
-schema.statics.addItem = function(name, unit_price, barcode_ID, vendor_ID) {
+schema.statics.addItem = function(name, unit_price, quantity, barcode_ID, barcode_encoding, vendor_ID) {
     return new this({
-        name, unit_price, barcode_ID, vendor_ID
+        name, unit_price, quantity, barcode_ID, barcode_encoding, vendor_ID
     });
 }
 
-schema.statics.updateItem = async function(id, name, unit_price, barcode_ID, vendor_ID) {
+schema.statics.updateItem = async function(id, name, unit_price, quantity, barcode_ID, barcode_encoding, vendor_ID) {
     const item = await this.findById(id);
 
     if (item) {
         item.name = name;
         item.unit_price = unit_price;
+        item.quantity = quantity;
         item.barcode_ID = barcode_ID;
+        item.barcode_encoding = barcode_encoding;
         item.vendor_ID = vendor_ID;
 
         return item.save();

@@ -39,9 +39,9 @@ module.exports = {
     // POST
     addItem: async function(req, res) {
         try {
-            const { name, unit_price, barcode_ID, vendor_ID } = req.body;
+            const { name, unit_price, quantity, barcode_ID, barcode_encoding, vendor_ID } = req.body;
 
-            const item = await Item.addItem(name, unit_price, barcode_ID, vendor_ID);
+            const item = await Item.addItem(name, unit_price, quantity, barcode_ID, barcode_encoding, vendor_ID);
 
             res.status(200).json(item);
         } catch(e) {

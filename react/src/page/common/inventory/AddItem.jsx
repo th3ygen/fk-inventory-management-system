@@ -14,6 +14,7 @@ import styles from "styles/common/inventory/AddItem.module.scss";
 function AddItem() {
 	const nameInput = useRef("");
 	const unitPriceInput = useRef(0);
+	const qntyInput = useRef(0);
 	const barcodeNumInput = useRef("");
 	const barcodeImage = useRef(null);
 	const barcodeType = useRef("");
@@ -109,23 +110,6 @@ function AddItem() {
 			<form className={styles.form}>
 				<div className={`${styles.col} ${styles.half}`}>
 					<div className={styles.row}>
-						<div className={styles.label}>Item name</div>
-						<input
-							className={styles.input}
-							type="text"
-							ref={nameInput}
-						/>
-					</div>
-					<div className={styles.row}>
-						<div className={styles.label}>Unit price</div>
-						<input
-							className={`${styles.input} ${styles.noArrow}`}
-							type="number"
-							ref={unitPriceInput}
-						/>
-					</div>
-
-					<div className={styles.row}>
 						<div className={styles.label}>Vendor ID</div>
 						<select className={styles.input} ref={vendorIdInput}>
 							<option value="1">Vendor 1</option>
@@ -134,6 +118,33 @@ function AddItem() {
 						</select>
 					</div>
 					<div className={styles.row}>
+						<div className={styles.label}>Item name</div>
+						<input
+							className={styles.input}
+							type="text"
+							ref={nameInput}
+						/>
+					</div>
+					<div className={styles.row}>
+						<div className={styles.label}>Unit price (RM)</div>
+						<input
+							className={`${styles.input} ${styles.noArrow}`}
+							type="number"
+							ref={unitPriceInput}
+						/>
+					</div>
+					<div className={styles.row}>
+						<div className={styles.label}>Quantity</div>
+						<input
+							className={`${styles.input} ${styles.noArrow}`}
+							type="number"
+							ref={qntyInput}
+						/>
+					</div>
+
+				</div>
+				<div className={`${styles.col} ${styles.half}`}>
+					<div className={styles.row}>
 						<div className={styles.label}>Barcode number</div>
 						<input
 							className={styles.input}
@@ -141,8 +152,6 @@ function AddItem() {
 							ref={barcodeNumInput}
 						/>
 					</div>
-				</div>
-				<div className={`${styles.col} ${styles.half}`}>
 					<div className={styles.row}>
 						<div className={styles.label}>Barcode encoding</div>
 						<select
