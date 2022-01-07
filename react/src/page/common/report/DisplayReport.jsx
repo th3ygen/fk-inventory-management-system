@@ -49,12 +49,14 @@ function DisplayReport() {
 		actions: [
 			{
 				icon: "FaEdit",
+				tooltip: "Edit",
 				callback: (n) => {
 					console.log("editing", n);
 				},
 			},
 			{
 				icon: "FaTrashAlt",
+				tooltip: "Delete",
 				callback: (n) => {
 					console.log("deleting", n);
 				},
