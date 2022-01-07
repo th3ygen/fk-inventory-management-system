@@ -16,9 +16,9 @@ function ManageInventory() {
 	const [items, setItems] = useState([]);
 
 	const itemsData = {
-		header: ["Name", "Quantity", "Unit price", "Barcode ID", "Vendor"],
+		header: ["Name", "Quantity", "Unit price (RM)", "Barcode ID", "Vendor"],
 		items: [],
-		colWidthPercent: ["30%", "10%", "10%", "10%"],
+		colWidthPercent: ["30%", "5%", "10%", "15%", "15%"],
 		centered: [false, true, true, true],
 		actions: [
 			{
