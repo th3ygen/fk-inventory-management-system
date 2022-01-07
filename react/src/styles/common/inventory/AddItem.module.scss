@@ -38,6 +38,35 @@
     }
 }
 
+.vendor {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .item {
+        display: flex;
+        gap: 20px;
+
+        .key {
+            flex: 0 0 100px;
+
+            color: #2179FF;
+            font-size: 14px;
+        }
+
+        .value {
+            flex: 1 1 auto;
+
+            color: #828282;
+
+            /* put column character at before */
+            &::before {
+                content: ': ';
+            }
+        }
+    }
+}
+
 .label {
     font-size: 14px;
     font-weight: 500;

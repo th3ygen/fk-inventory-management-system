@@ -53,7 +53,7 @@ schema.statics.getVendor = function(queryName) {
 }
 // get all vendor
 schema.statics.getAllVendors = function() {
-    return this.findOne();
+    return this.find({});
 }
 
 // update vendor
@@ -78,4 +78,4 @@ schema.methods.removeVendor = function(id) {
 
 const Vendors = model('Vendors', schema);
 
-module.exports = { Vendors };
+module.exports = Vendors;

@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const Vendor = require ('./Vendor');
+const Vendor = require ('./Vendors');
 
 const schema = new Schema({
     

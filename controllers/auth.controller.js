@@ -1,4 +1,4 @@
-const Account = require("../Account");
+const Account = require("../models/Account");
 
 module.exports = {
 	// POST
@@ -60,7 +60,7 @@ module.exports = {
 		}
 	},
 	//  POST
-	updatePW: function (req, res) {
+	updatePW: async function (req, res) {
 		try {
 			const { account_ID, password } = req.body;
 

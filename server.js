@@ -1,19 +1,40 @@
 const express = require('express');
+const bodyParse = require('body-parser');
+const cors = require('cors');
+const PrettyError = require('pretty-error');
+
+const pe = new PrettyError();
 
 const app = express();
 
+app.use(cors());
+app.use(bodyParse.json());
+
 (async () => {
-    // connect to the mongodb
-    await require('service/mongodb.service').connect();
+    try {
+        // connect to the mongodb
+        await require('./services/mongodb.service').connect("mongodb://localhost:27017/fk-ims");
+        console.log('Connected to mongodb');
 
-    app.get('/test', (req, res) => {
-        res.send('Hello World');
-    });
+        // load models
+        require('./models/Item');
+        require('./models/Account');
+        require('./models/Order');
+        require('./models/Vendors');
 
-    app.use('/api', require('routers'));
+        console.log('Loaded models');
+
+        app.get('/test', (req, res) => {
+            res.send('Hello World');
+        });
     
-    app.listen(8080, () => {
-        console.log('Server is running on port 8080');
-    });
+        app.use('/api', require('./routers'));
+        
+        app.listen(8080, () => {
+            console.log('Server is running on port 8080');
+        });
+    } catch(e) {
+        console.log(pe.render(e));
+    }
 
 })();

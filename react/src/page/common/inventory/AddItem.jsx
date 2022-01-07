@@ -3,7 +3,7 @@
     TODO client validation
     TODO fetch data from server
 */
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaFileImport, FaTrashAlt } from "react-icons/fa";
 import BarcodeScanner from "javascript-barcode-reader";
 
@@ -12,6 +12,9 @@ import PageHeader from "components/PageHeader.component";
 import styles from "styles/common/inventory/AddItem.module.scss";
 
 function AddItem() {
+	const [vendors, setVendors] = useState([]);
+	const [vendor, setVendor] = useState({});
+
 	const nameInput = useRef("");
 	const unitPriceInput = useRef(0);
 	const qntyInput = useRef(0);
@@ -94,6 +97,81 @@ function AddItem() {
 		}
 	};
 
+	const selectVendor = (e) => {
+		// find vendor by id
+
+		let vendor;
+		if (e.target) {
+			vendor = Object.assign(
+				{},
+				vendors.find((v) => v._id === e.target.value)
+			);
+		} else {
+			vendor = Object.assign({}, e);
+		}
+
+		delete vendor._id;
+		delete vendor.__v;
+
+		// replace key names
+		// replace underscore with space
+		// capitalize first letter
+		Object.keys(vendor).forEach((key) => {
+			vendor[
+				key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())
+			] = vendor[key];
+			delete vendor[key];
+		});
+
+		setVendor(vendor);
+	};
+
+	const addItem = async () => {
+		let item = {
+			name: nameInput.current.value,
+			unit_price: parseInt(unitPriceInput.current.value),
+			quantity: parseInt(qntyInput.current.value),
+			barcode_ID: barcodeNumInput.current.value,
+			barcode_encoding: barcodeType.current.value,
+			vendor_ID: vendorIdInput.current.value,
+		};
+
+		const request = await fetch("http://localhost:8080/api/items/add", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(item),
+		});
+		
+		if (request.status === 200) {
+			alert("Item added successfully");
+		} else {
+			alert("Error adding item");
+		}
+	}
+
+	// fetch data from server onload
+	useEffect(() => {
+		(async () => {
+			let request = await fetch(
+				"http://localhost:8080/api/vendors/list",
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+
+			const v = await request.json();
+			selectVendor(v[0]);
+
+			setVendors(v);
+
+		})();
+	}, []);
+
 	return (
 		<div className={styles.container}>
 			<PageHeader
@@ -111,11 +189,29 @@ function AddItem() {
 				<div className={`${styles.col} ${styles.half}`}>
 					<div className={styles.row}>
 						<div className={styles.label}>Vendor ID</div>
-						<select className={styles.input} ref={vendorIdInput}>
-							<option value="1">Vendor 1</option>
-							<option value="2">Vendor 2</option>
-							<option value="3">Vendor 3</option>
+						<select
+							className={styles.input}
+							onChange={selectVendor}
+							ref={vendorIdInput}
+						>
+							{vendors.map((v, i) => (
+								<option key={v._id} value={v._id}>
+									{v.company_name || `Vendor ${i + 1}`}
+								</option>
+							))}
 						</select>
+					</div>
+					<div className={styles.row}>
+						<div className={styles.vendor}>
+							{Object.keys(vendor).map((key, i) => (
+								<div key={key} className={styles.item}>
+									<div className={styles.key}>{key}</div>
+									<div className={styles.value}>
+										{vendor[key]}
+									</div>
+								</div>
+							))}
+						</div>
 					</div>
 					<div className={styles.row}>
 						<div className={styles.label}>Item name</div>
@@ -141,7 +237,6 @@ function AddItem() {
 							ref={qntyInput}
 						/>
 					</div>
-
 				</div>
 				<div className={`${styles.col} ${styles.half}`}>
 					<div className={styles.row}>
@@ -200,7 +295,7 @@ function AddItem() {
 								<FaTrashAlt />
 								Clear
 							</div>
-							<div className={styles.button}>
+							<div className={styles.button} onClick={addItem}>
 								<FaFileImport />
 								Add
 							</div>

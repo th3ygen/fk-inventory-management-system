@@ -16,19 +16,8 @@ function ManageInventory() {
 	const [items, setItems] = useState([]);
 
 	const itemsData = {
-		header: ["Header 1", "Header 2", "Header 3", "Header 4"],
-		items: [
-			[1, "Pencil", "Item 2", "Active:#71e071", "Item 4"],
-			[2, "Item 1", "Item 2", "Disabled:#ff7171", "Item 4"],
-			[3, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[4, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[5, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[6, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[7, "Test", "Item 2", "Item 3:#F1e071", "Item 4"],
-			[8, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[9, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[10, "Item 1", "Item 2", "Item 3", "Item 4"],
-		],
+		header: ["Name", "Quantity", "Unit price", "Barcode ID", "Vendor"],
+		items: ["", "", "", "", "", ""],
 		colWidthPercent: ["30%", "10%", "10%", "10%"],
 		centered: [false, true, true, true],
 		actions: [
@@ -78,6 +67,35 @@ function ManageInventory() {
 	};
 
 	useEffect(() => {
+		(async () => {
+			let request = await fetch("http://localhost:8080/api/items/list", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			if (request.status === 200) {
+				let response = await request.json();
+
+				let rows = [];
+
+				response.forEach((item) => {
+					rows.push([
+						item._id,
+						item.name,
+						item.quantity,
+						item.unit_price,
+						item.barcode_ID,
+						item.vendor_name,
+					]);
+				});
+
+				console.log(rows);
+
+				setItems(rows);
+			}
+		})();
 		setItems(itemsData.items);
 	}, []);
 

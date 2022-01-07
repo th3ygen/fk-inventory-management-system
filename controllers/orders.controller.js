@@ -28,7 +28,7 @@ module.exports = {
             });
         }
     },
-    addOrder: function(req, res){
+    addOrder: async function(req, res){
         try{
 
             const { vendor_ID, comment, orderItems } = req.body;
