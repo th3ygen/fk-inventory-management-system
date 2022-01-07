@@ -226,6 +226,7 @@ function AddItem() {
 						<input
 							className={`${styles.input} ${styles.noArrow}`}
 							type="number"
+							step="0.01"
 							ref={unitPriceInput}
 						/>
 					</div>

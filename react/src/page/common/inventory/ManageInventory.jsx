@@ -17,14 +17,13 @@ function ManageInventory() {
 
 	const itemsData = {
 		header: ["Name", "Quantity", "Unit price (RM)", "Barcode ID", "Vendor"],
-		items: [],
 		colWidthPercent: ["30%", "5%", "10%", "15%", "15%"],
 		centered: [false, true, true, true],
 		actions: [
 			{
 				icon: "FaEdit",
 				callback: (n) => {
-					navigate('/user/inventory/edit', { replace: true, state: { item: n } });
+					navigate('/user/inventory/edit', { replace: true, state: { id: n } });
 				},
 			},
 			{
