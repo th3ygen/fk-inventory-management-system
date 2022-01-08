@@ -10,7 +10,7 @@ function NumberWidget({ ...props }) {
             </div>
             <div className={styles.data}>
                 <div className={styles.label}>{ props.label }</div>
-                <FaArrowRight />
+                <FaArrowRight className={styles.arrow} />
                 <div className={styles.value} style={props.style}>{ props.value }</div>
             </div>
         </div>
