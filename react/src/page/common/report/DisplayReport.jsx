@@ -55,6 +55,20 @@ function DisplayReport() {
 				},
 			},
 			{
+				icon: "FaCog",
+				tooltip: "Whot?!",
+				callback: (n) => {
+					console.log("editing", n);
+				},
+			},
+			{
+				icon: "FaCoins",
+				tooltip: "Boooo!",
+				callback: (n) => {
+					console.log("editing", n);
+				},
+			},
+			{
 				icon: "FaTrashAlt",
 				tooltip: "Delete",
 				callback: (n) => {

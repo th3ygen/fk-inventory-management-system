@@ -120,7 +120,7 @@ function Table({ ...props }) {
 						style={{
 							width: `${
 								actions
-									? "calc(100% - 100px)"
+									? "calc(100% - 115px)"
 									: "calc(100% - 50px)"
 							}`,
 						}}
@@ -140,7 +140,7 @@ function Table({ ...props }) {
 							</div>
 						))}
 					</div>
-					{actions && <div className={styles.col}>Actions</div>}
+					{actions && <div className={styles.col} style={{textAlign: "center"}}>Actions</div>}
 				</div>
 				<div className={styles.rows}>
 					{items.map((i, x) => (
@@ -153,7 +153,7 @@ function Table({ ...props }) {
 								style={{
 									width: `${
 										actions
-											? "calc(100% - 100px)"
+											? "calc(100% - 115px)"
 											: "calc(100% - 50px)"
 									}`,
 								}}
