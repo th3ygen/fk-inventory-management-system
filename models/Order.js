@@ -18,6 +18,8 @@ const schema = new Schema({
     manager_remarks: String,
     status: String,
     items: [Object]
+}, {
+    timestamps: true,
 });
 
 schema.statics.getOrders = function() {

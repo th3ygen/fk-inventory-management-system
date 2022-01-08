@@ -13,6 +13,59 @@ const schema = new Schema({
     timestamps: true,
 });
 
+schema.statics.getSalesWithItemDetails = function () {
+    return this.aggregate([
+        {
+            $lookup: {
+                from: "items",
+                localField: "item_ID",
+                foreignField: "_id",
+                as: "item",
+            },
+        },
+        {
+            $unwind: {
+                path: "$item",
+                preserveNullAndEmptyArrays: true,
+            },
+        },
+        {
+            $lookup: {
+                from: "vendors",
+                localField: "item.vendor_ID",
+                foreignField: "_id",
+                as: "vendor",
+            },
+        },
+        {
+            $unwind: {
+                path: "$vendor",
+                preserveNullAndEmptyArrays: true,
+            },
+        },
+        {
+            $project: {
+                _id: 1,
+                item_ID: 1,
+                quantity: 1,
+                total: 1,
+                item: {
+                    _id: 1,
+                    name: 1,
+                    unit_price: 1,
+                    barcode_ID: 1,
+                    barcode_encoding: 1,
+                    vendor_ID: 1,
+                },
+                vendor: {
+                    _id: 1,
+                    company_name: 1,
+                },
+            },
+        },
+    ]);
+};
+
 schema.statics.getWeeklySales = function () {
     const today = new Date();
 

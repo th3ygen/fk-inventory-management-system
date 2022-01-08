@@ -15,9 +15,11 @@ function ManageInventory() {
 
 	const [items, setItems] = useState([]);
 	const [totalItems, setTotalItems] = useState(0);
-	const [totalSold, setTotalSold] = useState(0);
 	const [totalWorth, setTotalWorth] = useState(0);
-	const [averagePrice, setAveragePrice] = useState(0);
+	const [totalSoldItems, setTotalSoldItems] = useState(0);
+	const [totalSold, setTotalSold] = useState(0);
+	const [mostSoldItem, setMostSoldItem] = useState({});
+	const [leastSoldItem, setLeastSoldItem] = useState({});
 
 	const itemsData = {
 		header: ["Name", "Quantity", "Unit price (RM)", "Barcode ID", "Vendor"],
@@ -37,12 +39,12 @@ function ManageInventory() {
 			{
 				icon: "FaCoins",
 				callback: (n) => {
-					navigate("/user/inventory/edit", {
+					navigate("/user/inventory/sell", {
 						replace: true,
 						state: { id: n },
 					});
 				},
-				tooltip: "Add sold quantity",
+				tooltip: "Add sold",
 			},
 			{
 				icon: "FaTrashAlt",
@@ -78,11 +80,9 @@ function ManageInventory() {
 
 				let rows = [];
 				let tWorth = 0;
-				let aPrice = 0;
 
 				response.forEach((item) => {
 					tWorth += item.unit_price * item.quantity;
-					aPrice += item.unit_price;
 
 					rows.push([
 						item._id,
@@ -90,13 +90,17 @@ function ManageInventory() {
 						item.quantity,
 						item.unit_price,
 						item.barcode_ID,
-						item.vendor_name,
+						item.vendor_name || "DELETED:#4a5355",
 					]);
 				});
 
+				// convert tWorth and aPrice to 2 decimal places
+				tWorth = tWorth.toFixed(2);
+
 				setTotalItems(rows.length);
 				setTotalWorth(tWorth);
-				setAveragePrice(aPrice / rows.length);
+
+				console.log(rows);
 
 				setItems(rows);
 			}
@@ -114,13 +118,45 @@ function ManageInventory() {
 			if (request.status === 200) {
 				let response = await request.json();
 
+				let tSoldItems = 0;
 				let tSold = 0;
 
 				response.forEach((item) => {
-					tSold += item.quantity;
+					tSoldItems += item.quantity;
+					tSold += item.item.unit_price * item.quantity;
 				});
 
-				setTotalSold(tSold);
+				// get most and least sold item
+				const compare = {};
+
+				response.forEach((item) => {
+					if (!compare[item.item.name]) {
+						compare[item.item.name] = item.quantity;
+					} else {
+						compare[item.item.name] += item.quantity;
+					}
+				});
+
+				let mostSold = {};
+				let leastSold = {};
+
+				for (let [key, value] of Object.entries(compare)) {
+					if (!mostSold.name || value > mostSold.value) {
+						mostSold.name = key;
+						mostSold.value = value;
+					}
+
+					if (!leastSold.name || value < leastSold.value) {
+						leastSold.name = key;
+						leastSold.value = value;
+					}
+				}
+
+				setMostSoldItem(mostSold);
+				setLeastSoldItem(leastSold);
+
+				setTotalSoldItems(tSoldItems);
+				setTotalSold(tSold.toFixed(2));
 			}
 		})();
 	}, []);
@@ -140,13 +176,8 @@ function ManageInventory() {
 			/>
 			<div className={styles.stats}>
 				<NumberWidget
-					title="Total sold"
+					title="Total Items by Quantity"
 					label="Sold"
-					value={totalSold}
-				/>
-				<NumberWidget
-					title="Total items"
-					label="Items"
 					value={totalItems}
 				/>
 				<NumberWidget
@@ -155,9 +186,29 @@ function ManageInventory() {
 					value={totalWorth}
 				/>
 				<NumberWidget
-					title="Average price"
+					title="Total Sold Items by Quantity"
+					label="Items"
+					value={totalSoldItems}
+				/>
+				<NumberWidget
+					title="Profit / Loss"
 					label="RM"
-					value={averagePrice}
+					value={(totalSold - totalWorth).toFixed(2)}
+				/>
+				<NumberWidget
+					title="Profit / Loss (%)"
+					label="%"
+					value={((totalSold - totalWorth) / totalWorth * 100).toFixed(2)}
+				/>
+				<NumberWidget
+					title="Most Sold Item"
+					label="Item"
+					value={mostSoldItem.name}
+				/>
+				<NumberWidget
+					title="Least Sold Item"
+					label="Item"
+					value={leastSoldItem.name}
 				/>
 
 			</div>

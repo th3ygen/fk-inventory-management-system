@@ -13,6 +13,8 @@ const schema = new Schema({
 	unit_price: Number,
 	barcode_ID: String,
 	barcode_encoding: String,
+}, {
+    timestamps: true,
 });
 
 schema.statics.getItems = function () {

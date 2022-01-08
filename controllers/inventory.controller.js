@@ -39,9 +39,15 @@ module.exports = {
 			const { id } = req.params;
 
 			const item = await Item.getItem(id);
-
+			
 			if (item) {
-				res.status(200).json(item);
+				const result = Object.assign({}, item._doc);
+
+				const vendor = await Vendor.findById(result.vendor_ID);
+
+				result.vendor_name = vendor.company_name;
+
+				res.status(200).json(result);
 			} else {
 				res.status(404).json({
 					error: "Item not found",
@@ -171,7 +177,7 @@ module.exports = {
 	// GET
 	getSoldItems: async function (req, res) {
 		try {
-			const items = await ItemSold.find({});
+			const items = await ItemSold.getSalesWithItemDetails();
 
 			res.status(200).json(items);
 		} catch (e) {

@@ -131,40 +131,41 @@ function UpdateItem() {
 		setVendor(vendor);
 	};
 
-    useEffect(() => {
-		(async () => {
-			let request = await fetch(
-				"http://localhost:8080/api/vendors/list",
-				{
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-					},
-				}
-			);
-
-			const v = await request.json();
-
-			setVendors(v);
-
-			if (location.state.id) {
-				request = await fetch('http://localhost:8080/api/items/id/' + location.state.id);
-
-				if (request.status === 200) {
-					const item = await request.json();
-
-					nameInput.current.value = item.name;
-					unitPriceInput.current.value = item.unit_price;
-					qntyInput.current.value = item.quantity;
-					barcodeNumInput.current.value = item.barcode_ID;
-					barcodeType.current.value = item.barcode_encoding;
-					vendorIdInput.current.selectedIndex = v.findIndex(i => i._id === item.vendor_ID);
-
-					selectVendor(v.find(i => i._id === item.vendor_ID));
-				}
+	const loadData = async () => {
+		let request = await fetch(
+			"http://localhost:8080/api/vendors/list",
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
 			}
+		);
 
-		})();
+		const v = await request.json();
+
+		setVendors(v);
+
+		if (location.state.id) {
+			request = await fetch('http://localhost:8080/api/inventory/item/id/' + location.state.id);
+
+			if (request.status === 200) {
+				const item = await request.json();
+
+				nameInput.current.value = item.name;
+				unitPriceInput.current.value = item.unit_price;
+				qntyInput.current.value = item.quantity;
+				barcodeNumInput.current.value = item.barcode_ID;
+				barcodeType.current.value = item.barcode_encoding;
+				vendorIdInput.current.selectedIndex = v.findIndex(i => i._id === item.vendor_ID);
+
+				selectVendor(v.find(i => i._id === item.vendor_ID));
+			}
+		}
+	}
+
+    useEffect(() => {
+		loadData();
     }, []);
 
 	return (
@@ -287,9 +288,10 @@ function UpdateItem() {
 						<div className={styles.buttons}>
 							<div
 								className={`${styles.button} ${styles.invert}`}
+								onClick={loadData}
 							>
 								<FaTrashAlt />
-								Clear
+								Reset
 							</div>
 							<div className={styles.button}>
 								<FaFileImport />

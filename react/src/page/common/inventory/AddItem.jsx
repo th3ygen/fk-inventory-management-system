@@ -136,7 +136,7 @@ function AddItem() {
 			vendor_ID: vendorIdInput.current.value,
 		};
 
-		const request = await fetch("http://localhost:8080/api/items/add", {
+		const request = await fetch("http://localhost:8080/api/inventory/item/add", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -147,6 +147,7 @@ function AddItem() {
 		if (request.status === 200) {
 			alert("Item added successfully");
 		} else {
+			console.log(request);
 			alert("Error adding item");
 		}
 	}
