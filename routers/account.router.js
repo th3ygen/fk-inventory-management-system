@@ -3,6 +3,7 @@ const router = express.Router();
 
 const controller = require ('../controllers/account.controller')
 
+// /accounts
 router.get('/get', controller.getAccounts);
 router.get('/find', controller.getAccount);
 router.post('/add', controller.addAccount);

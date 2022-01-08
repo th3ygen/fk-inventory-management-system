@@ -74,7 +74,7 @@ module.exports = {
         }
     },
     // GET
-    deleteAccount: function(req, res) {
+    deleteAccount: async function(req, res) {
         try {
             const { account_ID } = req.params;
 
