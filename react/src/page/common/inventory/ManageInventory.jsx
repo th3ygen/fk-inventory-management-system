@@ -203,12 +203,14 @@ function ManageInventory() {
 				<NumberWidget
 					title="Most Sold Item"
 					label="Item"
-					value={mostSoldItem.name}
+					value={`${mostSoldItem.name} (${mostSoldItem.value})`}
+					style={{fontSize: "14px"}}
 				/>
 				<NumberWidget
 					title="Least Sold Item"
 					label="Item"
-					value={leastSoldItem.name}
+					value={`${leastSoldItem.name} (${leastSoldItem.value})`}
+					style={{fontSize: "14px"}}
 				/>
 
 			</div>
