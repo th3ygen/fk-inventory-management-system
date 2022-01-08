@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { FaUserPlus } from 'react-icons/fa';
 
 // components
@@ -7,8 +8,10 @@ import NumberWidget from "components/NumberWidget.component";
 import styles from "styles/admin/account/ManageAccount.module.scss";
 
 function ManageAccount() {
+	const [accounts, setAccounts] = useState([]);
+
 	const accountData = {
-		header: ["Name", "Role", "Username", "Password"],
+		header: ["Name", "Role", "Username", "Contact"],
 		items: [
 			["1234","Item 1", "Item 2", "Active", "Item 4"],
 			["1234","Farikha Dwi Nur Qossina Januar", "Manager", "farikha_dwi", "qossina321"],
@@ -88,6 +91,36 @@ function ManageAccount() {
 			label: "Admins",
 		},
 	];
+
+	useEffect(() => {
+		(async () => {
+			const request = await fetch("http://localhost:8080/api/accounts/get", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+            if (request.status === 200) {
+                const data = await request.json();
+                
+				let list = [];
+				data.forEach(item => {
+					list.push([
+						item.name,
+						item.role,
+						item.username,
+						item.contact,
+					]);
+				});
+
+				setAccounts(list);
+            } else {
+				console.log("Error:", request.status);
+				alert("Error: " + request.status);
+			}
+		})();
+	}, []);
 
     return (
 		<div className={styles.header}>
