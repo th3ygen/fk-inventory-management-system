@@ -33,15 +33,26 @@
         padding-top: 15px;
         display: flex;
 
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
 
         & > .label {
+            flex: 0 0 30%;
+
+            text-align: center;
+
             color: #2179FF;
             font-weight: 500;
         }
 
+        & > .arrow {
+            flex: 0 0 10%;
+        }
+
         & > .value {
+            flex: 0 0 50%;
+            text-align: center;
+
             font-size: 30px;
             font-weight: bold;
         }
