@@ -209,6 +209,7 @@ function DisplayReport() {
 						title={stat.title}
 						value={stat.value}
 						label={stat.label}
+						style={{fontSize: "18px"}}
 					/>
 				))}
 			</div>
