@@ -1,13 +1,13 @@
 import styles from 'styles/admin/account/AddAccount.module.scss';
 
-import { FaRegSave, FaArrowLeft } from 'react-icons/fa';
+import { FaRegSave } from 'react-icons/fa';
 
 function AddAccount() {
     return (
         <div>
             <h2 className={styles.header2}>Add New Account</h2>
             <h5 className={styles.header5}>Fill out the form to add new account.</h5>
-        <body className={styles.body}>
+        <div className={styles.body}>
             <div className={styles.form}>
                 <form className={styles.formAccount}>
                     <div className={styles.wrapper}>
@@ -79,7 +79,7 @@ function AddAccount() {
                     <div className={styles.wrapper}>
                         <div className={styles.box}>
                             <p align="left">
-                                <button type="submit" class={styles.backButton}><FaArrowLeft />Back</button>
+                                <button type="submit" class={styles.backButton}>Clear</button>
                             </p>
                         </div>
                         <div className={styles.box}>
@@ -90,7 +90,7 @@ function AddAccount() {
                     </div>
                 </form>
             </div>
-        </body>
+        </div>
         </div>
     )
 }
