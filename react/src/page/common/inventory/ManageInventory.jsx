@@ -17,7 +17,7 @@ function ManageInventory() {
 	const [totalItems, setTotalItems] = useState(0);
 	const [totalWorth, setTotalWorth] = useState(0);
 	const [totalSoldItems, setTotalSoldItems] = useState(0);
-	const [totalSold, setTotalSold] = useState(0);
+	const [totalSales, setTotalSales] = useState(0);
 	const [mostSoldItem, setMostSoldItem] = useState({});
 	const [leastSoldItem, setLeastSoldItem] = useState({});
 
@@ -56,11 +56,24 @@ function ManageInventory() {
 		],
 	};
 
-	const deleteItem = (id) => {
+	const deleteItem = async (id) => {
 		// delete item with id from itemsData.items
-		const newItems = items.filter((item) => item[0] !== id);
+		const request = await fetch(
+			"http://localhost:8080/api/inventory/item/delete/" + id,
+			{
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
 
-		setItems(newItems);
+		if (request.status === 200) {
+			setItems(items.filter((i) => i._id !== id));
+		} else {
+			console.log(id, request);
+			alert("Error deleting item");
+		}
 	};
 
 	useEffect(() => {
@@ -100,8 +113,6 @@ function ManageInventory() {
 				setTotalItems(rows.length);
 				setTotalWorth(tWorth);
 
-				console.log(rows);
-
 				setItems(rows);
 			}
 
@@ -122,18 +133,22 @@ function ManageInventory() {
 				let tSold = 0;
 
 				response.forEach((item) => {
-					tSoldItems += item.quantity;
-					tSold += item.item.unit_price * item.quantity;
+					if (item.item) {
+						tSoldItems += item.quantity;
+						tSold += item.item.unit_price * item.quantity;
+					}
 				});
 
 				// get most and least sold item
 				const compare = {};
 
 				response.forEach((item) => {
-					if (!compare[item.item.name]) {
-						compare[item.item.name] = item.quantity;
-					} else {
-						compare[item.item.name] += item.quantity;
+					if (item.item) {
+						if (!compare[item.item.name]) {
+							compare[item.item.name] = item.quantity;
+						} else {
+							compare[item.item.name] += item.quantity;
+						}
 					}
 				});
 
@@ -156,7 +171,7 @@ function ManageInventory() {
 				setLeastSoldItem(leastSold);
 
 				setTotalSoldItems(tSoldItems);
-				setTotalSold(tSold.toFixed(2));
+				setTotalSales(tSold.toFixed(2));
 			}
 		})();
 	}, []);
@@ -176,29 +191,28 @@ function ManageInventory() {
 			/>
 			<div className={styles.stats}>
 				<NumberWidget
-					title="Total Items by Quantity"
-					label="Sold"
+					title="Total Items"
+					label="Items"
 					value={totalItems}
+					style={{fontSize: "24px"}}
 				/>
 				<NumberWidget
-					title="Worth"
+					title="Inventory Worth"
 					label="RM"
 					value={totalWorth}
+					style={{fontSize: "24px"}}
 				/>
 				<NumberWidget
-					title="Total Sold Items by Quantity"
+					title="Total Sales"
+					label="RM"
+					value={totalSales}
+					style={{fontSize: "24px"}}
+				/>
+				<NumberWidget
+					title="Total Sold Items"
 					label="Items"
 					value={totalSoldItems}
-				/>
-				<NumberWidget
-					title="Profit / Loss"
-					label="RM"
-					value={(totalSold - totalWorth).toFixed(2)}
-				/>
-				<NumberWidget
-					title="Profit / Loss (%)"
-					label="%"
-					value={((totalSold - totalWorth) / totalWorth * 100).toFixed(2)}
+					style={{fontSize: "24px"}}
 				/>
 				<NumberWidget
 					title="Most Sold Item"

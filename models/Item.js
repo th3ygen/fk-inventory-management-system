@@ -9,6 +9,7 @@ const schema = new Schema({
 		type: String,
 		required: true,
 	},
+	bought_quantity: Number,
 	quantity: Number,
 	unit_price: Number,
 	barcode_ID: String,

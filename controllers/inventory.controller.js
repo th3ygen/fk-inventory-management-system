@@ -118,11 +118,11 @@ module.exports = {
 		}
 	},
 	// GET
-	deleteItem: function (req, res) {
+	deleteItem: async function (req, res) {
 		try {
 			const { id } = req.params;
 
-			const item = Item.deleteItem(id);
+			const item = await Item.deleteItem(id);
 
 			res.status(200).json({
 				message: "Item deleted",
