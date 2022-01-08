@@ -131,18 +131,36 @@ module.exports = {
 	// POST
 	addSoldItem: async function (req, res) {
 		try {
-			const { item_ID, quantity, total } = req.body;
+			const { item_ID, quantity } = req.body;
 
-			const itemSold = await ItemSold.addItemSold(
-				item_ID,
-				quantity,
-				total
-			);
+			const item = await Item.findById(item_ID);
 
-			// deduct quantity from item
-			await Item.updateQuantity(item_ID, quantity * -1);
+			if (item) {
+				if (item.quantity < quantity) {
+					return res.status(400).json({
+						error: "Sold quantity exceed item quantity",
+					});
+				}
 
-			res.status(200).json(itemSold);
+				const soldItem = new ItemSold({
+					item_ID: item_ID,
+					quantity: quantity,
+					total: item.unit_price * quantity,
+				});
+
+				await soldItem.save();
+
+				// deduct quantity from item
+				await Item.updateQuantity(item_ID, quantity * -1);
+
+				res.status(200).json({
+					message: "Item sold",
+				});
+			} else {
+				res.status(404).json({
+					error: "Item not found",
+				});
+			}
 		} catch (e) {
 			console.log(`[ERROR] ${e}`);
 			res.status(500).json({
@@ -151,7 +169,7 @@ module.exports = {
 		}
 	},
 	// GET
-	getAllSolds: async function (req, res) {
+	getSoldItems: async function (req, res) {
 		try {
 			const items = await ItemSold.find({});
 

@@ -14,6 +14,10 @@ function ManageInventory() {
 	const navigate = useNavigate();
 
 	const [items, setItems] = useState([]);
+	const [totalItems, setTotalItems] = useState(0);
+	const [totalSold, setTotalSold] = useState(0);
+	const [totalWorth, setTotalWorth] = useState(0);
+	const [averagePrice, setAveragePrice] = useState(0);
 
 	const itemsData = {
 		header: ["Name", "Quantity", "Unit price (RM)", "Barcode ID", "Vendor"],
@@ -23,40 +27,32 @@ function ManageInventory() {
 			{
 				icon: "FaEdit",
 				callback: (n) => {
-					navigate('/user/inventory/edit', { replace: true, state: { id: n } });
+					navigate("/user/inventory/edit", {
+						replace: true,
+						state: { id: n },
+					});
 				},
+				tooltip: "Edit",
+			},
+			{
+				icon: "FaCoins",
+				callback: (n) => {
+					navigate("/user/inventory/edit", {
+						replace: true,
+						state: { id: n },
+					});
+				},
+				tooltip: "Add sold quantity",
 			},
 			{
 				icon: "FaTrashAlt",
 				callback: (n) => {
 					deleteItem(n);
 				},
+				tooltip: "Delete",
 			},
 		],
 	};
-
-	const itemsSummary = [
-		{
-			title: "Total sold",
-			label: "Sold",
-			value: "1337",
-		},
-		{
-			title: "Total Items",
-			label: "Items",
-			value: "1337",
-		},
-		{
-			title: "Worth",
-			label: "RM",
-			value: "1337",
-		},
-		{
-			title: "Average Price",
-			label: "RM",
-			value: "1337",
-		},
-	];
 
 	const deleteItem = (id) => {
 		// delete item with id from itemsData.items
@@ -67,19 +63,27 @@ function ManageInventory() {
 
 	useEffect(() => {
 		(async () => {
-			let request = await fetch("http://localhost:8080/api/items/list", {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
+			let request = await fetch(
+				"http://localhost:8080/api/inventory/item/list",
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
 
 			if (request.status === 200) {
 				let response = await request.json();
 
 				let rows = [];
+				let tWorth = 0;
+				let aPrice = 0;
 
 				response.forEach((item) => {
+					tWorth += item.unit_price * item.quantity;
+					aPrice += item.unit_price;
+
 					rows.push([
 						item._id,
 						item.name,
@@ -90,7 +94,33 @@ function ManageInventory() {
 					]);
 				});
 
+				setTotalItems(rows.length);
+				setTotalWorth(tWorth);
+				setAveragePrice(aPrice / rows.length);
+
 				setItems(rows);
+			}
+
+			request = await fetch(
+				"http://localhost:8080/api/inventory/sold/list",
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+
+			if (request.status === 200) {
+				let response = await request.json();
+
+				let tSold = 0;
+
+				response.forEach((item) => {
+					tSold += item.quantity;
+				});
+
+				setTotalSold(tSold);
 			}
 		})();
 	}, []);
@@ -98,21 +128,38 @@ function ManageInventory() {
 	return (
 		<div className={styles.container}>
 			<PageHeader
-					title="Manage Inventory"
-					brief="Easily manage your inventory and item details in one page"
-                    navs={[
-                        {
-                            icon: "FaReply",
-                            name: "Add item",
-                            path: "/user/inventory/add",
-                        },
-                    ]}
-                    
-                />
+				title="Manage Inventory"
+				brief="Easily manage your inventory and item details in one page"
+				navs={[
+					{
+						icon: "FaReply",
+						name: "Add item",
+						path: "/user/inventory/add",
+					},
+				]}
+			/>
 			<div className={styles.stats}>
-				{itemsSummary.map((item, i) => (
-					<NumberWidget key={i} {...item} />
-				))}
+				<NumberWidget
+					title="Total sold"
+					label="Sold"
+					value={totalSold}
+				/>
+				<NumberWidget
+					title="Total items"
+					label="Items"
+					value={totalItems}
+				/>
+				<NumberWidget
+					title="Worth"
+					label="RM"
+					value={totalWorth}
+				/>
+				<NumberWidget
+					title="Average price"
+					label="RM"
+					value={averagePrice}
+				/>
+
 			</div>
 			<div className={styles.table}>
 				<Table
