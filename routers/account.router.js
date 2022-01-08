@@ -5,7 +5,7 @@ const controller = require ('../controllers/account.controller')
 
 // /accounts
 router.get('/get', controller.getAccounts);
-router.get('/find', controller.getAccount);
+router.get('/find/:account_ID', controller.getAccount);
 router.post('/add', controller.addAccount);
 router.post('/update', controller.updateAccount);
 router.get('/delete', controller.deleteAccount);
