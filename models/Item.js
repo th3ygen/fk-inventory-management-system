@@ -53,12 +53,24 @@ schema.statics.updateItem = async function (
 	const item = await this.findById(id);
 
 	if (item) {
-		item.name = name;
-		item.unit_price = unit_price;
-		item.quantity = quantity;
-		item.barcode_ID = barcode_ID;
-		item.barcode_encoding = barcode_encoding;
-		item.vendor_ID = vendor_ID;
+		item.name = name || item.name;
+		item.unit_price = unit_price || item.unit_price;
+		item.quantity = quantity || item.quantity;
+		item.barcode_ID = barcode_ID || item.barcode_ID;
+		item.barcode_encoding = barcode_encoding || item.barcode_encoding;
+		item.vendor_ID = vendor_ID || item.vendor_ID;
+
+		return item.save();
+	}
+
+	return null;
+};
+
+schema.statics.updateQuantity = async function (id, adjustment) {
+	const item = await this.findById(id);
+
+	if (item) {
+		item.quantity += adjustment;
 
 		return item.save();
 	}

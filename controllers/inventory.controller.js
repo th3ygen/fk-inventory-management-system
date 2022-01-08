@@ -1,5 +1,6 @@
 const Item = require("../models/Item");
 const Vendor = require('../models/Vendors');
+const ItemSold = require('../models/ItemSold');
 
 module.exports = {
 	// GET
@@ -127,4 +128,117 @@ module.exports = {
 			});
 		}
 	},
+	// POST
+	addSoldItem: async function (req, res) {
+		try {
+			const { item_ID, quantity, total } = req.body;
+
+			const itemSold = await ItemSold.addItemSold(
+				item_ID,
+				quantity,
+				total
+			);
+
+			// deduct quantity from item
+			await Item.updateQuantity(item_ID, quantity * -1);
+
+			res.status(200).json(itemSold);
+		} catch (e) {
+			console.log(`[ERROR] ${e}`);
+			res.status(500).json({
+				error: e,
+			});
+		}
+	},
+	// GET
+	getAllSolds: async function (req, res) {
+		try {
+			const items = await ItemSold.find({});
+
+			res.status(200).json(items);
+		} catch (e) {
+			console.log(`[ERROR] ${e}`);
+			res.status(500).json({
+				error: e,
+			});
+		}
+	},
+
+	// GET
+	getSoldItem: async function (req, res) {
+		try {
+			const { id } = req.params;
+
+			const item = await ItemSold.find({ item_ID: id });
+
+			if (item) {
+				res.status(200).json(item);
+			} else {
+				res.status(404).json({
+					error: "Item not found",
+				});
+			}
+		} catch (e) {
+			console.log(`[ERROR] ${e}`);
+			res.status(500).json({
+				error: e,
+			});
+		}
+	},
+
+	// GET
+	getWeeklySales: async function (req, res) {
+		try {
+			const items = await ItemSold.getWeeklySales();
+
+			res.status(200).json(items);
+		} catch (e) {
+			console.log(`[ERROR] ${e}`);
+			res.status(500).json({
+				error: e,
+			});
+		}
+	},
+
+	// GET
+	getMonthySales: async function (req, res) {
+		try {
+			const items = await ItemSold.getMonthlySales();
+
+			res.status(200).json(items);
+		} catch (e) {
+			console.log(`[ERROR] ${e}`);
+			res.status(500).json({
+				error: e,
+			});
+		}
+	},
+
+	// GET
+	getWeeklyProfit: async function (req, res) {
+		try {
+			const items = await ItemSold.getWeeklyProfit();
+
+			res.status(200).json(items);
+		} catch (e) {
+			console.log(`[ERROR] ${e}`);
+			res.status(500).json({
+				error: e,
+			});
+		}
+	},
+
+	// GET
+	getMonthlyProfit: async function (req, res) {
+		try {
+			const items = await ItemSold.getMonthlyProfit();
+
+			res.status(200).json(items);
+		} catch (e) {
+			console.log(`[ERROR] ${e}`);
+			res.status(500).json({
+				error: e,
+			});
+		}
+	}
 };
