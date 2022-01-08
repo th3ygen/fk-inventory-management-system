@@ -1,6 +1,6 @@
 import styles from 'styles/admin/account/UpdateAccount.module.scss';
 
-import { FaRegSave, FaArrowLeft } from 'react-icons/fa';
+import { FaRegSave } from 'react-icons/fa';
 
 function UpdateAccount() {
     return (
@@ -79,7 +79,7 @@ function UpdateAccount() {
                     <div className={styles.wrapper}>
                         <div className={styles.box}>
                             <p align="left">
-                                <button type="submit" class={styles.backButton}><FaArrowLeft />Back</button>
+                                <button type="submit" class={styles.backButton}>Clear</button>
                             </p>
                         </div>
                         <div className={styles.box}>

@@ -109,7 +109,14 @@ function ManageAccount() {
 				</div>
 				<div className={styles.container}>
 					<div className={styles.accountTable}>
-						<Table title="Accounts" data={accountData} filterCol={[1, 2, 3]} />
+						<Table
+							title="Accounts"
+							headers={accountData.header}
+							items={accountData.items}
+							centered={accountData.centered}
+							colWidthPercent={accountData.colWidthPercent}
+							actions={accountData.actions}
+						/>
 					</div>
 				</div>
 		</div>
