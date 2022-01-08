@@ -10,7 +10,6 @@ import BarcodeScanner from "javascript-barcode-reader";
 
 import PageHeader from "components/PageHeader.component";
 
-import exStyles from "styles/common/inventory/UpdateItem.module.scss";
 import styles from "styles/common/inventory/AddItem.module.scss";
 import { useEffect } from "react";
 
@@ -295,7 +294,7 @@ function UpdateItem() {
 							</div>
 							<div className={styles.button}>
 								<FaFileImport />
-								Add
+								Update
 							</div>
 						</div>
 					</div>
