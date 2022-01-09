@@ -49,10 +49,11 @@ function UpdateAccount() {
 
         if (request.status === 200) {
             const response = await request.json()
-            //const reformattedCreatedAt = Date.parse(response.createdAt/1000);
-            //const reformattedUpdatedAt = Date.parse(response.updatedAt);
-            //const currentDate = new Date(response.updatedAt);
-            //const currentTimestamp = currentDate.toLocaleString();
+
+            const currentDate1 = new Date(response.createdAt);
+            const currentTimestamp1 = currentDate1.toLocaleString();
+            const currentDate2 = new Date(response.updatedAt);
+            const currentTimestamp2 = currentDate2.toLocaleString();
 
             nameInput.current.value = response.name
             emailInput.current.value = response.email
@@ -61,8 +62,8 @@ function UpdateAccount() {
             addressInput.current.value = response.address
             usernameInput.current.value = response.username
             passwordInput.current.value = response.password
-            createdAtInput.current.value = response.createdAt
-            updatedAtInput.current.value = response.updatedAt
+            createdAtInput.current.value = currentTimestamp1
+            updatedAtInput.current.value = currentTimestamp2
             console.log(response);
 
         } else {
