@@ -9,7 +9,7 @@ import AdminLayout from "layouts/Admin.layout";
 import TestPage from "page/Test";
 
 // Inventory page
-import ManageInventoryPage from 'page/common/inventory/Manage';
+import ManageInventoryPage from 'page/common/inventory/ManageInventory';
 
 
 // Report page
@@ -25,6 +25,7 @@ import UpdateAccountPage from 'page/admin/account/UpdateAccount';
 
 
 // Order page
+import ManageOrderPage from 'page/common/order/ManageOrder';
 import AddOrderPage from 'page/common/order/AddOrder';
 import ApproveOrderPage from 'page/common/order/ApproveOrder';
 import UpdateOrderPage from 'page/common/order/UpdateOrder';
@@ -57,10 +58,10 @@ function App() {
 				<Route path="/user" element={<UserLayout />}>
 					<Route index element={<Home />} />
 					<Route path="inventory" element={<ManageInventoryPage />} />
-
+					<Route path="orders" element={<ManageOrderPage />} />
 					<Route path="report" element={<DisplayReportPage />} />
 					<Route path="accounts" element={<ManageAccountPage />} />
-					<Route path="order" element={<ApproveOrderPage />} />
+					<Route path="approve" element={<ApproveOrderPage />} />
 					<Route path="add" element={<AddOrderPage />} />
 					<Route path="update" element={<UpdateOrderPage />} />
 					<Route path="UpdatePassword" element={<UpdatePasswordPage />} />
@@ -71,8 +72,8 @@ function App() {
 					<Route index element={<Home />} />
 					<Route path="UpdatePassword" element={<UpdatePasswordPage />} />
 					<Route path="accounts" element={<ManageAccountPage />} />
-					<Route path="/admin/accounts/AddAccount" element={<AddAccountPage />} />
-					<Route path="/admin/accounts/UpdateAccount" element={<UpdateAccountPage />} />
+					<Route path="/admin/accounts/add_account" element={<AddAccountPage />} />
+					<Route path="/admin/accounts/update_account" element={<UpdateAccountPage />} />
 					<Route path="report" element={<DisplayReportPage />} />
 					<Route path="inventory" element={<ManageInventoryPage />} />
 				</Route>

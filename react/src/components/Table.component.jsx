@@ -1,4 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
+import 'tippy.js/dist/backdrop.css';
+import 'tippy.js/animations/scale.css';
+import 'tippy.js/animations/shift-away.css';
 
 import * as ReactIcons from "react-icons/fa";
 
@@ -7,24 +12,50 @@ import FolderCard from "components/FolderCard";
 import styles from "styles/component/Table.module.scss";
 
 function Table({ ...props }) {
-	const [items, setItems] = useState(props.data.items);
+	const [title, setTitle] = useState("");
+	const [headers, setHeaders] = useState([]);
+	const [items, setItems] = useState([]);
+	const [colWidthPercent, setColWidthPercent] = useState([]);
+	const [centered, setCentered] = useState([]);
+	const [actions, setActions] = useState([]);
 
-	const findByName = (name) => {
-		const item = items.filter((item) =>
-			item[1].toLowerCase().includes(name.toLowerCase())
-		);
+	const findByCol = (input, n) => {
+		let res = [];
+		let resIndexes = [];
 
-		if (item) {
-			setItems(item);
+		if (n.length) {
+			for (let x of n) {
+				res = [
+					...res,
+					...items.filter((item) => {
+						const index = items.indexOf(item);
+						if (resIndexes.indexOf(index) === -1) {
+							if (
+								item[x] &&
+								item[x]
+									.toLowerCase()
+									.includes(input.toLowerCase())
+							) {
+								resIndexes.push(index);
+								return item;
+							}
+						}
+					}),
+				];
+			}
+
+			if (res.length) {
+				setItems(res);
+			}
 		}
 	};
 
 	const onSearch = (e) => {
-		const name = e.target.value;
-		if (name) {
-			findByName(name);
+		const input = e.target.value;
+		if (input) {
+			findByCol(input, props.filterCol || [1]);
 		} else {
-			setItems(props.data.items);
+			setItems(props.items);
 		}
 	};
 
@@ -33,8 +64,41 @@ function Table({ ...props }) {
 		return !!TagName ? <TagName /> : <p>{name}</p>;
 	};
 
+	useEffect(() => {
+		if (props.title) {
+			setTitle(props.title);
+		}
+
+		if (props.items) {
+			setItems(props.items);
+		}
+
+		if (props.headers) {
+			setHeaders(props.headers);
+		}
+
+		if (props.colWidthPercent) {
+			setColWidthPercent(props.colWidthPercent);
+		}
+
+		if (props.centered) {
+			setCentered(props.centered);
+		}
+
+		if (props.actions) {
+			setActions(props.actions);
+		}
+	}, [
+		props.title,
+		props.items,
+		props.headers,
+		props.colWidthPercent,
+		props.centered,
+		props.actions,
+	]);
+
 	return (
-		<FolderCard className={styles.container} title={props.title}>
+		<FolderCard className={styles.container} title={title}>
 			<div className={styles.header}>
 				<div className={styles.filters}>
 					<div className={styles.filter}>
@@ -55,22 +119,20 @@ function Table({ ...props }) {
 						className={styles.data}
 						style={{
 							width: `${
-								props.data.actions
-									? "calc(100% - 100px)"
+								actions
+									? "calc(100% - 115px)"
 									: "calc(100% - 50px)"
 							}`,
 						}}
 					>
-						{props.data.header.map((item, index) => (
+						{headers.map((item, index) => (
 							<div
 								className={styles.col}
 								key={index}
 								style={{
-									flex: `1 1 ${props.data.colWidthPercent[index]}`,
+									flex: `1 1 ${colWidthPercent[index]}`,
 									textAlign: `${
-										props.data.centered[index]
-											? "center"
-											: "start"
+										centered[index] ? "center" : "start"
 									}`,
 								}}
 							>
@@ -78,9 +140,7 @@ function Table({ ...props }) {
 							</div>
 						))}
 					</div>
-					{props.data.actions && (
-						<div className={styles.col}>Actions</div>
-					)}
+					{actions && <div className={styles.col} style={{textAlign: "center"}}>Actions</div>}
 				</div>
 				<div className={styles.rows}>
 					{items.map((i, x) => (
@@ -92,8 +152,8 @@ function Table({ ...props }) {
 								className={styles.data}
 								style={{
 									width: `${
-										props.data.actions
-											? "calc(100% - 100px)"
+										actions
+											? "calc(100% - 115px)"
 											: "calc(100% - 50px)"
 									}`,
 								}}
@@ -103,9 +163,9 @@ function Table({ ...props }) {
 										className={styles.value}
 										key={index}
 										style={{
-											flex: `1 1 ${props.data.colWidthPercent[index]}`,
+											flex: `1 1 ${colWidthPercent[index]}`,
 											justifyContent: `${
-												props.data.centered[index]
+												centered[index]
 													? "center"
 													: "flex-start"
 											}`,
@@ -145,23 +205,25 @@ function Table({ ...props }) {
 												}`,
 											}}
 										>
-											{item.split(":")[0]}
+											{item.toString().split(":")[0]}
 										</div>
 									</div>
 								))}
 							</div>
-							{props.data.actions && (
+							{actions && (
 								<div className={styles.actions}>
-									{props.data.actions.map((item, y) => (
-										<div
-											key={y}
-											className={styles.action}
-											onClick={() =>
-												item.callback(items[x][0])
-											}
-										>
-											<Icon name={item.icon} />
-										</div>
+									{actions.map((item, y) => (
+										<Tippy key={y} content={item.tooltip} delay={[500, 0]} duration={[100, 100]} animation="scale" inertia="true">
+											<div
+												key={y}
+												className={styles.action}
+												onClick={() =>
+													item.callback(items[x][0])
+												}
+											>
+												<Icon name={item.icon} />
+											</div>
+										</Tippy>
 									))}
 								</div>
 							)}

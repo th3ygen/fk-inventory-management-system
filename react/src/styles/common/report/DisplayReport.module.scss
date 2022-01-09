@@ -4,6 +4,16 @@
 
     flex-wrap: wrap;
 
+    .stats {
+        width: 100%;
+
+        display: flex;
+        justify-content: flex-start;
+        gap: 50px;
+
+        padding: 20px 0;
+    }
+
     .itemsSoldTable {
         flex: 1 1 60%;
     }

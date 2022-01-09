@@ -2,9 +2,6 @@ import styles from 'styles/admin/account/UpdateAccount.module.scss';
 
 import { FaRegSave, FaArrowLeft } from 'react-icons/fa';
 
-// components
-import Table from "components/Table.component";
-
 function UpdateAccount() {
     return (
         <div>
@@ -17,13 +14,13 @@ function UpdateAccount() {
                         <div className={styles.box}>
                             <label>
                                 Name
-                                <input type="text" className={styles.inputArea} name="name" placeholder="Farikha Dwi"/>
+                                <input type="text" className={styles.inputData} name="name" placeholder="Farikha Dwi"/>
                             </label>
                         </div>
                         <div className={styles.box}>
                             <label>
                                 Username
-                                <input type="text" className={styles.inputArea} name="username" placeholder="Enter Username"/>
+                                <input type="text" className={styles.inputData} name="username" placeholder="Enter Username"/>
                             </label>
                         </div>
                     </div>
@@ -32,13 +29,13 @@ function UpdateAccount() {
                         <div className={styles.box}>
                             <label>
                                 Email
-                                <input type="text" className={styles.inputArea} name="email" placeholder="farikhadwi@gmail.com"/>
+                                <input type="text" className={styles.inputData} name="email" placeholder="farikhadwi@gmail.com"/>
                             </label>
                         </div>
                         <div className={styles.box}>
                             <label>
                                 Password
-                                <input type="text" className={styles.inputArea} name="password" placeholder="Enter Password"/>
+                                <input type="text" className={styles.inputData} name="password" placeholder="Enter Password"/>
                             </label>
                         </div>
                     </div>
@@ -47,7 +44,7 @@ function UpdateAccount() {
                         <div className={styles.box}>
                             <label>
                                 Contact
-                                <input type="text" className={styles.inputArea} name="contact" placeholder="0895322807641"/>
+                                <input type="text" className={styles.inputData} name="contact" placeholder="0895322807641"/>
                             </label>
                         </div>
                         <div className={styles.box}>
@@ -63,20 +60,19 @@ function UpdateAccount() {
                 <label>
 					Address
                     <textarea type="text-area" name="address" className={styles.inputTextArea} id="address" rows={5} placeholder="Enter Address"></textarea>
-					{/* <input type="text" className={styles.inputArea} name="address" placeholder="Enter Address"/> */}
 				</label>
 
                     <div className={styles.wrapper}>
                         <div className={styles.box}>
                             <label>
                                 Created At
-                                <input type="text" className={styles.inputArea} name="createdAt" disabled />
+                                <input type="text" className={styles.inputData} name="createdAt" disabled />
                             </label>
                         </div>
                         <div className={styles.box}>
                             <label>
                                 Updated At
-                                <input type="text" className={styles.inputArea} name="updatedAt" disabled/>
+                                <input type="text" className={styles.inputData} name="updatedAt" disabled/>
                             </label>
                         </div>
                     </div>

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Table from "components/Table.component";
 import TopList from "components/TopList.component";
 import DateAxisLineChart from "components/DateAxisLineChart.component";
+import NumberWidget from "components/NumberWidget.component";
 
 import styles from "styles/common/report/DisplayReport.module.scss";
 
@@ -14,13 +15,13 @@ function DisplayReport() {
 			[1337, "Pencil", "Item 2", "Active:#71e071", "Item 4"],
 			[12, "Item 1", "Item 2", "Disabled:#ff7171", "Item 4"],
 			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Item 2", "Item 3", "Far"],
 			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
 			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
 			[14, "Test", "Item 2", "Item 3:#F1e071", "Item 4"],
 			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
 			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
+			[12, "Item 1", "Dil", "Item 3", "Item 4"],
 			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
 			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
 			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
@@ -45,8 +46,60 @@ function DisplayReport() {
 		],
 		colWidthPercent: ["30%", "10%", "10%", "10%"],
 		centered: [false, true, true, true],
-		
+		actions: [
+			{
+				icon: "FaEdit",
+				tooltip: "Edit",
+				callback: (n) => {
+					console.log("editing", n);
+				},
+			},
+			{
+				icon: "FaCog",
+				tooltip: "Whot?!",
+				callback: (n) => {
+					console.log("editing", n);
+				},
+			},
+			{
+				icon: "FaCoins",
+				tooltip: "Boooo!",
+				callback: (n) => {
+					console.log("editing", n);
+				},
+			},
+			{
+				icon: "FaTrashAlt",
+				tooltip: "Delete",
+				callback: (n) => {
+					console.log("deleting", n);
+				},
+			},
+		],
 	};
+
+	const stats = [
+		{
+			title: "Total Accounts",
+			value: "12,000",
+			label: "Orders",
+		},
+		{
+			title: "Total Managers",
+			value: "12,000",
+			label: "Managers",
+		},
+		{
+			title: "Total Staffs",
+			value: "12,000",
+			label: "Staffs",
+		},
+		{
+			title: "Total Staffs",
+			value: "12,000",
+			label: "Staffs",
+		},
+	];
 
 	const topSold = [
 		{
@@ -138,7 +191,7 @@ function DisplayReport() {
 		});
 
 		setProfit(newData);
-		console.log('click');
+		console.log("click");
 
 		setCount(count + 1);
 	};
@@ -150,11 +203,25 @@ function DisplayReport() {
 
 	return (
 		<div className={styles.container}>
-			{/* 
-				TODO folder design 
-			*/}
+			<div className={styles.stats}>
+				{stats.map((stat, i) => (
+					<NumberWidget
+						title={stat.title}
+						value={stat.value}
+						label={stat.label}
+						style={{fontSize: "18px"}}
+					/>
+				))}
+			</div>
 			<div className={styles.itemsSoldTable}>
-				<Table title="Items sold" data={itemsData} />
+				<Table
+					title="Items sold"
+					headers={itemsData.headers}
+					items={itemsData.items}
+					centered={itemsData.centered}
+					colWidthPercent={itemsData.colWidthPercent}
+					actions={itemsData.actions}
+				/>
 			</div>
 			<div className={styles.topSoldList}>
 				<TopList title="Hot items" data={topSold} />
