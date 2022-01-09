@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import styles from 'styles/admin/account/AddAccount.module.scss';
-import { useLocation } from "react-router-dom";
 
 import { FaRegSave, FaUndoAlt} from 'react-icons/fa';
 
@@ -87,8 +86,8 @@ function AddAccount() {
                         <div className={styles.box}>
                         <label for="role">Role</label>
                         <select id="role" name="role" ref={roleInput}>
-                            <option value="manager">Manager</option>
-                            <option value="staff">Staff</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Staff">Staff</option>
                             <option value="Admin">Admin</option>
                         </select>
                         </div>

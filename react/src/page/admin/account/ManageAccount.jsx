@@ -21,35 +21,6 @@ function ManageAccount() {
 		items: [
 			["1234", "Item 1", "Item 2", "Active", "Item 4"],
 			["1234", "Farikha Dwi Nur Qossina Januar", "Manager", "farikha_dwi", "qossina321"],
-			["1234", "Item 1", "Admin", "rikha300101", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Test", "Staff", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
-			["1234", "Item 1", "Item 2", "Item 3", "Item 4"],
 		],
 		colWidthPercent: ["20%", "20%", "20%", "20%"],
 		isBadge: [false, false, false, false],
@@ -137,9 +108,9 @@ function ManageAccount() {
 
 	return (
 		<div className={styles.header}>
-			<h2 className={styles.header2}>Account Data</h2>
+			<h2 className={styles.header2}>Manage Account</h2>
 			<div className={styles.title}>
-				<h5 className={styles.header5}>Here's the list of all the accounts.</h5>
+				<h5 className={styles.header5}>Easily manage the accounts details in one page</h5>
 				<div className={styles.stats}>
 					<NumberWidget
 						title="Total Accounts"
@@ -172,7 +143,7 @@ function ManageAccount() {
 			</div>
 			<div className={styles.container}>
 				<div className={styles.accountTable}>
-					<Table
+					<Table filterCol={[1, 2, 3]}
 						title="Accounts"
 						headers={accountData.header}
 						items={accounts}

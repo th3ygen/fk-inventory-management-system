@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import styles from 'styles/admin/account/UpdateAccount.module.scss';
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { FaRegSave, FaUndoAlt } from 'react-icons/fa';
 
@@ -49,12 +49,18 @@ function UpdateAccount() {
 
         if (request.status === 200) {
             const response = await request.json()
+            //const reformattedCreatedAt = Date.parse(response.createdAt/1000);
+            //const reformattedUpdatedAt = Date.parse(response.updatedAt);
+            //const currentDate = new Date(response.updatedAt);
+            //const currentTimestamp = currentDate.toLocaleString();
+
             nameInput.current.value = response.name
             emailInput.current.value = response.email
-            roleInput.current.selectedIndex = ["manager", "staff", "Admin"].indexOf(response.role)
+            roleInput.current.selectedIndex = ["Manager", "Staff", "Admin"].indexOf(response.role)
             contactInput.current.value = response.contact
             addressInput.current.value = response.address
             usernameInput.current.value = response.username
+            passwordInput.current.value = response.password
             createdAtInput.current.value = response.createdAt
             updatedAtInput.current.value = response.updatedAt
             console.log(response);
@@ -117,8 +123,8 @@ function UpdateAccount() {
                             <div className={styles.box}>
                                 <label for="role">Role</label>
                                 <select id="role" name="role" ref={roleInput}>
-                                    <option value="manager">Manager</option>
-                                    <option value="staff">Staff</option>
+                                    <option value="Manager">Manager</option>
+                                    <option value="Staff">Staff</option>
                                     <option value="Admin">Admin</option>
                                 </select>
                             </div>
