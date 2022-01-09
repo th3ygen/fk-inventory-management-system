@@ -59,11 +59,11 @@ function AddOrder() {
                     </div>
                     <div className={styles.orderInput}>
                         <label className={styles.formLabel} for="unitPrice">Unit Price </label>
-                        <input className={styles.formInput} type="number" />
+                        <input className={styles.formInput} type="number" id="unitPrice" />
                     </div>
                     <div className={styles.orderInput}>
                         <label className={styles.formLabel} for="quantity">Quantity </label>
-                        <input className={styles.formInput} type="number" />
+                        <input className={styles.formInput} type="number" id="quantity" />
                     </div>
                     <div className={styles.itemButton}>
                         <div className={styles.button}><FaReply/> Update List </div>
