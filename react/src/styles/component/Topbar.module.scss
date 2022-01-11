@@ -20,6 +20,41 @@
 
     background: #2961E2;
 
+    .back {
+        display: flex;
+        gap: 10px;
+
+        align-items: center;
+        justify-content: center;
+
+        color: white;
+
+        padding: 5px 20px;
+
+        cursor: pointer;
+        user-select: none;
+
+        // loop animation for icon on hover
+        // animation:
+        // move left to right
+        &:hover {
+            animation: loop 1s infinite;
+
+            @keyframes loop {
+                0% {
+                    transform: translateX(0);
+                }
+                50% {
+                    transform: translateX(10px);
+                }
+                100% {
+                    transform: translateX(0);
+                }
+            }
+        }
+
+    }
+
     .head {
         padding: 0 30px;
 
@@ -30,11 +65,12 @@
         .title {
             text-transform: capitalize;
             color: white;
+            font-weight: bold;
         }
     }
 
     .user-action {
-        padding: 0 30px;
+        padding: 0 20px;
 
         display: flex;
         align-items: center;
@@ -43,9 +79,19 @@
         color: white;
 
         .logout {
-            padding: 10px;
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: .9rem;
+            padding: 5px 10px;
             
-            color: white;
+            color: #2961E2;
+            background: white;
+
+            border-radius: 5px;
 
             &:hover {
                 cursor: pointer;
