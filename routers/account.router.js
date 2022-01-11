@@ -8,6 +8,6 @@ router.get('/get', controller.getAccounts);
 router.get('/find/:account_ID', controller.getAccount);
 router.post('/add', controller.addAccount);
 router.post('/update', controller.updateAccount);
-router.get('/delete', controller.deleteAccount);
+router.get('/delete/:id', controller.deleteAccount);
 
 module.exports = router;

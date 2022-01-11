@@ -76,9 +76,9 @@ module.exports = {
     // GET
     deleteAccount: async function(req, res) {
         try {
-            const { account_ID } = req.params;
+            const { id } = req.params;
 
-            await Account.deleteAccount(account_ID);
+            await Account.deleteAccount(id);
 
             res.status(200).json({
                 message: 'Account deleted'

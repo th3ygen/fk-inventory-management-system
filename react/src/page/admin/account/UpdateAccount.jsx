@@ -109,7 +109,7 @@ function UpdateAccount() {
                             <div className={styles.box}>
                                 <label>
                                     Password
-                                    <input type="text" ref={passwordInput} className={styles.inputData} name="password" placeholder="Enter Password" />
+                                    <input type="text" ref={passwordInput} className={styles.inputData} name="password" placeholder="Enter Password" disabled/>
                                 </label>
                             </div>
                         </div>

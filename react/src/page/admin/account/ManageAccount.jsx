@@ -41,8 +41,21 @@ function ManageAccount() {
 			{
 				icon: "FaTrashAlt",
 				tooltip: "Delete Account",
-				callback: (n) => {
-					console.log('deleting', n);
+				callback: async (n) => {
+					const request = await fetch("http://localhost:8080/api/accounts/delete/" + n, {
+						method: "GET",
+						headers: {
+							"Content-Type": "application/json"
+						}
+					})
+					if (request.status === 200) {
+						let list = accounts.filter(f => f[0] !== n)
+						setAccounts(list)
+						setTotalAccounts(list.length)
+						setTotalManagers(list.filter(i => (i[2] === "Manager")).length)
+						setTotalStaffs(list.filter(i => (i[2] === "Staff")).length)
+						setTotalAdmins(list.filter(i => (i[2] === "Admin")).length)
+					}
 				},
 			},
 		]
@@ -94,9 +107,9 @@ function ManageAccount() {
 					]);
 				});
 				setTotalAccounts(list.length)
-				setTotalManagers(list.length)
-				setTotalStaffs(list.length)
-				setTotalAdmins(list.length)
+				setTotalManagers(list.filter(i => (i[2] === "Manager")).length)
+				setTotalStaffs(list.filter(i => (i[2] === "Staff")).length)
+				setTotalAdmins(list.filter(i => (i[2] === "Admin")).length)
 
 				setAccounts(list);
 			} else {
