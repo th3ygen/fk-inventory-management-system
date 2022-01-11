@@ -8,6 +8,11 @@ import AdminLayout from "layouts/Admin.layout";
 // pages
 import TestPage from "page/Test";
 
+// Vendor page
+import ManageVendor from "page/common/vendor/ManageVendor";
+import RegisterVendor from "page/common/vendor/RegisterVendor";
+import EditVendor from "page/common/vendor/EditVendor";
+
 function Home() {
 	return (
 		<header className="App-header">
@@ -33,6 +38,9 @@ function App() {
 			<Routes>
 				<Route path="/user" element={<UserLayout />}>
 					<Route index element={<Home />} />
+					<Route path="vendors" element={<ManageVendor/>} />
+					<Route path="/user/vendors/add" element={<RegisterVendor />}/>
+					<Route path="/user/vendors/edit" element={<EditVendor />}/>
 					<Route path="tests" element={<TestPage />} />
 				</Route>
 				<Route path="/admin" element={<AdminLayout />}>
