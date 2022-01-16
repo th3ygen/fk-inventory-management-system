@@ -38,7 +38,7 @@ function App() {
 			<Routes>
 				<Route path="/user" element={<UserLayout />}>
 					<Route index element={<Home />} />
-					<Route path="vendors" element={<ManageVendor/>} />
+					<Route path="vendors" element={<ManageVendor />} />
 					<Route path="/user/vendors/add" element={<RegisterVendor />}/>
 					<Route path="/user/vendors/edit" element={<EditVendor />}/>
 					<Route path="tests" element={<TestPage />} />
