@@ -50,15 +50,25 @@ function ManageOrder() {
 			{
 				icon: "FaEdit",
 				callback: (n) => {
-					console.log('editing', n);
+					navigate("/user/order/update");
 				},
+				tooltip: "Edit",
 			},
 			{
 				icon: "FaTrashAlt",
 				callback: (n) => {
 					console.log('deleting', n);
 				},
+				tooltip: "Delete",
 			},
+			{
+				icon: "FaCheckSquare",
+				callback: (n) => {
+					navigate("/user/order/approve");
+				},
+				tooltip: "Approve",
+			},
+
 		]
 	};
 
@@ -95,11 +105,6 @@ function ManageOrder() {
                         icon: "FaReply",
                         name: "Issue New Order",
                         path: "/user/order/add",
-                    },
-                    {
-                        icon: "FaCheckSquare",
-                        name: "Approve Order",
-                        path: "/user/order/approve",
                     },
                     
                 ]}

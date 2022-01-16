@@ -63,12 +63,14 @@ function App() {
 					<Route path="/user/inventory/sell" element={<InventoryAddSoldPage />} />
 
 					<Route path="orders" element={<ManageOrderPage />} />
-					<Route path="report" element={<DisplayReportPage />} />
-					<Route path="accounts" element={<ManageAccountPage />} />
-
 					<Route path="/user/order/approve" element={<ApproveOrderPage />} />
 					<Route path="/user/order/add" element={<AddOrderPage />} />
 					<Route path="/user/order/update" element={<UpdateOrderPage />} />
+					
+					<Route path="report" element={<DisplayReportPage />} />
+					<Route path="accounts" element={<ManageAccountPage />} />
+
+					
 
 					<Route path="tests" element={<TestPage />} />
 				</Route>
