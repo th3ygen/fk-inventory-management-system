@@ -9,41 +9,15 @@ import NumberWidget from "components/NumberWidget.component";
 import styles from "styles/common/report/DisplayReport.module.scss";
 
 function DisplayReport() {
+	const [items, setItems] = useState([]);
+	const [mostSoldItem, setMostSoldItem] = useState({});
+	const [leastSoldItem, setLeastSoldItem] = useState({});
+	const [avrSales, setAvrSales] = useState(0);
+	const [totalSoldItems, setTotalSoldItems] = useState(0);
+	const [totalSales, setTotalSales] = useState(0);
+
 	const itemsData = {
-		header: ["Header 1", "Header 2", "Header 3", "Header 4"],
-		items: [
-			[1337, "Pencil", "Item 2", "Active:#71e071", "Item 4"],
-			[12, "Item 1", "Item 2", "Disabled:#ff7171", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Far"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[14, "Test", "Item 2", "Item 3:#F1e071", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Dil", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-			[12, "Item 1", "Item 2", "Item 3", "Item 4"],
-		],
+		headers: ["Items Name", "Vendor name", "Total sales", "Total income"],
 		colWidthPercent: ["30%", "10%", "10%", "10%"],
 		centered: [false, true, true, true],
 		actions: [
@@ -196,6 +170,93 @@ function DisplayReport() {
 		setCount(count + 1);
 	};
 
+	useEffect(() => {
+		(async () => {
+			const request = await fetch(
+				"http://localhost:8080/api/inventory/sold/list"
+			);
+
+			if (request.status === 200) {
+				const data = await request.json();
+
+				let rows = [];
+				let tSales = 0;
+				let tItems = 0;
+
+				/* 
+					{
+						"_id": "61d9251b046fe704e0ff65be",
+						"item_ID": "61d7f6512f46700ce02e565d",
+						"quantity": 2,
+						"total": 26,
+						"item": {
+							"_id": "61d7f6512f46700ce02e565d",
+							"vendor_ID": "61d7ea0bc1e4b29d22a55723",
+							"name": "Fried water",
+							"unit_price": 13,
+							"barcode_ID": "12345678",
+							"barcode_encoding": "code-39"
+						},
+						"vendor": {
+							"_id": "61d7ea0bc1e4b29d22a55723",
+							"company_name": "UMP 5 star"
+						}
+					},
+				*/
+
+				let sold = {};
+
+				data.forEach((item) => {
+					tSales += item.total;
+					tItems += item.quantity;
+
+					// check if item exists
+					if (item.item) {
+						// check if the item name exists in the mSold
+						if (sold[item.item.name]) {
+							// if it exists, add the quantity
+							sold[item.item.name] += item.quantity;
+						} else {
+							sold[item.item.name] = item.quantity;
+						}
+
+					}
+
+					rows.push([
+						item._id,
+						(item.item && item.item.name) || "DELETED:#888",
+						(item.vendor && item.vendor.company_name) ||
+							"DELETED:#888",
+						item.quantity,
+						item.total.toFixed(2)
+					]);
+				});
+
+				let mSold = {};
+				let lSold = {};
+				for (let [key, value] of Object.entries(sold)) {
+					if (!mSold.name || value > mSold.value) {
+						mSold.name = key;
+						mSold.value = value;
+					}
+
+					if (!lSold.name || value < lSold.value) {
+						lSold.name = key;
+						lSold.value = value;
+					}
+				}
+
+				setMostSoldItem(mSold);
+				setLeastSoldItem(lSold);
+
+				setTotalSales(tSales.toFixed(2));
+				setAvrSales((tSales / tItems).toFixed(2));
+				setTotalSoldItems(tItems);
+				setItems(rows);
+			}
+		})();
+	}, []);
+
 	// sort the topSold array by quantity
 	topSold.sort((a, b) => {
 		return a.quantity - b.quantity;
@@ -204,20 +265,42 @@ function DisplayReport() {
 	return (
 		<div className={styles.container}>
 			<div className={styles.stats}>
-				{stats.map((stat, i) => (
-					<NumberWidget
-						title={stat.title}
-						value={stat.value}
-						label={stat.label}
-						style={{fontSize: "18px"}}
-					/>
-				))}
+				<NumberWidget
+					title="Total sold"
+					value={totalSoldItems}
+					label="Items"
+					style={{ fontSize: "18px" }}
+				/>
+				<NumberWidget
+					title="Total sales"
+					value={totalSales}
+					label="RM"
+					style={{ fontSize: "18px" }}
+				/>
+				<NumberWidget
+					title="Average sales"
+					value={avrSales}
+					label="RM"
+					style={{ fontSize: "18px" }}
+				/>
+				<NumberWidget
+					title="Most sold"
+					value={mostSoldItem.name}
+					label="Item"
+					style={{ fontSize: "14px" }}
+				/>
+				<NumberWidget
+					title="Least sold"
+					value={leastSoldItem.name}
+					label="Item"
+					style={{ fontSize: "14px" }}
+				/>
 			</div>
 			<div className={styles.itemsSoldTable}>
 				<Table
 					title="Items sold"
 					headers={itemsData.headers}
-					items={itemsData.items}
+					items={items}
 					centered={itemsData.centered}
 					colWidthPercent={itemsData.colWidthPercent}
 					actions={itemsData.actions}

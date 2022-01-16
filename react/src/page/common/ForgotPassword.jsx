@@ -4,7 +4,10 @@ function ForgotPassword() {
 		<div className={styles.container}>
 			<div className={styles.whitecontainer}>
 				<div className={styles.title}>
-					<div> Enter New Password</div>
+					Forgot Password
+				</div>
+				<div className={styles.description}> 
+				Please enter a new password that is not used on other sites.
 				</div>
 
 				<form className={styles.formPassword}>

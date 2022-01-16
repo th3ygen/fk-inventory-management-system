@@ -17,6 +17,8 @@ import InventoryAddSoldPage from 'page/common/inventory/AddSold';
 // Report page
 import DisplayReportPage from 'page/common/report/DisplayReport';
 import ForgotPasswordPage from 'page/common/ForgotPassword';
+//UpdatePW
+import UpdatePasswordPage from 'page/common/UpdatePassword';
 
 // Account page
 import ManageAccountPage from 'page/admin/account/ManageAccount';
@@ -70,12 +72,17 @@ function App() {
 					<Route path="report" element={<DisplayReportPage />} />
 					<Route path="accounts" element={<ManageAccountPage />} />
 
-					
+					<Route path="approve" element={<ApproveOrderPage />} />
+					<Route path="add" element={<AddOrderPage />} />
+					<Route path="update" element={<UpdateOrderPage />} />
+					<Route path="UpdatePassword" element={<UpdatePasswordPage />} />
+
 
 					<Route path="tests" element={<TestPage />} />
 				</Route>
 				<Route path="/admin" element={<AdminLayout />}>
 					<Route index element={<Home />} />
+					<Route path="UpdatePassword" element={<UpdatePasswordPage />} />
 					<Route path="accounts" element={<ManageAccountPage />} />
 					<Route path="/admin/accounts/add_account" element={<AddAccountPage />} />
 					<Route path="/admin/accounts/update_account" element={<UpdateAccountPage />} />
