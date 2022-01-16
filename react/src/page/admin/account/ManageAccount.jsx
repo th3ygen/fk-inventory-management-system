@@ -61,29 +61,6 @@ function ManageAccount() {
 		]
 	};
 
-	const stats = [
-		{
-			title: "Total Accounts",
-			value: "31",
-			label: "Accounts",
-		},
-		{
-			title: "Total Managers",
-			value: "10",
-			label: "Managers",
-		},
-		{
-			title: "Total Staffs",
-			value: "20",
-			label: "Staffs",
-		},
-		{
-			title: "Total Admins",
-			value: "1",
-			label: "Admins",
-		},
-	];
-
 	useEffect(() => {
 		(async () => {
 			const request = await fetch("http://localhost:8080/api/accounts/get", {
