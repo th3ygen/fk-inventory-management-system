@@ -15,6 +15,7 @@ function UpdateOrder() {
 
 	const [vendors, setVendors] = useState([]);
 	const [vendor, setVendor] = useState({});
+    const [grandTotal, setGrandTotal] = useState(0);
 
 	const nameInput = useRef("");
 	const unitPriceInput = useRef(0);
@@ -24,7 +25,7 @@ function UpdateOrder() {
 
     const itemList = {
 		header: ["Item", "Quantity", "Unit Price", "Sub Price"],
-		colWidthPercent: ["30%", "20%", "10%", "10%"],
+		colWidthPercent: ["30%", "15%", "15%", "15%"],
 		centered: [false, true, true, true],
 		actions: [
 			{
@@ -65,6 +66,21 @@ function UpdateOrder() {
 		setVendor(vendor);
 	};
 
+    const genRandomHash = (len) => {
+		// generate random 8byte hash
+		let text = "";
+
+		const possible =
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+		for (let i = 0; i < len; i++)
+			text += possible.charAt(
+				Math.floor(Math.random() * possible.length)
+			);
+
+		return text;
+	};
+
 	const loadData = async () => {
 		let request = await fetch(
 			"http://localhost:8080/api/vendors/list",
@@ -90,6 +106,18 @@ function UpdateOrder() {
 				vendorIdInput.current.selectedIndex = v.findIndex(i => i._id === item.vendor_ID);
                 
 				selectVendor(v.find(i => i._id === item.vendor_ID));
+
+                setItems(item.items.map(i => [
+                    genRandomHash(8),
+                    i.name,
+                    i.quantity,
+                    i.unit_price,
+                    i.quantity * i.unit_price
+                ]));
+
+                const total = item.items.reduce((acc, i) => acc + i.quantity * i.unit_price, 0);
+
+                setGrandTotal(total);
 			}
 		}
 	}
@@ -180,7 +208,7 @@ function UpdateOrder() {
                         <div className={styles.sumContent}>
                             <div className={styles.contSum}>
                                 <label className={styles.formLabel} for="grandTotal">Grand Total: </label>
-                                <label className={styles.formLabel} for="gTotal">RM 0.00 </label>
+                                <label className={styles.formLabel} for="gTotal">RM {grandTotal.toFixed(2)} </label>
                             </div>
                             <div className={styles.contSum}>
                                 <label className={styles.formLabel} for="vendorSummary">Vendor: </label>
