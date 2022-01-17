@@ -15,6 +15,7 @@ function DisplayReport() {
 	const [avrSales, setAvrSales] = useState(0);
 	const [totalSoldItems, setTotalSoldItems] = useState(0);
 	const [totalSales, setTotalSales] = useState(0);
+	const [topItems, setTopItems] = useState([]);
 
 	const itemsData = {
 		headers: ["Items Name", "Vendor name", "Total sales", "Total income"],
@@ -227,6 +228,14 @@ function DisplayReport() {
 				setTotalSoldItems(tItems);
 				setItems(rows);
 			}
+			const mostSold = await fetch(
+				"http://localhost:8080/api/report/getMostSold"
+			);
+			if (mostSold.status===200){
+				const list = await mostSold.json()
+				setTopItems (list)
+			}
+
 		})();
 	}, []);
 
@@ -280,7 +289,7 @@ function DisplayReport() {
 				/>
 			</div>
 			<div className={styles.topSoldList}>
-				<TopList title="Hot items" data={topSold} />
+				<TopList title="Hot items" data={topItems} />
 			</div>
 			<div className={styles.profitTrend} onClick={testClick}>
 				<DateAxisLineChart
