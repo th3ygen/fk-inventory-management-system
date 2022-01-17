@@ -63,7 +63,8 @@ function ManageOrder() {
 		);
 
 		if (request.status === 200) {
-			setItems(items.filter((i) => i._id !== id));
+			setItems(items.filter((i) => i[0] !== id));
+			setTotalOrders(totalOrders - 1);
 		} else {
 			console.log(id, request);
 			alert("Error deleting item");
