@@ -9,6 +9,10 @@ import Table from "components/Table.component";
 
 function AddOrder() {
 	const [items, setItems] = useState([]);
+	const [vendors, setVendors] = useState([]);
+	const [vendor, setVendor] = useState({});
+	const [vendorPIC, setVendorPIC] = useState("");
+
 	const [vendorName, setVendorName] = useState("Please select a vendor");
 	const vendorRef = useRef();
 	const orderRemarks = useRef("");
@@ -81,13 +85,9 @@ function AddOrder() {
         setGrandTotal(grandTotal - item[4]);
     };
 
-	const vendorSelect = () => {
-		setVendorName(vendorRef.current.value);
-	};
-
 	const addOrder = async () => {
 		let order = {
-			vendor_ID : "61d7e9601481131149c1b34b",
+			vendor_ID : vendorRef.current.value,
 			comment: orderRemarks.current.value,
 			orderItems: items.map(item => {
 				return {
@@ -114,6 +114,59 @@ function AddOrder() {
 		}
 	};
 
+	const selectVendor = (e) => {
+		// find vendor by id
+
+		let vendor;
+		if (e.target) {
+			vendor = Object.assign(
+				{},
+				vendors.find((v) => v._id === e.target.value)
+			);
+		} else {
+			vendor = Object.assign({}, e);
+		}
+
+		delete vendor._id;
+		delete vendor.__v;
+
+		setVendorName(vendor.brand);
+		setVendorPIC(vendor.pic_name);
+		setVendor(vendor);
+		// replace key names
+		// replace underscore with space
+		// capitalize first letter
+		Object.keys(vendor).forEach((key) => {
+			vendor[
+				key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())
+			] = vendor[key];
+			delete vendor[key];
+		});
+
+	};
+
+	useEffect(() => {
+		(async () => {
+			let request = await fetch(
+				"http://localhost:8080/api/vendors/list",
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+
+			const v = await request.json();
+			selectVendor(v[0]);
+
+			setVendors(v);
+			setVendorName(v[0].brand);
+			setVendorPIC(v[0].pic_name);
+
+		})();
+	}, []);
+
 	return (
 		<div className={styles.content}>
 			<div className={styles.order}>
@@ -125,14 +178,15 @@ function AddOrder() {
 						</label>
 						<select
 							className={styles.formSelect}
-							id="vendor"
-							name="vendor"
 							ref={vendorRef}
-							onChange={vendorSelect}
+							onChange={selectVendor}
+
 						>
-							<option>K2 SDN BHD</option>
-							<option>RO SDN BHD</option>
-							<option>LA INDUSTRY</option>
+							{vendors.map((v, i) => (
+								<option key={v._id} value={v._id}>
+									{v.company_name || `Vendor ${i + 1}`}
+								</option>
+							))}
 						</select>
 					</div>
 					<div className={styles.orderInput}>
@@ -210,9 +264,9 @@ function AddOrder() {
 								className={styles.formLabel}
 								for="grandTotal"
 							>
-								Grand Total
+								Grand Total 
 							</label>
-							<label className={styles.formLabel} for="gTotal">
+							<label className={styles.vendor} for="gTotal">
 								: RM{grandTotal.toFixed(2)}
 							</label>
 						</div>
@@ -221,11 +275,16 @@ function AddOrder() {
 								className={styles.formLabel}
 								for="vendorSummary"
 							>
-								Vendor
+								Vendor:
 							</label>
-							<p className={styles.formLabel} for="vendorS">
-								: {vendorName}{" "}
-							</p>
+							<div className={styles.vendorDetails} for="vendorS">
+								<div className={styles.vendor}>
+									: {vendorName}
+								</div>
+								<div className={styles.vendor}>
+									: {vendorPIC}
+								</div>
+							</div>
 						</div>
 						<div className={styles.butOrder}>
 							<div className={styles.button} onClick={() => {
