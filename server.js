@@ -17,10 +17,10 @@ app.use(bodyParse.json());
         console.log('Connected to mongodb');
 
         // load models
-        require('./models/Item');
-        require('./models/Account');
-        require('./models/Order');
-        require('./models/Vendors');
+        await require('./models/Item');
+        await require('./models/Account');
+        await require('./models/Vendors');
+        await require('./models/Order');
 
         console.log('Loaded models');
 

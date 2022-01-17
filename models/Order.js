@@ -9,12 +9,8 @@ const schema = new Schema({
         type: Number,
         required: true
     },
-    issue_date: {
-        type: Number,
-        required: true
-    },
     comment: String,
-    approve_date: Number,
+    approve_date: Date,
     manager_remarks: String,
     status: String,
     items: [Object]
@@ -85,5 +81,5 @@ schema.statics.deleteOrder = function(orderID){
 
 const Order = model('Order', schema);
 
-module.exports = { Order };
+module.exports = Order;
 

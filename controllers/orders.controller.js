@@ -1,10 +1,25 @@
+const mongoose = require('mongoose');
+
 const Order = require('../models/Order');
+const Vendor = require('../models/Vendors');
 
 module.exports = {
     getOrders: async function(req, res){
         try{
-            const orders = await Order.getOrders();
-            res.status(200).json(orders);
+            let orders = await Order.getOrders();
+
+            let result = [];
+
+            for (let x = 0; x < orders.length; x++) {
+                let vendor = await Vendor.findById(orders[x].vendor_ID);
+
+                result.push({
+                    ...orders[x]._doc,
+                    vendor_name: vendor.company_name
+                });;
+            }
+
+            res.status(200).json(result);
 
         }catch(e){
             console.log('[ERROR] ${e}');
@@ -36,7 +51,7 @@ module.exports = {
             const order = await Order.addOrder(vendor_ID, comment, orderItems);
 
             if(order){
-                res.status(200).json(orders);
+                res.status(200).json(order);
             }
             else{
                 res.status(404).json({
@@ -44,7 +59,7 @@ module.exports = {
                 });
             }        
         }catch(e){
-            console.log('[ERROR] ${e}');
+            console.log(`[ERROR] ${e.message}`);
             res.status(500).json({
                 error: e
             });

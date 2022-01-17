@@ -17,7 +17,7 @@ function ManageOrder() {
 	const [totalOrders, setTotalOrders] = useState(0);
 
     const orderData = {
-		header: ["Vendor", "Order Status", "issue date", "Last Updated"],
+		header: ["Vendor", "Order Status", "Issue Date", "Approve Date"],
 		colWidthPercent: ["30%", "20%", "10%", "10%"],
 		centered: [false, true, true, true],
 		actions: [
@@ -69,7 +69,7 @@ function ManageOrder() {
 	useEffect(() => {
 		(async () => {
 			let request = await fetch(
-				"http://localhost:8080/api/order/get",
+				"http://localhost:8080/api/orders/get",
 				{
 					method: "GET",
 					headers: {
@@ -83,14 +83,41 @@ function ManageOrder() {
 
 				let rows = [];
 
+				console.log(response);
+
 				response.forEach((item) => {
+
+					// convert createdAt to date string
+					// dd/mm/yyyy
+					let createdAt = new Date(item.createdAt);
+					let createdAtString =
+						createdAt.getDate() +
+						"/" +
+						(createdAt.getMonth() + 1) +
+						"/" +
+						createdAt.getFullYear();
+
+					// convert updatedAt to date string
+					// dd/mm/yyyy
+					let approvedAt = '-';
+
+					if (item.approvedAt) {
+						let updatedAt = new Date(item.updatedAt);
+						let approvedAt =
+							updatedAt.getDate() +
+							"/" +
+							(updatedAt.getMonth() + 1) +
+							"/" +
+							updatedAt.getFullYear();
+					}
+
 
 					rows.push([
 						item._id,
 						item.vendor_name,
-						item.status,
-						item.issue_date,
-						item.approve_date || "DELETED:#4a5355",
+						"Pending:#888",
+						createdAtString,
+						approvedAt,
 					]);
 				});
 
