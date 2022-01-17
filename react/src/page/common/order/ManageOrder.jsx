@@ -87,28 +87,17 @@ function ManageOrder() {
 
 				response.forEach((item) => {
 
-					// convert createdAt to date string
-					// dd/mm/yyyy
-					let createdAt = new Date(item.createdAt);
-					let createdAtString =
-						createdAt.getDate() +
-						"/" +
-						(createdAt.getMonth() + 1) +
-						"/" +
-						createdAt.getFullYear();
+					let date = new Date(item.createdAt);
+
+					const createdAt = `${date.getHours()}.${date.getMinutes()} ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
 
 					// convert updatedAt to date string
 					// dd/mm/yyyy
 					let approvedAt = '-';
 
 					if (item.approvedAt) {
-						let updatedAt = new Date(item.updatedAt);
-						let approvedAt =
-							updatedAt.getDate() +
-							"/" +
-							(updatedAt.getMonth() + 1) +
-							"/" +
-							updatedAt.getFullYear();
+						date = new Date(item.updatedAt);
+						approvedAt = `${date.getHours()}.${date.getMinutes()} ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
 					}
 
 
@@ -116,7 +105,7 @@ function ManageOrder() {
 						item._id,
 						item.vendor_name,
 						"Pending:#888",
-						createdAtString,
+						createdAt,
 						approvedAt,
 					]);
 				});
