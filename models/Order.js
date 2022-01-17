@@ -41,7 +41,8 @@ schema.statics.addOrder = function(vendor_ID, comment, orderItems) {
         vendor_ID,
         comment,
         grand_total,
-        items: orderItems
+        items: orderItems,
+        status: "Pending",
     });
 
     return order.save();
@@ -69,6 +70,7 @@ schema.statics.verifiedOrder = async function(orderID, status, managerRemarks, m
     order.status = status;
     order.manager_remarks =managerRemarks;
     order.manager_ID = managerID;
+    order.status = "Approved";
 
     return order.save();
 }

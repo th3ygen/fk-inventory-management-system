@@ -15,6 +15,7 @@ function ManageOrder() {
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
 	const [totalOrders, setTotalOrders] = useState(0);
+	const [totalApproved, setTotalApproved] = useState(0);
 
     const orderData = {
 		header: ["Vendor", "Order Status", "Issue Date", "Approve Date"],
@@ -83,7 +84,7 @@ function ManageOrder() {
 
 				let rows = [];
 
-				console.log(response);
+				let tApproved = 0;
 
 				response.forEach((item) => {
 
@@ -100,17 +101,26 @@ function ManageOrder() {
 						approvedAt = `${date.getHours()}.${date.getMinutes()} ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
 					}
 
+					let status = 'Pending:#888';
+					if (item.status) {
+						if (item.status === 'Approved') {
+							status = item.status + ':#00c853';
+
+							tApproved++;
+						}
+					}
 
 					rows.push([
 						item._id,
 						item.vendor_name,
-						"Pending:#888",
+						status,
 						createdAt,
 						approvedAt,
 					]);
 				});
 
 				setTotalOrders(rows.length);
+				setTotalApproved(tApproved);
 				setItems(rows);
 			}
 
@@ -144,7 +154,7 @@ function ManageOrder() {
 				<NumberWidget
 					title="Approve Order"
 					label="Approve"
-					value="5"
+					value={totalApproved}
 					style={{fontSize: "24px"}}
 				/>
 				<NumberWidget
