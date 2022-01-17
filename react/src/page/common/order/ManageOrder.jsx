@@ -25,14 +25,17 @@ function ManageOrder() {
 			{
 				icon: "FaEdit",
 				callback: (n) => {
-					navigate("/user/order/update");
+					navigate("/user/order/update", {
+						replace: true,
+						state: { id: n },
+					});
 				},
 				tooltip: "Edit",
 			},
 			{
 				icon: "FaTrashAlt",
 				callback: (n) => {
-					console.log('deleting', n);
+					deleteItem(n);
 				},
 				tooltip: "Delete",
 			},
@@ -50,7 +53,7 @@ function ManageOrder() {
 	const deleteItem = async (id) => {
 		// delete item with id from itemsData.items
 		const request = await fetch(
-			"http://localhost:8080/api/order/delete/" + id,
+			"http://localhost:8080/api/orders/delete/" + id,
 			{
 				method: "DELETE",
 				headers: {

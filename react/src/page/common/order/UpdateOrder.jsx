@@ -2,8 +2,8 @@ import styles from 'styles/common/order/Order.module.scss';
 
 import { FaEdit,FaReply,FaTrashAlt } from 'react-icons/fa';
 
-import { useState, useEffect } from "react";
-
+import { useState, useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 // components
 import Table from "components/Table.component";
 
@@ -11,15 +11,19 @@ function UpdateOrder() {
 
     const [items, setItems] = useState([]);
 
+    const location = useLocation();
+
+	const [vendors, setVendors] = useState([]);
+	const [vendor, setVendor] = useState({});
+
+	const nameInput = useRef("");
+	const unitPriceInput = useRef(0);
+	const qntyInput = useRef(0);
+	const vendorIdInput = useRef("");
+    const orderRemarks = useRef("");
+
     const itemList = {
 		header: ["Item", "Sub Price"],
-		items: [
-			[1,"Item 1", "Item 2"],
-			[2,"Item 1", "Item 2"],
-			[3,"Item 1", "Item 2"],
-            [4,"Item 1", "Item 2"],
-			[5,"Item 1", "Item 2"],
-		],
 		colWidthPercent: ["30%", "20%", "10%", "10%"],
 		centered: [false, true, true, true],
 		actions: [
@@ -32,9 +36,67 @@ function UpdateOrder() {
 		]
 	};
 
+    const selectVendor = (e) => {
+		// find vendor by id
+
+		let vendor;
+		if (e.target) {
+			vendor = Object.assign(
+				{},
+				vendors.find((v) => v._id === e.target.value)
+			);
+		} else {
+			vendor = Object.assign({}, e);
+		}
+
+		delete vendor._id;
+		delete vendor.__v;
+
+		// replace key names
+		// replace underscore with space
+		// capitalize first letter
+		Object.keys(vendor).forEach((key) => {
+			vendor[
+				key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())
+			] = vendor[key];
+			delete vendor[key];
+		});
+
+		setVendor(vendor);
+	};
+
+	const loadData = async () => {
+		let request = await fetch(
+			"http://localhost:8080/api/vendors/list",
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
+
+		const v = await request.json();
+
+		setVendors(v);
+
+		if (location.state.id) {
+			request = await fetch('http://localhost:8080/api/orders/find/' + location.state.id);
+
+			if (request.status === 200) {
+				const item = await request.json();
+
+				orderRemarks.current.value = item.comment;
+				vendorIdInput.current.selectedIndex = v.findIndex(i => i._id === item.vendor_ID);
+
+				selectVendor(v.find(i => i._id === item.vendor_ID));
+			}
+		}
+	}
+
     useEffect(() => {
-		setItems(itemList.items);
-	}, []);
+		loadData();
+    }, []);
 
     return (
         <div className={styles.content}>
@@ -60,15 +122,26 @@ function UpdateOrder() {
                     <div className={styles.orderForm}>
                         <div className={styles.orderInput}>
                             <label className={styles.formLabel} for="vendor">Vendor </label>
-                            <select className={styles.formSelect} id="vendor" name="vendor" value="K2 SDN BHD" disabled>
-                                <option>K2 SDN BHD</option>
-                                <option>RO SDN BHD</option>
-                                <option>LA INDUSTRY</option>
+                            <select 
+                                className={styles.formSelect} 
+							    onChange={selectVendor}
+							    ref={vendorIdInput}
+                                disabled
+                            >
+                                {vendors.map((v, i) => (
+								    <option key={v._id} value={v._id}>
+									    {v.company_name || `Vendor ${i + 1}`}
+								    </option>
+							    ))}
                             </select>
                         </div>
                         <div className={styles.orderInput}>
                             <label className={styles.formLabel} for="remarks">Remarks </label>
-                            <textarea className={styles.remarks} id="remarks"></textarea>
+                            <textarea 
+                                className={styles.remarks}
+                                id="remarks"
+                                ref={orderRemarks}
+                            ></textarea>
                         </div>
                         <div className={styles.orderInput}>
                             <label className={styles.formLabel} for="itemName">Item Name </label>

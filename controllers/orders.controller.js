@@ -105,10 +105,11 @@ module.exports = {
             });
         }
     },
-    deleteOrder: function(req, res){
+    deleteOrder: async function(req, res){
         try{
             const { id } = req.params;
-            const order = Order.deleteOrder(id);
+            const order = await Order.deleteOrder(id);
+
             res.status(200).json({
                 message: 'Order deleted'
             });

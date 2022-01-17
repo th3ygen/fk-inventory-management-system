@@ -48,9 +48,9 @@ schema.statics.addOrder = function(vendor_ID, comment, orderItems) {
     return order.save();
 }
 
-schema.statics.updateOrder = async function (orderId, comment, orderItems) {
+schema.statics.updateOrder = async function (id, comment, orderItems) {
     
-    const order = await this.findById(orderId);
+    const order = await this.findById(id);
     
     let grand_total = 0;
     for (let item of orderItems) {
@@ -63,9 +63,9 @@ schema.statics.updateOrder = async function (orderId, comment, orderItems) {
     return order.save();
 }
 
-schema.statics.verifiedOrder = async function(orderID, status, managerRemarks, managerID){
+schema.statics.verifiedOrder = async function(id, status, managerRemarks, managerID){
 
-    const order = await this.findById(orderID);
+    const order = await this.findById(id);
 
     order.status = status;
     order.manager_remarks =managerRemarks;
@@ -75,9 +75,9 @@ schema.statics.verifiedOrder = async function(orderID, status, managerRemarks, m
     return order.save();
 }
 
-schema.statics.deleteOrder = function(orderID){
+schema.statics.deleteOrder = function(id){
     
-    return this.findById(orderID).remove();
+    return this.findByIdAndDelete(id);
 }
 
 
