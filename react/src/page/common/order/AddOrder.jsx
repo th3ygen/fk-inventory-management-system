@@ -11,6 +11,7 @@ function AddOrder() {
 	const [items, setItems] = useState([]);
 	const [vendorName, setVendorName] = useState("Please select a vendor");
 	const vendorRef = useRef();
+	const orderRemarks = useRef("");
 	const itemName = useRef("");
 	const unitPrice = useRef(0);
 	const quantity = useRef(0);
@@ -84,6 +85,35 @@ function AddOrder() {
 		setVendorName(vendorRef.current.value);
 	};
 
+	const addOrder = async () => {
+		let order = {
+			vendor_ID : "61d7e9601481131149c1b34b",
+			comment: orderRemarks.current.value,
+			orderItems: items.map(item => {
+				return {
+					name: item[1],
+					quantity: item[2],
+					unit_price: item[3],
+				}
+			})
+		}
+
+		const request = await fetch("http://localhost:8080/api/orders/add", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(order),
+		});
+		
+		if (request.status === 200) {
+			alert("Item added successfully");
+		} else {
+			console.log(request);
+			alert("Error adding item");
+		}
+	};
+
 	return (
 		<div className={styles.content}>
 			<div className={styles.order}>
@@ -112,6 +142,7 @@ function AddOrder() {
 						<textarea
 							className={styles.remarks}
 							id="remarks"
+							ref={orderRemarks}
 						></textarea>
 					</div>
 					<div className={styles.orderInput}>
@@ -199,12 +230,13 @@ function AddOrder() {
 						<div className={styles.butOrder}>
 							<div className={styles.button} onClick={() => {
                                 setVendorName("");
+								orderRemarks.current.value = "";
                                 setItems([]);
                                 setGrandTotal(0);
                             }}>
 								<FaEraser /> Reset
 							</div>
-							<div className={styles.button}>
+							<div className={styles.button} onClick={addOrder}>
 								<FaCheckSquare />
 								Submit for Approval
 							</div>
