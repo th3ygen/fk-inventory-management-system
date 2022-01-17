@@ -23,7 +23,7 @@ function UpdateOrder() {
     const orderRemarks = useRef("");
 
     const itemList = {
-		header: ["Item", "Sub Price"],
+		header: ["Item", "Quantity", "Unit Price", "Sub Price"],
 		colWidthPercent: ["30%", "20%", "10%", "10%"],
 		centered: [false, true, true, true],
 		actions: [
