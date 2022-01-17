@@ -13,13 +13,10 @@ function AddOrder() {
     const itemName = useRef("");
 	const unitPrice = useRef(0);
 	const quantity = useRef(0);
+    const [grandTotal, setGrandTotal] = useState(0);
 
     const itemList = {
 		header: ["Item", "Sub Price"],
-        items: [
-			[1,"Item 1", "Item 2"],
-			[2,"Item 1", "Item 2"],
-        ],
 		colWidthPercent: ["30%", "20%", "10%", "10%"],
 		centered: [false, true, true, true],
 		actions: [
@@ -33,19 +30,30 @@ function AddOrder() {
 		]
 	};
 
-    function getItems(){
+    const getItems = () => {
+
+        let gTotal = 0;
+        let rows = [];
 
         let item = {
-            itemName: itemName.value,
-            qty: parseInt(quantity.value),
-            unitPrice: parseInt(unitPrice.value),
+            itemName: itemName.current.value,
+            qty: parseInt(quantity.current.value),
+            unitPrice: parseInt(unitPrice.current.value),
         };
 
         const subPrice = item.unitPrice * item.qty;
 
-        const gTotal =+ subPrice; 
+        gTotal += subPrice;
+
+        rows.push([
+            item.id,
+            item.itemName,
+            subPrice
+        ]);
+
         
-        console.log(item, subPrice, gTotal);
+        setItems(rows);
+        setGrandTotal(gTotal);
     }
 
     return (
@@ -91,7 +99,7 @@ function AddOrder() {
                         />
                     </div>
                     <div className={styles.itemButton}>
-                        <div className={styles.button} onClick={getItems()}><FaReply/> Update List </div>
+                        <div className={styles.button} onClick={getItems}><FaReply/> Update List </div>
                         
                     </div>
                 </div>
@@ -112,14 +120,14 @@ function AddOrder() {
                     <div className={styles.sumContent}>
                         <div className={styles.contSum}>
                             <label className={styles.formLabel} for="grandTotal">Grand Total: </label>
-                            <label className={styles.formLabel} for="gTotal">RM 0.00 </label>
+                            <label className={styles.formLabel} for="gTotal" value={grandTotal}></label>
                         </div>
                         <div className={styles.contSum}>
                             <label className={styles.formLabel} for="vendorSummary">Vendor: </label>
                             <p className={styles.formLabel} for="vendorS">K2 SDN BHD </p>
                         </div>
                         <div className={styles.butOrder}>
-                            <div className={styles.button}><FaEraser/> Reset</div>
+                            <div className={styles.button} ><FaEraser/> Reset</div>
                             <div className={styles.button}><FaCheckSquare/>Submit for Approval</div>
                             <input type="hidden" name="status" id="status" value="Submit for Approval"></input>
                         </div>

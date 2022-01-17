@@ -14,36 +14,10 @@ function ManageOrder() {
 
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
+	const [totalOrders, setTotalOrders] = useState(0);
 
     const orderData = {
-		header: ["Order ID", "Vendor", "Order Status", "Last Updated"],
-		items: [
-			[1,"Item 1", "Item 2", "Active", "Item 4"],
-			[2,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[3,"Item 1", "Item 2", "Item 3", "Item 4"],
-            [4,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[5,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[6,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[7,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[8,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[9,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[10,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[11,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[12,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[13,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[14,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[15,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[16,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[17,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[18,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[19,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[20,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[21,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[22,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[23,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[24,"Item 1", "Item 2", "Item 3", "Item 4"],
-			[25,"Item 1", "Item 2", "Item 3", "Item 4"],
-		],
+		header: ["Vendor", "Order Status", "issue date", "Last Updated"],
 		colWidthPercent: ["30%", "20%", "10%", "10%"],
 		centered: [false, true, true, true],
 		actions: [
@@ -72,27 +46,60 @@ function ManageOrder() {
 		]
 	};
 
-    const orderSummary = [
-        {
-            title: "Total Order",
-            label: "Orders",
-            value: "101",
-        },
-        {
-            title: "Approve Order",
-            label: "Today Approve",
-            value: "5",
-        },
-        {
-            title: "Progress Order",
-            label: "Progress",
-            value: "10",
-        },
+	const deleteItem = async (id) => {
+		// delete item with id from itemsData.items
+		const request = await fetch(
+			"http://localhost:8080/api/order/delete/" + id,
+			{
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
 
-    ];
+		if (request.status === 200) {
+			setItems(items.filter((i) => i._id !== id));
+		} else {
+			console.log(id, request);
+			alert("Error deleting item");
+		}
+	};
 
-    useEffect(() => {
-		setItems(orderData.items);
+	useEffect(() => {
+		(async () => {
+			let request = await fetch(
+				"http://localhost:8080/api/order/get",
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+
+			if (request.status === 200) {
+				let response = await request.json();
+
+				let rows = [];
+
+				response.forEach((item) => {
+
+					rows.push([
+						item._id,
+						item.vendor_name,
+						item.status,
+						item.issue_date,
+						item.approve_date || "DELETED:#4a5355",
+					]);
+				});
+
+				setTotalOrders(rows.length);
+				setItems(rows);
+			}
+
+			
+		})();
 	}, []);
 
     return(
@@ -112,9 +119,25 @@ function ManageOrder() {
             />
 
             <div className={styles.summary}>
-                {orderSummary.map((item, i) => (
-                    <NumberWidget key={i} {...item} />
-                ))}
+				<NumberWidget
+					title="Total Order"
+					label="Orders"
+					value={totalOrders}
+					style={{fontSize: "24px"}}
+				/>
+				<NumberWidget
+					title="Approve Order"
+					label="Approve"
+					value="5"
+					style={{fontSize: "24px"}}
+				/>
+				<NumberWidget
+					title="Progress Order"
+					label="Progress"
+					value="10"
+					style={{fontSize: "24px"}}
+				/>
+				
             </div>
 
             <div className={styles.orderTable}>
