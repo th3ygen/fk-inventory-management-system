@@ -21,34 +21,7 @@ function DisplayReport() {
 		colWidthPercent: ["30%", "10%", "10%", "10%"],
 		centered: [false, true, true, true],
 		actions: [
-			{
-				icon: "FaEdit",
-				tooltip: "Edit",
-				callback: (n) => {
-					console.log("editing", n);
-				},
-			},
-			{
-				icon: "FaCog",
-				tooltip: "Whot?!",
-				callback: (n) => {
-					console.log("editing", n);
-				},
-			},
-			{
-				icon: "FaCoins",
-				tooltip: "Boooo!",
-				callback: (n) => {
-					console.log("editing", n);
-				},
-			},
-			{
-				icon: "FaTrashAlt",
-				tooltip: "Delete",
-				callback: (n) => {
-					console.log("deleting", n);
-				},
-			},
+			
 		],
 	};
 
