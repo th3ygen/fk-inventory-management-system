@@ -33,8 +33,8 @@ module.exports = {
 
             const { id } = req.params;
 
-            const order = await Order.getOrder();
-            res.status(200).json(orders);
+            const order = await Order.getOrder(id);
+            res.status(200).json(order);
 
         }catch(e){
             console.log('[ERROR] ${e}');

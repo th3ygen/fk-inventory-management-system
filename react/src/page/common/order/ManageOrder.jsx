@@ -16,6 +16,7 @@ function ManageOrder() {
     const [items, setItems] = useState([]);
 	const [totalOrders, setTotalOrders] = useState(0);
 	const [totalApproved, setTotalApproved] = useState(0);
+	const [totalProgress, setTotalProgress] = useState(0);
 
     const orderData = {
 		header: ["Vendor", "Order Status", "Issue Date", "Approve Date"],
@@ -63,8 +64,14 @@ function ManageOrder() {
 		);
 
 		if (request.status === 200) {
-			setItems(items.filter((i) => i[0] !== id));
+			const item = items.find(i => i[0] === id);
+
 			setTotalOrders(totalOrders - 1);
+			if(item[2] === 'Approved'){
+				setTotalApproved(totalApproved -1);
+			}
+			setItems(items.filter((i) => i[0] !== id));
+			
 		} else {
 			console.log(id, request);
 			alert("Error deleting item");
@@ -89,6 +96,7 @@ function ManageOrder() {
 				let rows = [];
 
 				let tApproved = 0;
+				let tPending = 0;
 
 				response.forEach((item) => {
 
@@ -112,6 +120,9 @@ function ManageOrder() {
 
 							tApproved++;
 						}
+					}else{
+
+						tPending++;
 					}
 
 					rows.push([
@@ -125,6 +136,7 @@ function ManageOrder() {
 
 				setTotalOrders(rows.length);
 				setTotalApproved(tApproved);
+				setTotalProgress(tPending);
 				setItems(rows);
 			}
 
@@ -164,7 +176,7 @@ function ManageOrder() {
 				<NumberWidget
 					title="Progress Order"
 					label="Progress"
-					value="10"
+					value={totalProgress}
 					style={{fontSize: "24px"}}
 				/>
 				

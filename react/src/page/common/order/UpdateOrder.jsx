@@ -82,13 +82,13 @@ function UpdateOrder() {
 
 		if (location.state.id) {
 			request = await fetch('http://localhost:8080/api/orders/find/' + location.state.id);
-
+            
 			if (request.status === 200) {
-				const item = await request.json();
+                const item = await request.json();
 
 				orderRemarks.current.value = item.comment;
 				vendorIdInput.current.selectedIndex = v.findIndex(i => i._id === item.vendor_ID);
-
+                
 				selectVendor(v.find(i => i._id === item.vendor_ID));
 			}
 		}
