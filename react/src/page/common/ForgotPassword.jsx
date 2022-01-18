@@ -22,7 +22,7 @@ function ForgotPassword() {
 					<div>
 						<input type="password" placeholder="Repeat Password" />
 					</div>
-					<div className={styles.button} href="login.html">Request</div>
+					<div className={styles.button} >Request</div>
 				</form>
 			</div>
 		</div>
