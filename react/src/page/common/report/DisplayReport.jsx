@@ -293,9 +293,9 @@ function DisplayReport() {
 			</div>
 			<div className={styles.profitTrend} onClick={testClick}>
 				<DateAxisLineChart
-					title="Profit trend"
+					title="Sales trend"
 					data={profit}
-					label="Profit"
+					label="Sales"
 					height="250px"
 				/>
 			</div>
