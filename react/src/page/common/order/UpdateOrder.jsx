@@ -16,9 +16,10 @@ function UpdateOrder() {
 	const [vendors, setVendors] = useState([]);
 	const [vendor, setVendor] = useState({});
 
-	const nameInput = useRef("");
-	const unitPriceInput = useRef(0);
-	const qntyInput = useRef(0);
+	const itemName = useRef("");
+	const unitPrice = useRef(0);
+	const quantity = useRef(0);
+	const [grandTotal, setGrandTotal] = useState(0);
 	const vendorIdInput = useRef("");
     const orderRemarks = useRef("");
 
@@ -26,14 +27,6 @@ function UpdateOrder() {
 		header: ["Item", "Quantity", "Unit Price", "Sub Price"],
 		colWidthPercent: ["30%", "20%", "10%", "10%"],
 		centered: [false, true, true, true],
-		actions: [
-			{
-				icon: "FaReply",
-				callback: (n) => {
-					console.log('editing', n);
-				},
-			},
-		]
 	};
 
     const selectVendor = (e) => {
@@ -94,6 +87,22 @@ function UpdateOrder() {
 		}
 	}
 
+    const editItem = (id) => {
+        const item = items.find(item => item[0] === id);
+        
+        
+
+        if (item) {
+            itemName.current.value = item[1];
+            quantity.current.value = item[2];
+            unitPrice.current.value = item[3];
+        }
+
+        setItems(items.filter(item => item[0] !== id));
+        setGrandTotal(grandTotal - item[4]);
+    };
+
+
     useEffect(() => {
 		loadData();
     }, []);
@@ -145,15 +154,29 @@ function UpdateOrder() {
                         </div>
                         <div className={styles.orderInput}>
                             <label className={styles.formLabel} for="itemName">Item Name </label>
-                            <input className={styles.formInput} type="text"/>
+                            <input 
+                                className={styles.formInput}
+                                type="text"
+                                ref={itemName}
+                            
+                            />
                         </div>
                         <div className={styles.orderInput}>
                             <label className={styles.formLabel} for="unitPrice">Unit Price </label>
-                            <input className={styles.formInput} type="number" />
+                            <input 
+                                className={styles.formInput}
+                                type="number"
+                                step="0.01"
+                                ref={unitPrice}
+                            />
                         </div>
                         <div className={styles.orderInput}>
                             <label className={styles.formLabel} for="quantity">Quantity </label>
-                            <input className={styles.formInput} type="number" />
+                            <input 
+                                className={styles.formInput}
+                                type="number"
+                                ref={quantity}
+                            />
                         </div>
                         <div className={styles.itemButton}>
                             <div className={styles.button}><FaReply/> Update List </div>
@@ -172,7 +195,15 @@ function UpdateOrder() {
 					    items={items}
 					    centered={itemList.centered}
 					    colWidthPercent={itemList.colWidthPercent}
-                        actions={itemList.actions}
+                        actions={[
+							{
+								icon: "FaReply",
+								callback: (id) => {
+									editItem(id);
+								},
+								tooltip: "Edit",
+							},
+						]}
 				    />
 				</div>
                 <div className={styles.summary}>
