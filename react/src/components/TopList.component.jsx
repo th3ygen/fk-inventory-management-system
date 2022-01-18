@@ -9,7 +9,7 @@ function TopList(props) {
 		<FolderCard className={styles.container} title={title}>
 			<div className={styles.list}>
 				<div className={styles.header}>
-					{Object.keys(data[0]).map((item, index) => {
+					{data && Object.keys(data[0]).map((item, index) => {
 						return (
 							<div key={index} className={styles.item}>
 								{item}
@@ -18,7 +18,7 @@ function TopList(props) {
 					})}
 				</div>
 				<div className={styles.body}>
-					{data.map((item, index) => {
+					{data && data.map((item, index) => {
 						return (
 							<div key={index} className={styles.item}>
 								{Object.values(item).map((value, index) => {
