@@ -79,7 +79,7 @@ module.exports = {
                     error: 'Order not found'
                 });
             }
-                 
+
         }catch(e){
             console.log('[ERROR] ${e}');
             res.status(500).json({
@@ -90,10 +90,10 @@ module.exports = {
     verifiedOrder: async function(req, res){
         try{
             
-            const { orderID, status, managerRemarks, managerID } = req.body;
-            const order = await Order.verifiedOrder(orderId, status, managerRemarks, managerID);
+            const { id, status, managerRemarks, managerID } = req.body;
+            const order = await Order.verifiedOrder(id, status, managerRemarks, managerID);
             if(order){
-                res.status(200).json(orders);
+                res.status(200).json(order);
             }
             else{
                 res.status(404).json({

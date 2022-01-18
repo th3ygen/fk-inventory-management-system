@@ -70,7 +70,6 @@ schema.statics.verifiedOrder = async function(id, status, managerRemarks, manage
     order.status = status;
     order.manager_remarks =managerRemarks;
     order.manager_ID = managerID;
-    order.status = "Approved";
 
     return order.save();
 }
