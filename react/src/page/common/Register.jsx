@@ -32,7 +32,7 @@ function Register() {
 					</div>
 					<a href="/Login"> Login
 					</a>
-					<div className={styles.button} href="login.html">Register</div>
+					<div className={styles.button}>Register</div>
 				</form>
 			</div>
 		</div>

@@ -19,7 +19,7 @@ function Login() {
 					<div>
 						<input type="password" placeholder="Password" />
 					</div>
-					<div className={styles.button} href="login.html">Login</div>
+					<div className={styles.button}>Login</div>
 					<a href="/Register"> Register
 					</a>
 					<a href="/ForgotPassword"> Forgot Password
