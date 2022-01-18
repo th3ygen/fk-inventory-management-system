@@ -37,7 +37,7 @@ module.exports = {
             res.status(200).json(order);
 
         }catch(e){
-            console.log('[ERROR] ${e}');
+            console.log(`[ERROR] ${e.message}`);
             res.status(500).json({
                 error: e
             });
