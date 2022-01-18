@@ -1,9 +1,17 @@
+import { useEffect } from "react";
+
 import FolderCard from "components/FolderCard";
 
 import styles from "styles/component/TopList.module.scss";
 
 function TopList(props) {
 	const { title, data } = props;
+
+	useEffect(() => {
+		if (props.data) {
+			console.log(data);
+		}
+	}, [props.data]);
 
 	return (
 		<FolderCard className={styles.container} title={title}>
