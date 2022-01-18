@@ -47,10 +47,9 @@ schema.statics.addItem = function (
 schema.statics.updateItem = async function (
 	id,
 	name,
-	unit_price,
 	quantity,
+	unit_price,
 	barcode_ID,
-	barcode_encoding,
 	vendor_ID
 ) {
 	const item = await this.findById(id);
@@ -60,7 +59,6 @@ schema.statics.updateItem = async function (
 		item.unit_price = unit_price || item.unit_price;
 		item.quantity = quantity || item.quantity;
 		item.barcode_ID = barcode_ID || item.barcode_ID;
-		item.barcode_encoding = barcode_encoding || item.barcode_encoding;
 		item.vendor_ID = vendor_ID || item.vendor_ID;
 
 		return item.save();

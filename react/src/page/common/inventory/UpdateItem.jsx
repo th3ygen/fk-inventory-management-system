@@ -171,7 +171,6 @@ function UpdateItem() {
 				unit_price: unitPriceInput.current.value,
 				quantity: qntyInput.current.value,
 				barcode_ID: barcodeNumInput.current.value,
-				barcode_encoding: barcodeType.current.value,
 				vendor_ID: vendorIdInput.current.value,
 			};
 
