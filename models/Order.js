@@ -54,7 +54,7 @@ schema.statics.updateOrder = async function (id, comment, orderItems) {
     
     let grand_total = 0;
     for (let item of orderItems) {
-        grand_total += item.sub_total;
+        grand_total += parseInt(item.quantity) * parseFloat(item.unit_price);
     }
 
     order.comment = comment;

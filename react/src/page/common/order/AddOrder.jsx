@@ -72,8 +72,6 @@ function AddOrder() {
 
 	const editItem = (id) => {
         const item = items.find(item => item[0] === id);
-        
-        
 
         if (item) {
             itemName.current.value = item[1];

@@ -68,16 +68,18 @@ module.exports = {
     updateOrder: async function(req, res){
         try{
             
-            const { orderID, comment, orderItems } = req.body;
-            const order = await Order.updateOrder(orderId, comment, orderItems);
+            const { id, comment, orderItems } = req.body;
+            const order = await Order.updateOrder(id, comment, orderItems);
+            
             if(order){
-                res.status(200).json(orders);
+                res.status(200).json(order);
             }
             else{
                 res.status(404).json({
                     error: 'Order not found'
                 });
-            }     
+            }
+                 
         }catch(e){
             console.log('[ERROR] ${e}');
             res.status(500).json({

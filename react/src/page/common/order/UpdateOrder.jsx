@@ -16,11 +16,12 @@ function UpdateOrder() {
 	const [vendors, setVendors] = useState([]);
 	const [vendor, setVendor] = useState({});
     const [grandTotal, setGrandTotal] = useState(0);
+    const [vendorPIC, setVendorPIC] = useState("");
 
+	const [vendorName, setVendorName] = useState("Please select a vendor");
 	const itemName = useRef("");
 	const unitPrice = useRef(0);
 	const quantity = useRef(0);
-	const [grandTotal, setGrandTotal] = useState(0);
 	const vendorIdInput = useRef("");
     const orderRemarks = useRef("");
 
@@ -46,6 +47,9 @@ function UpdateOrder() {
 		delete vendor._id;
 		delete vendor.__v;
 
+        setVendorName(vendor.brand);
+		setVendorPIC(vendor.pic_name);
+        setVendor(vendor);
 		// replace key names
 		// replace underscore with space
 		// capitalize first letter
@@ -56,7 +60,7 @@ function UpdateOrder() {
 			delete vendor[key];
 		});
 
-		setVendor(vendor);
+		
 	};
 
     const genRandomHash = (len) => {
@@ -130,10 +134,67 @@ function UpdateOrder() {
         setGrandTotal(grandTotal - item[4]);
     };
 
+    const getItems = () => {
+		let gTotal = grandTotal;
+		let rows = items;
+
+        if (itemName.length === 0 || isNaN(quantity.current.value) || isNaN(unitPrice.current.value)) {
+            return;
+        }
+
+		let item = {
+			itemName: itemName.current.value,
+			qty: parseInt(quantity.current.value),
+			unitPrice: parseFloat(unitPrice.current.value),
+		};
+
+		const subPrice = item.unitPrice * item.qty;
+
+		gTotal += subPrice;
+
+		rows.push([item.id || genRandomHash(8), item.itemName, item.qty, item.unitPrice, subPrice]);
+
+		itemName.current.value = "";
+		quantity.current.value = "";
+		unitPrice.current.value = "";
+
+		setItems(rows);
+		setGrandTotal(gTotal);
+	};
+
 
     useEffect(() => {
 		loadData();
     }, []);
+
+    const updateOrder =() => {
+        let order = {
+            id: location.state.id,
+			comment: orderRemarks.current.value,
+			orderItems: items.map(item => {
+				return {
+					name: item[1],
+					quantity: item[2],
+					unit_price: item[3],
+				}
+			})
+		}
+
+		const request = fetch("http://localhost:8080/api/orders/update", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(order),
+		});
+		
+		if (request.status === 200) {
+			alert("Item update successfully");
+		} else {
+			console.log(request);
+			alert("Error adding item");
+		}
+    };
 
     return (
         <div className={styles.content}>
@@ -207,7 +268,7 @@ function UpdateOrder() {
                             />
                         </div>
                         <div className={styles.itemButton}>
-                            <div className={styles.button}><FaReply/> Update List </div>
+                            <div className={styles.button} onClick={getItems}><FaReply/> Update List </div>
                         
                         </div>
                     </div>
@@ -239,16 +300,29 @@ function UpdateOrder() {
                         <div className={styles.sumContent}>
                             <div className={styles.contSum}>
                                 <label className={styles.formLabel} for="grandTotal">Grand Total: </label>
-                                <label className={styles.formLabel} for="gTotal">RM {grandTotal.toFixed(2)} </label>
+                                <div className={styles.vendor} for="gTotal">
+                                    : RM {grandTotal.toFixed(2)} 
+                                </div>
                             </div>
                             <div className={styles.contSum}>
                                 <label className={styles.formLabel} for="vendorSummary">Vendor: </label>
-                                <p className={styles.formInput} for="vendorS">K2 SDN BHD </p>
+                                <div className={styles.vendorDetails} for="vendorS">
+								<div className={styles.vendor}>
+									: {vendorName}
+								</div>
+								<div className={styles.vendor}>
+									: {vendorPIC}
+								</div>
+							</div>
                             </div>
                             <div className={styles.butOrder}>
-                                <div className={styles.button}><FaEdit/> Update</div>
+                                <div 
+                                    className={styles.button}
+                                    onClick={updateOrder}
+                                >
+                                    <FaEdit/> Update
+                                </div>
                                 <div className={styles.button}><FaTrashAlt/>Request Delete</div>
-                                <input type="hidden" name="status" id="status" value="Submit for Approval"></input>
                             </div>
                         </div>
                     </div>

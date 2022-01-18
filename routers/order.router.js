@@ -8,7 +8,7 @@ router.get('/find/:id', controller.getOrder);
 
 router.post('/add', controller.addOrder);
 router.post('/update', controller.updateOrder);
-router.post('/verifiedOrder', controller.verifiedOrder);
+router.post('/verifiedOrder/:id', controller.verifiedOrder);
 router.delete('/delete/:id', controller.deleteOrder);
 
 module.exports = router;
