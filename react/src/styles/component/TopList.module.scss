@@ -32,6 +32,8 @@
             font-size: 14px;
             font-weight: 500;
             color: #2179FFFF;
+
+            text-transform: capitalize;
         }
     }
 
@@ -46,7 +48,7 @@
             display: flex;
             justify-content: space-between;
 
-            padding-top: 10px;
+            padding-top: 20px;
 
             border-top: 2px solid #e6e6e6;
 
