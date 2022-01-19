@@ -7,7 +7,8 @@ import { useNavigate } from 'react-router-dom';
 
 // components
 import Table from "components/Table.component";
-import NumberWidget from 'components/NumberWidget.component';
+import StatNumber from "components/StatNumber.component";
+import StatWrapper from "components/StatWrapper.component";
 import PageHeader from 'components/PageHeader.component';
 
 function ManageOrder() {
@@ -16,6 +17,7 @@ function ManageOrder() {
 	const [items, setItems] = useState([]);
 	const [totalOrders, setTotalOrders] = useState(0);
 	const [totalApproved, setTotalApproved] = useState(0);
+	const [totalReject, setTotalReject] = useState(0);
 	const [totalProgress, setTotalProgress] = useState(0);
 
 	const orderData = {
@@ -70,8 +72,12 @@ function ManageOrder() {
 			const item = items.find(i => i[0] === id);
 
 			setTotalOrders(totalOrders - 1);
-			if (item[2] === 'Approved') {
+			if (item[2] === 'approved') {
 				setTotalApproved(totalApproved - 1);
+			}else if(item[2] === 'rejected') {
+				setTotalReject(totalReject - 1);
+			}else{
+				setTotalProgress(totalProgress - 1);
 			}
 			setItems(items.filter((i) => i[0] !== id));
 
@@ -99,6 +105,7 @@ function ManageOrder() {
 				let rows = [];
 
 				let tApproved = 0;
+				let tReject = 0;
 				let tPending = 0;
 
 				response.forEach((item) => {
@@ -124,6 +131,8 @@ function ManageOrder() {
 							tApproved++;
 						} else if (item.status === 'rejected') {
 							status = item.status.charAt(0).toUpperCase() + item.status.slice(1) + ':#e63946';
+
+							tReject++;
 						} else {
 
 							tPending++;
@@ -142,6 +151,7 @@ function ManageOrder() {
 				setTotalOrders(rows.length);
 				setTotalApproved(tApproved);
 				setTotalProgress(tPending);
+				setTotalReject(tReject);
 				setItems(rows);
 			}
 
@@ -166,24 +176,35 @@ function ManageOrder() {
 			/>
 
 			<div className={styles.summary}>
-				<NumberWidget
-					title="Total Order"
-					label="Orders"
-					value={totalOrders}
-					style={{ fontSize: "24px" }}
-				/>
-				<NumberWidget
-					title="Approve Order"
-					label="Approve"
-					value={totalApproved}
-					style={{ fontSize: "24px" }}
-				/>
-				<NumberWidget
-					title="Progress Order"
-					label="Progress"
-					value={totalProgress}
-					style={{ fontSize: "24px" }}
-				/>
+				<StatWrapper >
+					<StatNumber 
+						title="Total Order"
+						value={totalOrders}
+						unit= "Orders"
+						icon="FaShoppingCart"
+					/>
+
+					<StatNumber
+						title="Progress Order"
+						value={totalProgress}
+						unit= "Orders"
+						icon="FaSpinner"
+					/>
+
+					<StatNumber
+						title="Approve Order"
+						value={totalApproved}
+						unit= "Orders"
+						icon="FaCheckSquare"
+					/>
+
+					<StatNumber
+						title="Reject Order"
+						value={totalReject}
+						unit= "Orders"
+						icon="FaTrash"
+					/>
+				</StatWrapper>
 
 			</div>
 

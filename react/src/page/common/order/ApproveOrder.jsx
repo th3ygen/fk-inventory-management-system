@@ -14,7 +14,7 @@ function ApproveOrder() {
 
     const location = useLocation();
 
-    const [vendor, setVendor] = useState({});
+    const [vendor, setVendor] = useState("");
     const [grandTotal, setGrandTotal] = useState(0);
     const [vendorPIC, setVendorPIC] = useState("");
     const [orderRemarks, setOrderRemarks] = useState("");
@@ -128,17 +128,17 @@ function ApproveOrder() {
                         <div className={styles.managerTitle}>Order Details</div>
                         <div className={styles.managerContent}>
                             <div className={styles.contSum}>
-                                <label className={styles.managerLabel} for="orderIDLabel">Order ID: </label>
-                                <label className={styles.managerLabel} for="orderID">123abc123 </label>
+                                <label className={styles.managerLabel} htmlFor="orderIDLabel">Order ID: </label>
+                                <label className={styles.managerLabel} htmlFor="orderID">123abc123 </label>
                             </div>
                             <div className={styles.contSum}>
-                                <label className={styles.managerLabel} for="vendorLabel">Vendor: </label>
+                                <label className={styles.managerLabel} htmlFor="vendorLabel">Vendor: </label>
                                 <div className={styles.managerLabel} >
                                     {vendor}
                                 </div>
                             </div>
                             <div className={styles.contSum}>
-                                <label className={styles.managerLabel} for="detailLabel">Vendor Details: </label>
+                                <label className={styles.managerLabel} htmlFor="detailLabel">Vendor Details: </label>
                                 <div className={styles.details}  >
                                     {vendorName}
                                 </div>
@@ -147,11 +147,11 @@ function ApproveOrder() {
                                 </div>
                             </div>
                             <div className={styles.contSum}>
-                                <label className={styles.managerLabel} for="remarkLabel">Remarks: </label>
+                                <label className={styles.managerLabel} htmlFor="remarkLabel">Remarks: </label>
                                 <div className={styles.details} > : {orderRemarks} </div>
                             </div>
                             <div className={styles.contSum}>
-                                <label className={styles.managerLabel} for="grandTotal">Grand Total: </label>
+                                <label className={styles.managerLabel} htmlFor="grandTotal">Grand Total: </label>
                                 <div className={styles.managerLabel}>: RM {grandTotal.toFixed(2)}</div>
 
                             </div>
@@ -173,23 +173,23 @@ function ApproveOrder() {
                     <div className={styles.fTitle}>Manager Verification</div>
                     <div className={styles.orderForm}>
                         <div className={styles.orderInput}>
-                            <label className={styles.formLabel} for="manager">Manager: </label>
+                            <label className={styles.formLabel} htmlFor="manager">Manager: </label>
                             <input className={styles.formInput} type="text" ref={managerID} />
                         </div>
                         <div className={styles.orderInput}>
-                            <label className={styles.formLabel} for="remarks">Remarks </label>
+                            <label className={styles.formLabel} htmlFor="remarks">Remarks </label>
                             <textarea className={styles.remarks} ref={managerRemarks}></textarea>
                         </div>
 
                         <div className={styles.orderInput}>
-                            <label className={styles.formLabel} for="verify">Verify </label>
+                            <label className={styles.formLabel} htmlFor="verify">Verify </label>
                             <div className={styles.formRadioG}>
                                 <input className={styles.formRadio} type="radio" name="status" ref={approved} value="Approved" />
-                                <label className={styles.formLabel} for="approve">Approved </label>
+                                <label className={styles.formLabel} htmlFor="approve">Approved </label>
                             </div>
                             <div className={styles.formRadioG}>
                                 <input className={styles.formRadio} type="radio" name="status" ref={rejected} value="Rejected" />
-                                <label className={styles.formLabel} for="rejected">Rejected </label>
+                                <label className={styles.formLabel} htmlFor="rejected">Rejected </label>
                             </div>
 
                         </div>
