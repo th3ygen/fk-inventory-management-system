@@ -6,6 +6,9 @@ import TopList from "components/TopList.component";
 import DateAxisLineChart from "components/DateAxisLineChart.component";
 import NumberWidget from "components/NumberWidget.component";
 
+import StatNumber from "components/StatNumber.component";
+import StatWrapper from "components/StatWrapper.component";
+
 import styles from "styles/common/report/DisplayReport.module.scss";
 
 function DisplayReport() {
@@ -247,7 +250,7 @@ function DisplayReport() {
 	return (
 		<div className={styles.container}>
 			<div className={styles.stats}>
-				<NumberWidget
+				{/* <NumberWidget
 					title="Total sold"
 					value={totalSoldItems}
 					label="Items"
@@ -276,7 +279,38 @@ function DisplayReport() {
 					value={leastSoldItem.name}
 					label="Item"
 					style={{ fontSize: "14px" }}
-				/>
+				/> */}
+			</div>
+			<div className={styles.statNum}>
+				<StatWrapper >
+					<StatNumber 
+						title="Total sold"
+						value={totalSoldItems}
+						unit="Items"
+						icon="FaShoppingCart"
+					/>
+
+					<StatNumber
+						title="Total sales"
+						value={totalSales}
+						unit="MYR"
+						icon="FaMoneyBillAlt"
+					/>
+
+					<StatNumber
+						title="Most sold"
+						value={mostSoldItem.name}
+						icon="FaLevelUpAlt"
+						valueSize={"1rem"}
+					/>
+
+					<StatNumber
+						title="Least sold"
+						value={leastSoldItem.name}
+						icon="FaLevelDownAlt"
+						valueSize={"1rem"}
+					/>
+				</StatWrapper>
 			</div>
 			<div className={styles.itemsSoldTable}>
 				<Table
