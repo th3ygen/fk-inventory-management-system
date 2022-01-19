@@ -1,6 +1,6 @@
 import styles from 'styles/common/order/Approve.module.scss';
 
-import { FaSave,FaTrashAlt } from 'react-icons/fa';
+import { FaSave, FaTrashAlt } from 'react-icons/fa';
 
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -14,63 +14,51 @@ function ApproveOrder() {
 
     const location = useLocation();
 
-	const [vendors, setVendors] = useState([]);
-	const [vendor, setVendor] = useState({});
+    const [vendor, setVendor] = useState({});
     const [grandTotal, setGrandTotal] = useState(0);
     const [vendorPIC, setVendorPIC] = useState("");
     const [orderRemarks, setOrderRemarks] = useState("");
 
-	const [vendorName, setVendorName] = useState("Please select a vendor");
-	const vendorIdInput = useRef("");
+    const [vendorName, setVendorName] = useState("Please select a vendor");
     const managerID = useRef("");
     const managerRemarks = useRef("");
     const approved = useRef("");
     const rejected = useRef("");
 
     const itemList = {
-		header: ["Item", "Quantity", "Unit Price", "Sub Price"],
-		colWidthPercent: ["30%", "20%", "15%", "15%"],
-		centered: [false, true, true, true]
-	};
+        header: ["Item", "Quantity", "Unit Price", "Sub Price"],
+        colWidthPercent: ["30%", "20%", "15%", "15%"],
+        centered: [false, true, true, true]
+    };
 
     const genRandomHash = (len) => {
-		// generate random 8byte hash
-		let text = "";
+        // generate random 8byte hash
+        let text = "";
 
-		const possible =
-			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        const possible =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-		for (let i = 0; i < len; i++)
-			text += possible.charAt(
-				Math.floor(Math.random() * possible.length)
-			);
+        for (let i = 0; i < len; i++)
+            text += possible.charAt(
+                Math.floor(Math.random() * possible.length)
+            );
 
-		return text;
-	};
+        return text;
+    };
 
-	const loadData = async () => {
-		let request = await fetch(
-			"http://localhost:8080/api/vendors/list",
-			{
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			}
-		);
+    const loadData = async () => {
 
-		const v = await request.json();
+        let vendorId = "";
+        let request;
 
-		setVendors(v);
+        if (location.state.id) {
+            request = await fetch('http://localhost:8080/api/orders/find/' + location.state.id);
 
-		if (location.state.id) {
-			request = await fetch('http://localhost:8080/api/orders/find/' + location.state.id);
-            
-			if (request.status === 200) {
+            if (request.status === 200) {
                 const item = await request.json();
 
-				const oRemarks = item.comment;
-				const vendorId = item.vendor_ID;
+                const oRemarks = item.comment;
+                vendorId = item.vendor_ID
 
                 setItems(item.items.map(i => [
                     genRandomHash(8),
@@ -82,39 +70,54 @@ function ApproveOrder() {
 
                 const total = item.items.reduce((acc, i) => acc + i.quantity * i.unit_price, 0);
 
+
                 setOrderRemarks(oRemarks);
                 setGrandTotal(total);
-			}
-		}
-	}
+
+            }
+        }
+
+        request = await fetch("http://localhost:8080/api/vendors/get/" + vendorId);
+
+
+        if (request.status === 200) {
+            const vendor = await request.json();
+
+            setVendor(vendor.company_name);
+            setVendorName(vendor.brand);
+            setVendorPIC(vendor.pic_name);
+
+        }
+
+    }
 
     useEffect(() => {
-		loadData();
+        loadData();
     }, []);
 
-    const approveOrder =async () => {
+    const approveOrder = async () => {
         let order = {
             id: location.state.id,
-            status:(approved.current.checked === true)? "approved": "rejected",
+            status: (approved.current.checked === true) ? "approved" : "rejected",
             managerID: managerID.current.value,
-			managerRemarks: managerRemarks.current.value
-			
-		}
+            managerRemarks: managerRemarks.current.value
 
-		const request = await fetch("http://localhost:8080/api/orders/verifiedOrder", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(order),
-		});
-		
-		if (request.status === 200) {
-			alert("Order update successfully");
-		} else {
-			console.log(request);
-			alert("Error adding item");
-		}
+        }
+
+        const request = await fetch("http://localhost:8080/api/orders/verifiedOrder", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(order),
+        });
+
+        if (request.status === 200) {
+            alert("Order update successfully");
+        } else {
+            console.log(request);
+            alert("Error adding item");
+        }
     };
 
     return (
@@ -131,18 +134,17 @@ function ApproveOrder() {
                             <div className={styles.contSum}>
                                 <label className={styles.managerLabel} for="vendorLabel">Vendor: </label>
                                 <div className={styles.managerLabel} >
-                                    
+                                    {vendor}
                                 </div>
                             </div>
                             <div className={styles.contSum}>
                                 <label className={styles.managerLabel} for="detailLabel">Vendor Details: </label>
-                                <div 
-                                    className={styles.details}  >
-                                    
+                                <div className={styles.details}  >
+                                    {vendorName}
                                 </div>
                                 <div className={styles.details}>
-									
-								</div>
+                                    {vendorPIC}
+                                </div>
                             </div>
                             <div className={styles.contSum}>
                                 <label className={styles.managerLabel} for="remarkLabel">Remarks: </label>
@@ -151,7 +153,7 @@ function ApproveOrder() {
                             <div className={styles.contSum}>
                                 <label className={styles.managerLabel} for="grandTotal">Grand Total: </label>
                                 <div className={styles.managerLabel}>: RM {grandTotal.toFixed(2)}</div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -159,26 +161,26 @@ function ApproveOrder() {
 
                 <div className={styles.itemTable}>
                     <Table
-					    title="Item List"
-					    headers={itemList.header}
-					    items={items}
-					    centered={itemList.centered}
-					    colWidthPercent={itemList.colWidthPercent}
-				    />
-				</div>
-                
+                        title="Item List"
+                        headers={itemList.header}
+                        items={items}
+                        centered={itemList.centered}
+                        colWidthPercent={itemList.colWidthPercent}
+                    />
+                </div>
+
                 <div className={styles.formDetails}>
                     <div className={styles.fTitle}>Manager Verification</div>
                     <div className={styles.orderForm}>
                         <div className={styles.orderInput}>
                             <label className={styles.formLabel} for="manager">Manager: </label>
-                            <input className={styles.formInput} type="text" ref={managerID}/>
+                            <input className={styles.formInput} type="text" ref={managerID} />
                         </div>
                         <div className={styles.orderInput}>
                             <label className={styles.formLabel} for="remarks">Remarks </label>
                             <textarea className={styles.remarks} ref={managerRemarks}></textarea>
                         </div>
-                        
+
                         <div className={styles.orderInput}>
                             <label className={styles.formLabel} for="verify">Verify </label>
                             <div className={styles.formRadioG}>
@@ -186,21 +188,21 @@ function ApproveOrder() {
                                 <label className={styles.formLabel} for="approve">Approved </label>
                             </div>
                             <div className={styles.formRadioG}>
-                                <input className={styles.formRadio} type="radio" name="status"  ref={rejected} value="Rejected" />
+                                <input className={styles.formRadio} type="radio" name="status" ref={rejected} value="Rejected" />
                                 <label className={styles.formLabel} for="rejected">Rejected </label>
                             </div>
-                            
+
                         </div>
-                        
+
                         <div className={styles.verifyButton}>
-                            
-                            <div className={styles.button}><FaTrashAlt/> Delete </div>
-                            <div className={styles.button} onClick={approveOrder}><FaSave/> Submit </div>
+
+                            <div className={styles.button}><FaTrashAlt /> Delete </div>
+                            <div className={styles.button} onClick={approveOrder}><FaSave /> Submit </div>
 
                         </div>
                     </div>
-                </div> 
-                
+                </div>
+
             </div>
         </div>
     )

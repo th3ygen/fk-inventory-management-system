@@ -50,8 +50,8 @@ schema.statics.addVendors = function(company_name, brand, contact, address, emai
 }
 
 // get vendor
-schema.statics.getVendor = function(queryName) {
-    return this.findOne({ company_name: queryName });
+schema.statics.getVendor = function(id) {
+    return this.findById(id);
 }
 // get all vendor
 schema.statics.getAllVendors = function() {
