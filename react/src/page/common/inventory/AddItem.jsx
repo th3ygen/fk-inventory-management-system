@@ -129,7 +129,7 @@ function AddItem() {
 	const addItem = async () => {
 		let item = {
 			name: nameInput.current.value,
-			unit_price: parseInt(unitPriceInput.current.value),
+			unit_price: parseFloat(unitPriceInput.current.value),
 			quantity: parseInt(qntyInput.current.value),
 			barcode_ID: barcodeNumInput.current.value,
 			barcode_encoding: barcodeType.current.value,
@@ -147,7 +147,6 @@ function AddItem() {
 		if (request.status === 200) {
 			alert("Item added successfully");
 		} else {
-			console.log(request);
 			alert("Error adding item");
 		}
 	}
