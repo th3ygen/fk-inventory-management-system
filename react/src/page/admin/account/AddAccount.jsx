@@ -97,21 +97,7 @@ function AddAccount() {
 					Address
                     <textarea type="text-area" name="address" className={styles.inputTextArea} ref={addressInput} id="address" rows={9} placeholder="Enter Address"></textarea>
 				</label>
-
-                    {/* <div className={styles.wrapper}>
-                        <div className={styles.box}>
-                            <label>
-                                Created At
-                                <input type="text" className={styles.inputData} name="createdAt" />
-                            </label>
-                        </div>
-                        <div className={styles.box}>
-                            <label>
-                                Updated At
-                                <input type="text" className={styles.inputData} name="updatedAt" />
-                            </label>
-                        </div>
-                    </div> */}
+                
                     <div className={styles.wrapper}>
                         <div className={styles.box}>
                             <p align="left">

@@ -38,10 +38,10 @@ function UpdateAccount() {
         });
 
         if (request.status === 200) {
-            alert("Account added successfully");
+            alert("Account updated successfully");
         } else {
             console.log(request);
-            alert("Error adding account");
+            alert("Error updating account");
         }
     }
     const load = async () => {

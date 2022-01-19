@@ -18,10 +18,6 @@ function ManageAccount() {
 
 	const accountData = {
 		header: ["Name", "Role", "Username", "Contact"],
-		items: [
-			["1234", "Item 1", "Item 2", "Active", "Item 4"],
-			["1234", "Farikha Dwi Nur Qossina Januar", "Manager", "farikha_dwi", "qossina321"],
-		],
 		colWidthPercent: ["20%", "20%", "20%", "20%"],
 		isBadge: [false, false, false, false],
 		badgeColor: [
