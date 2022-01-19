@@ -2,7 +2,8 @@ import styles from 'styles/common/order/Approve.module.scss';
 
 import { FaSave,FaTrashAlt } from 'react-icons/fa';
 
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 // components
 import Table from "components/Table.component";
@@ -11,22 +12,110 @@ function ApproveOrder() {
 
     const [items, setItems] = useState([]);
 
+    const location = useLocation();
+
+	const [vendors, setVendors] = useState([]);
+	const [vendor, setVendor] = useState({});
+    const [grandTotal, setGrandTotal] = useState(0);
+    const [vendorPIC, setVendorPIC] = useState("");
+    const [orderRemarks, setOrderRemarks] = useState("");
+
+	const [vendorName, setVendorName] = useState("Please select a vendor");
+	const vendorIdInput = useRef("");
+    const managerID = useRef("");
+    const managerRemarks = useRef("");
+    const approved = useRef("");
+    const rejected = useRef("");
+
     const itemList = {
-		header: ["Item", "Quantity", "Sub Price"],
-		items: [
-			[1,"Item 1", "Item 2", "Active"],
-			[2,"Item 1", "Item 2", "Item 3"],
-			[3,"Item 1", "Item 2", "Item 3"],
-            [4,"Item 1", "Item 2", "Item 3"],
-			[5,"Item 1", "Item 2", "Item 3"],
-		],
-		colWidthPercent: ["30%", "20%", "10%", "10%"],
+		header: ["Item", "Quantity", "Unit Price", "Sub Price"],
+		colWidthPercent: ["30%", "20%", "15%", "15%"],
 		centered: [false, true, true, true]
 	};
 
+    const genRandomHash = (len) => {
+		// generate random 8byte hash
+		let text = "";
+
+		const possible =
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+		for (let i = 0; i < len; i++)
+			text += possible.charAt(
+				Math.floor(Math.random() * possible.length)
+			);
+
+		return text;
+	};
+
+	const loadData = async () => {
+		let request = await fetch(
+			"http://localhost:8080/api/vendors/list",
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
+
+		const v = await request.json();
+
+		setVendors(v);
+
+		if (location.state.id) {
+			request = await fetch('http://localhost:8080/api/orders/find/' + location.state.id);
+            
+			if (request.status === 200) {
+                const item = await request.json();
+
+				const oRemarks = item.comment;
+				const vendorId = item.vendor_ID;
+
+                setItems(item.items.map(i => [
+                    genRandomHash(8),
+                    i.name,
+                    i.quantity,
+                    i.unit_price,
+                    i.quantity * i.unit_price
+                ]));
+
+                const total = item.items.reduce((acc, i) => acc + i.quantity * i.unit_price, 0);
+
+                setOrderRemarks(oRemarks);
+                setGrandTotal(total);
+			}
+		}
+	}
+
     useEffect(() => {
-		setItems(itemList.items);
-	}, []);
+		loadData();
+    }, []);
+
+    const approveOrder =async () => {
+        let order = {
+            id: location.state.id,
+            status:(approved.current.checked === true)? "approved": "rejected",
+            managerID: managerID.current.value,
+			managerRemarks: managerRemarks.current.value
+			
+		}
+
+		const request = await fetch("http://localhost:8080/api/orders/verifiedOrder", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(order),
+		});
+		
+		if (request.status === 200) {
+			alert("Order update successfully");
+		} else {
+			console.log(request);
+			alert("Error adding item");
+		}
+    };
 
     return (
         <div className={styles.content}>
@@ -41,19 +130,27 @@ function ApproveOrder() {
                             </div>
                             <div className={styles.contSum}>
                                 <label className={styles.managerLabel} for="vendorLabel">Vendor: </label>
-                                <label className={styles.managerLabel} for="managerName">K2 SDN BHD </label>
+                                <div className={styles.managerLabel} >
+                                    
+                                </div>
                             </div>
                             <div className={styles.contSum}>
                                 <label className={styles.managerLabel} for="detailLabel">Vendor Details: </label>
-                                <p className={styles.details} for="managerName">K2 SDN BHD <br/> No Tel: 0322456122 </p>
+                                <div 
+                                    className={styles.details}  >
+                                    
+                                </div>
+                                <div className={styles.details}>
+									
+								</div>
                             </div>
                             <div className={styles.contSum}>
                                 <label className={styles.managerLabel} for="remarkLabel">Remarks: </label>
-                                <p className={styles.details} for="remarks">No remarks </p>
+                                <div className={styles.details} > : {orderRemarks} </div>
                             </div>
                             <div className={styles.contSum}>
                                 <label className={styles.managerLabel} for="grandTotal">Grand Total: </label>
-                                <label className={styles.managerLabel} for="gTotal">RM 0.00 </label>
+                                <div className={styles.managerLabel}>: RM {grandTotal.toFixed(2)}</div>
                                 
                             </div>
                         </div>
@@ -75,21 +172,21 @@ function ApproveOrder() {
                     <div className={styles.orderForm}>
                         <div className={styles.orderInput}>
                             <label className={styles.formLabel} for="manager">Manager: </label>
-                            <input className={styles.formInput} type="text"/>
+                            <input className={styles.formInput} type="text" ref={managerID}/>
                         </div>
                         <div className={styles.orderInput}>
                             <label className={styles.formLabel} for="remarks">Remarks </label>
-                            <textarea className={styles.remarks} id="remarks"></textarea>
+                            <textarea className={styles.remarks} ref={managerRemarks}></textarea>
                         </div>
                         
                         <div className={styles.orderInput}>
                             <label className={styles.formLabel} for="verify">Verify </label>
                             <div className={styles.formRadioG}>
-                                <input className={styles.formRadio} type="radio" id="status" name="status" value="Approved" />
+                                <input className={styles.formRadio} type="radio" name="status" ref={approved} value="Approved" />
                                 <label className={styles.formLabel} for="approve">Approved </label>
                             </div>
                             <div className={styles.formRadioG}>
-                                <input className={styles.formRadio} type="radio" id="status" name="status" value="Rejected" />
+                                <input className={styles.formRadio} type="radio" name="status"  ref={rejected} value="Rejected" />
                                 <label className={styles.formLabel} for="rejected">Rejected </label>
                             </div>
                             
@@ -98,7 +195,7 @@ function ApproveOrder() {
                         <div className={styles.verifyButton}>
                             
                             <div className={styles.button}><FaTrashAlt/> Delete </div>
-                            <div className={styles.button}><FaSave/> Submit </div>
+                            <div className={styles.button} onClick={approveOrder}><FaSave/> Submit </div>
 
                         </div>
                     </div>

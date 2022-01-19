@@ -1,6 +1,6 @@
 import styles from 'styles/common/order/ManageOrder.module.scss';
 
-import { FaTrashAlt,FaEdit,FaReply,FaCheckSquare } from 'react-icons/fa';
+import { FaTrashAlt, FaEdit, FaReply, FaCheckSquare } from 'react-icons/fa';
 
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -12,13 +12,13 @@ import PageHeader from 'components/PageHeader.component';
 
 function ManageOrder() {
 
-    const navigate = useNavigate();
-    const [items, setItems] = useState([]);
+	const navigate = useNavigate();
+	const [items, setItems] = useState([]);
 	const [totalOrders, setTotalOrders] = useState(0);
 	const [totalApproved, setTotalApproved] = useState(0);
 	const [totalProgress, setTotalProgress] = useState(0);
 
-    const orderData = {
+	const orderData = {
 		header: ["Vendor", "Order Status", "Issue Date", "Approve Date"],
 		colWidthPercent: ["30%", "20%", "10%", "10%"],
 		centered: [false, true, true, true],
@@ -43,7 +43,10 @@ function ManageOrder() {
 			{
 				icon: "FaCheckSquare",
 				callback: (n) => {
-					navigate("/user/order/approve");
+					navigate("/user/order/approve", {
+						replace: true,
+						state: { id: n },
+					});
 				},
 				tooltip: "Approve",
 			},
@@ -67,11 +70,11 @@ function ManageOrder() {
 			const item = items.find(i => i[0] === id);
 
 			setTotalOrders(totalOrders - 1);
-			if(item[2] === 'Approved'){
-				setTotalApproved(totalApproved -1);
+			if (item[2] === 'Approved') {
+				setTotalApproved(totalApproved - 1);
 			}
 			setItems(items.filter((i) => i[0] !== id));
-			
+
 		} else {
 			console.log(id, request);
 			alert("Error deleting item");
@@ -115,14 +118,16 @@ function ManageOrder() {
 
 					let status = 'Pending:#888';
 					if (item.status) {
-						if (item.status === 'Approved') {
-							status = item.status + ':#00c853';
+						if (item.status === 'approved') {
+							status = item.status.charAt(0).toUpperCase() + item.status.slice(1) + ':#00c853';
 
 							tApproved++;
-						}
-					}else{
+						} else if (item.status === 'rejected') {
+							status = item.status.charAt(0).toUpperCase() + item.status.slice(1) + ':#e63946';
+						} else {
 
-						tPending++;
+							tPending++;
+						}
 					}
 
 					rows.push([
@@ -140,50 +145,50 @@ function ManageOrder() {
 				setItems(rows);
 			}
 
-			
+
 		})();
 	}, []);
 
-    return(
-        <div className={styles.container}>
-            <PageHeader
-                title="Manage Order"
-                brief="This is the Main Page of Order where you can manage all your order here."
-                navs={[
-                    {
-                        icon: "FaReply",
-                        name: "Issue New Order",
-                        path: "/user/order/add",
-                    },
-                    
-                ]}
+	return (
+		<div className={styles.container}>
+			<PageHeader
+				title="Manage Order"
+				brief="This is the Main Page of Order where you can manage all your order here."
+				navs={[
+					{
+						icon: "FaReply",
+						name: "Issue New Order",
+						path: "/user/order/add",
+					},
 
-            />
+				]}
 
-            <div className={styles.summary}>
+			/>
+
+			<div className={styles.summary}>
 				<NumberWidget
 					title="Total Order"
 					label="Orders"
 					value={totalOrders}
-					style={{fontSize: "24px"}}
+					style={{ fontSize: "24px" }}
 				/>
 				<NumberWidget
 					title="Approve Order"
 					label="Approve"
 					value={totalApproved}
-					style={{fontSize: "24px"}}
+					style={{ fontSize: "24px" }}
 				/>
 				<NumberWidget
 					title="Progress Order"
 					label="Progress"
 					value={totalProgress}
-					style={{fontSize: "24px"}}
+					style={{ fontSize: "24px" }}
 				/>
-				
-            </div>
 
-            <div className={styles.orderTable}>
-                <Table
+			</div>
+
+			<div className={styles.orderTable}>
+				<Table
 					title="Orders"
 					headers={orderData.header}
 					items={items}
@@ -191,9 +196,9 @@ function ManageOrder() {
 					colWidthPercent={orderData.colWidthPercent}
 					actions={orderData.actions}
 				/>
-            </div>
-        </div>
-    )
+			</div>
+		</div>
+	)
 }
 
 export default ManageOrder;

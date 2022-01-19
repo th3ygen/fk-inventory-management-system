@@ -81,7 +81,7 @@ module.exports = {
             }
 
         }catch(e){
-            console.log('[ERROR] ${e}');
+            console.log(`[ERROR] ${e}`);
             res.status(500).json({
                 error: e
             });
@@ -101,7 +101,7 @@ module.exports = {
                 });
             }     
         }catch(e){
-            console.log('[ERROR] ${e}');
+            console.log(`[ERROR] ${e}`);
             res.status(500).json({
                 error: e
             });
@@ -116,7 +116,7 @@ module.exports = {
                 message: 'Order deleted'
             });
         }catch(e){
-            console.log('[ERROR] ${e}');
+            console.log(`[ERROR] ${e}`);
             res.status(500).json({
                 error: e
             });

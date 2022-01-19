@@ -167,7 +167,7 @@ function UpdateOrder() {
 		loadData();
     }, []);
 
-    const updateOrder =() => {
+    const updateOrder =async () => {
         let order = {
             id: location.state.id,
 			comment: orderRemarks.current.value,
@@ -180,7 +180,7 @@ function UpdateOrder() {
 			})
 		}
 
-		const request = fetch("http://localhost:8080/api/orders/update", {
+		const request = await fetch("http://localhost:8080/api/orders/update", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
