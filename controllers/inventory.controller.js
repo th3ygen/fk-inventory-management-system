@@ -92,10 +92,11 @@ module.exports = {
 	// POST
 	updateItem: async function (req, res) {
 		try {
-			const { name, quantity, unit_price, barcode_ID, vendor_ID } =
+			const { id, name, quantity, unit_price, barcode_ID, vendor_ID } =
 				req.body;
 
 			const item = await Item.updateItem(
+				id,
 				name,
 				quantity,
 				unit_price,

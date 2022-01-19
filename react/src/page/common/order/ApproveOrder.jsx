@@ -2,52 +2,31 @@ import styles from 'styles/common/order/Approve.module.scss';
 
 import { FaSave,FaTrashAlt } from 'react-icons/fa';
 
+import { useState, useEffect } from "react";
+
 // components
 import Table from "components/Table.component";
 
 function ApproveOrder() {
 
+    const [items, setItems] = useState([]);
+
     const itemList = {
 		header: ["Item", "Quantity", "Sub Price"],
 		items: [
-			["1234","Item 1", "Item 2", "Active"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
-			["1234","Item 1", "Item 2", "Item 3"],
+			[1,"Item 1", "Item 2", "Active"],
+			[2,"Item 1", "Item 2", "Item 3"],
+			[3,"Item 1", "Item 2", "Item 3"],
+            [4,"Item 1", "Item 2", "Item 3"],
+			[5,"Item 1", "Item 2", "Item 3"],
 		],
-		colWidthPercent: ["20%", "20%", "20%", "20%"],
-		isBadge: [false, false, false, false],
-		badgeColor: [
-			["", "", "#71e071", ""],
-			["", "", "#ff7171", ""],
-		],
+		colWidthPercent: ["30%", "20%", "10%", "10%"],
 		centered: [false, true, true, true]
 	};
+
+    useEffect(() => {
+		setItems(itemList.items);
+	}, []);
 
     return (
         <div className={styles.content}>
@@ -82,7 +61,13 @@ function ApproveOrder() {
                 </div>
 
                 <div className={styles.itemTable}>
-					<Table title="Item List" data={itemList} />
+                    <Table
+					    title="Item List"
+					    headers={itemList.header}
+					    items={items}
+					    centered={itemList.centered}
+					    colWidthPercent={itemList.colWidthPercent}
+				    />
 				</div>
                 
                 <div className={styles.formDetails}>
@@ -111,9 +96,10 @@ function ApproveOrder() {
                         </div>
                         
                         <div className={styles.verifyButton}>
-                            <div className={styles.button}><FaSave/> Submit </div>
+                            
                             <div className={styles.button}><FaTrashAlt/> Delete </div>
-                        
+                            <div className={styles.button}><FaSave/> Submit </div>
+
                         </div>
                     </div>
                 </div> 
