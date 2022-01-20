@@ -18,7 +18,7 @@ import StatWrapper from "components/StatWrapper.component";
 import styles from "styles/common/inventory/ManageInventory.module.scss";
 import "reactjs-popup/dist/index.css";
 import "alertifyjs/build/css/alertify.min.css";
-import "alertifyjs/build/css/themes/default.min.css";
+import "alertifyjs/build/css/themes/bootstrap.min.css";
 
 /* 
 	TODO: Popup for AddSold
@@ -207,8 +207,7 @@ function ManageInventory() {
 
 	const addSold = async (id) => {
 		errorBlink();
-		alertify.success("Item added to sold list");
-		swal("Item added to sold list");
+		alertify.error("Insufficient available items");
 
 		/* try {
 			let req, res;

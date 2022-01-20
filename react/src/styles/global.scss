@@ -119,3 +119,11 @@ code {
   cursor: pointer;
   user-select: none;
 }
+
+/* alertify */
+.ajs-error {
+  background: white !important;
+  border-radius: 6px !important;
+  text-shadow: none !important;
+  color: #FF172A !important;
+}
