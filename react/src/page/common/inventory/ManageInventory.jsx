@@ -3,6 +3,8 @@
 */
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import * as alertify from "alertifyjs";
+import * as swal from "sweetalert";
 
 import Popup from "reactjs-popup";
 
@@ -15,6 +17,8 @@ import StatWrapper from "components/StatWrapper.component";
 
 import styles from "styles/common/inventory/ManageInventory.module.scss";
 import "reactjs-popup/dist/index.css";
+import "alertifyjs/build/css/alertify.min.css";
+import "alertifyjs/build/css/themes/default.min.css";
 
 /* 
 	TODO: Popup for AddSold
@@ -203,6 +207,8 @@ function ManageInventory() {
 
 	const addSold = async (id) => {
 		errorBlink();
+		alertify.success("Item added to sold list");
+		swal("Item added to sold list");
 
 		/* try {
 			let req, res;
@@ -313,7 +319,8 @@ function ManageInventory() {
 						{
 							icon: "FaTrashAlt",
 							callback: (n) => {
-								deleteItem(n);
+								// deleteItem(n);
+								swal("Item deleted", "The selected item is deleted from the system", "success");
 							},
 							tooltip: "Delete",
 						},
