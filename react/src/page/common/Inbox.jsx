@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 import * as alertify from "alertifyjs";
+import * as swal from "sweetalert";
 
 import styles from "styles/common/Inbox.module.scss";
 
@@ -79,8 +80,9 @@ function Inbox() {
                                                 .confirm(
                                                     "Confirm Title",
                                                     "Confirm Message",
-                                                    () => {
-                                                        alertify.success("Ok");
+                                                    async () => {
+                                                        await swal('Success', 'You clicked Yes button', 'success');
+														navigate('/user/orders');
                                                     },
                                                     () => {
                                                         navigate('/user/order/approve', { state: { id: item.orderId } });
