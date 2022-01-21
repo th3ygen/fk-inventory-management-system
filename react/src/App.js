@@ -38,6 +38,9 @@ import AddOrderPage from 'page/common/order/AddOrder';
 import ApproveOrderPage from 'page/common/order/ApproveOrder';
 import UpdateOrderPage from 'page/common/order/UpdateOrder';
 
+//Inbox page
+import InboxPage from 'page/common/Inbox';
+
 
 function Home() {
 	return (
@@ -86,6 +89,7 @@ function App() {
 					<Route path="UpdatePassword" element={<UpdatePasswordPage />} />
 
 					<Route path="tests" element={<TestPage />} />
+					<Route path="inbox" element={<InboxPage />} />
 				</Route>
 				<Route path="/admin" element={<AdminLayout />}>
 					<Route index element={<Home />} />
@@ -95,6 +99,7 @@ function App() {
 					<Route path="/admin/accounts/update_account" element={<UpdateAccountPage />} />
 					<Route path="report" element={<DisplayReportPage />} />
 					<Route path="inventory" element={<ManageInventoryPage />} />
+					<Route path="inbox" element={<InboxPage />} />
 				</Route>
 			</Routes>
 		</div>

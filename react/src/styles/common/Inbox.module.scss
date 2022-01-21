@@ -1,0 +1,71 @@
+.content{
+    width: 100%;
+    height: fit-content;
+}
+
+.wrapper{
+    width: 100%;
+}
+
+.table{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.header{
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    & > div {
+        color: #2179FFFF;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+}
+
+.headNum{
+    flex: 0 0 50px;
+    display: flex;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.headTitle{
+    flex: 1 1 30%;
+    display: flex;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.headCon{
+    flex: 0 0 15%;
+    display: flex;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.tableCont{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 58vh;
+    overflow-y: scroll;
+}
+
+.row{
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    &:nth-child(odd){
+        background-color: rgba(33, 122, 255, 0.185);
+    }
+
+    border: 2px solid #2179FF00;
+    cursor: pointer;
+    transition: .3s all;
+    &:hover{
+        border: 2px solid #2179FFFF;
+    }
+}
