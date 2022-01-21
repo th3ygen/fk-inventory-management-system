@@ -129,7 +129,7 @@ function ManageInventory() {
 				response.forEach((item) => {
 					if (item.item) {
 						tSoldItems += item.quantity;
-						tSold += item.item.unit_price * item.quantity;
+						tSold += item.total;
 					}
 				});
 
