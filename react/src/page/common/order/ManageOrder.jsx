@@ -21,6 +21,7 @@ function ManageOrder() {
 	const [totalProgress, setTotalProgress] = useState(0);
 
 	const [disableDelete, setDisableDelete] = useState([]);
+	const [readOnly, setReadOnly] = useState([]);
 
 	const orderData = {
 		header: ["Vendor", "Order Status", "Issue Date", "Approve Date"],
@@ -122,6 +123,7 @@ function ManageOrder() {
 				let tReject = 0;
 				let tPending = 0;
 				let dDelete = [];
+				let dRead = [];
 
 				response.forEach((item) => {
 
@@ -149,8 +151,12 @@ function ManageOrder() {
 						} else if (item.status === 'rejected') {
 							status = item.status.charAt(0).toUpperCase() + item.status.slice(1) + ':#e63946';
 
+							dRead.push(item._id);
+
 							tReject++;
 						} else {
+
+							dRead.push(item._id);
 
 							tPending++;
 						}
@@ -171,6 +177,7 @@ function ManageOrder() {
 				setTotalReject(tReject);
 				setItems(rows);
 				setDisableDelete(dDelete);
+				setReadOnly(dRead);
 			}
 
 
@@ -244,6 +251,17 @@ function ManageOrder() {
 							},
 							tooltip: "Edit",
 							disabled: disableDelete,
+						},
+						{
+							icon: "FaEye",
+							callback: (n) => {
+								navigate("/user/order/approve", {
+									replace: true,
+									state: { id: n, readOnly: true },
+								});
+							},
+							tooltip: "View order",
+							disabled: readOnly,
 						},
 						{
 							icon: "FaTrashAlt",
