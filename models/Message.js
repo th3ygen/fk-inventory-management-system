@@ -6,6 +6,8 @@ const schema = new Schema({
     senderId: Types.ObjectId,
     receivers: [String],
     read: Boolean,
+    msgType: String,
+    orderId: Types.ObjectId,
 }, { timestamps: true });
 
 schema.statics.add = async function (title, content, receivers, senderId) {

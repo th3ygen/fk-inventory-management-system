@@ -18,6 +18,7 @@
     width: 100%;
     display: flex;
     gap: 10px;
+    padding-right: 10px;
     & > div {
         color: #2179FFFF;
         font-weight: 800;
@@ -41,7 +42,7 @@
 
 .headCon{
     flex: 0 0 15%;
-    display: flex;
+    /* display: flex; */
     border-radius: 10px;
     padding: 5px;
 }
