@@ -79,6 +79,15 @@ schema.statics.deleteOrder = function(id){
     return this.findByIdAndDelete(id);
 }
 
+schema.statics.requestDelete = async function (id) {
+    
+    const order = await this.findById(id);
+
+    order.status = "Request Delete";
+
+    return order.save();
+}
+
 
 const Order = model('Order', schema);
 

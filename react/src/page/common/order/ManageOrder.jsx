@@ -22,6 +22,7 @@ function ManageOrder() {
 	const [totalOrders, setTotalOrders] = useState(0);
 	const [totalApproved, setTotalApproved] = useState(0);
 	const [totalReject, setTotalReject] = useState(0);
+	const [totalReqDelete, setTotalReqDelete] = useState(0);
 	const [totalProgress, setTotalProgress] = useState(0);
 
 	const [disableDelete, setDisableDelete] = useState([]);
@@ -94,6 +95,11 @@ function ManageOrder() {
 				setTotalReject(totalReject - 1);
 
 
+			} else if (status === 'Request Delete') {
+
+				setTotalReqDelete(totalReqDelete - 1);
+
+
 			} else {
 
 				setTotalProgress(totalProgress - 1);
@@ -128,6 +134,7 @@ function ManageOrder() {
 				let tApproved = 0;
 				let tReject = 0;
 				let tPending = 0;
+				let tReqDel = 0;
 				let dDelete = [];
 				let dRead = [];
 				let oStatus = {};
@@ -161,8 +168,14 @@ function ManageOrder() {
 							dRead.push(item._id);
 
 							tReject++;
-						} else {
+						} else if (item.status === 'Request Delete') {
+							status = item.status + ':#e63946';
 
+							dRead.push(item._id);
+
+							tReqDel++;
+						} else {
+							status = item.status.charAt(0).toUpperCase() + item.status.slice(1) + ':#888';
 							dRead.push(item._id);
 
 							tPending++;
@@ -182,6 +195,7 @@ function ManageOrder() {
 				setTotalApproved(tApproved);
 				setTotalProgress(tPending);
 				setTotalReject(tReject);
+				setTotalReqDelete(tReqDel);
 				setItems(rows);
 				setDisableDelete(dDelete);
 				setReadOnly(dRead);
@@ -234,6 +248,13 @@ function ManageOrder() {
 					<StatNumber
 						title="Reject Order"
 						value={totalReject || '0'}
+						unit="Orders"
+						icon="FaTrash"
+					/>
+
+					<StatNumber
+						title="Request Delete"
+						value={totalReqDelete|| '0'}
 						unit="Orders"
 						icon="FaTrash"
 					/>

@@ -107,6 +107,28 @@ module.exports = {
             });
         }
     },
+    requestDelete: async function(req, res){
+        try{
+            
+            const { id } = req.params;
+            const order = await Order.requestDelete(id);
+            
+            if(order){
+                res.status(200).json(order);
+            }
+            else{
+                res.status(404).json({
+                    error: 'Order not found'
+                });
+            }
+
+        }catch(e){
+            console.log(`[ERROR] ${e}`);
+            res.status(500).json({
+                error: e
+            });
+        }
+    },
     deleteOrder: async function(req, res){
         try{
             const { id } = req.params;

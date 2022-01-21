@@ -134,8 +134,6 @@ function UpdateOrder() {
     const editItem = (id) => {
         const item = items.find(item => item[0] === id);
 
-
-
         if (item) {
             itemName.current.value = item[1];
             quantity.current.value = item[2];
@@ -201,6 +199,27 @@ function UpdateOrder() {
         }
 
     }, [location.state.status]);
+
+    const requestDelete = async () => {
+		
+		const request = await fetch(
+			"http://localhost:8080/api/orders/requestDelete/" + location.state.id,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
+
+		if (request.status === 200) {
+			await swal("Verifying", "Request Send For Verification!", "error");
+			navigate("/user/orders");
+		} else {
+			console.log(location.state.id, request);
+			await swal("Error", "Error deleting item", "error");
+		}
+	};
 
     const updateOrder = async () => {
         let order = {
@@ -362,7 +381,7 @@ function UpdateOrder() {
                                 >
                                     <FaEdit /> Update
                                 </div>
-                                <div className={styles.button}><FaTrashAlt />Request Delete</div>
+                                <div className={styles.button} onClick={requestDelete}><FaTrashAlt />Request Delete</div>
                             </div>
                         </div>
                     </div>
