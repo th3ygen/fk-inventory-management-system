@@ -21,6 +21,7 @@ app.use(bodyParse.json());
         await require('./models/Account');
         await require('./models/Vendors');
         await require('./models/Order');
+        await require('./models/Message');
 
         console.log('Loaded models');
 
