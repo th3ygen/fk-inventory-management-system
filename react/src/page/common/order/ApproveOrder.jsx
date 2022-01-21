@@ -91,9 +91,16 @@ function ApproveOrder() {
 
     }
 
-    useEffect(() => {
+    /* useEffect(() => {
         loadData();
-    }, []);
+    }, []); */
+
+    useEffect(() => {
+        if (location.state.id) {
+            loadData();
+            console.log(location.state.id);
+        }
+    }, [location.state.id])
 
     const approveOrder = async () => {
         let order = {
