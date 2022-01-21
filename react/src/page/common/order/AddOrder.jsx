@@ -3,11 +3,15 @@ import styles from "styles/common/order/Add.module.scss";
 import { FaUndo, FaReply, FaEraser, FaCheckSquare } from "react-icons/fa";
 
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 
 // components
 import Table from "components/Table.component";
 
 function AddOrder() {
+	
+	const navigate = useNavigate();
+	
 	const [items, setItems] = useState([]);
 	const [vendors, setVendors] = useState([]);
 	const [vendor, setVendor] = useState({});
@@ -105,6 +109,7 @@ function AddOrder() {
 		});
 		
 		if (request.status === 200) {
+			navigate('/user/orders');
 			alert("Item added successfully");
 		} else {
 			console.log(request);

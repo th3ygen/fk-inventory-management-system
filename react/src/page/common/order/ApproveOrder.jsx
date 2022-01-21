@@ -4,6 +4,7 @@ import { FaSave, FaTrashAlt } from 'react-icons/fa';
 
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 // components
 import Table from "components/Table.component";
@@ -13,6 +14,7 @@ function ApproveOrder() {
     const [items, setItems] = useState([]);
 
     const location = useLocation();
+    const navigate = useNavigate();
 
     const [vendor, setVendor] = useState("");
     const [grandTotal, setGrandTotal] = useState(0);
@@ -120,6 +122,28 @@ function ApproveOrder() {
         }
     };
 
+    const deleteOrder = async (id) => {
+		// delete item with id from itemsData.items
+		const request = await fetch(
+			"http://localhost:8080/api/orders/delete/" + id,
+			{
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
+
+		if (request.status === 200) {
+            
+			navigate('/user/orders');
+
+		} else {
+			console.log(id, request);
+			alert("Error deleting item");
+		}
+	};
+
     return (
         <div className={styles.content}>
             <div className={styles.order}>
@@ -196,7 +220,7 @@ function ApproveOrder() {
 
                         <div className={styles.verifyButton}>
 
-                            <div className={styles.button}><FaTrashAlt /> Delete </div>
+                            <div className={styles.button} onClick={deleteOrder(location.state.id)}><FaTrashAlt /> Delete </div>
                             <div className={styles.button} onClick={approveOrder}><FaSave /> Submit </div>
 
                         </div>
