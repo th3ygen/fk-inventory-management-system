@@ -1,9 +1,37 @@
 import styles from 'styles/common/Inbox.module.scss';
 
+import { useState, useEffect } from "react";
+
 //component
 import Wrapper from 'components/FolderCard';
 
 function Inbox() {
+
+    const [inbox, setInbox] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            let request = await fetch(
+                "http://localhost:8080/api/inbox/list?receiver=staff",
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            if (request.status === 200) {
+                let response = await request.json();
+
+                setInbox(response);
+
+            }
+
+
+        })();
+    }, []);
+
     return (
         <div className={styles.content}>
             <Wrapper className={styles.wrapper} title="Inbox">
@@ -37,7 +65,7 @@ function Inbox() {
                                 12/1/2022
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </Wrapper>
