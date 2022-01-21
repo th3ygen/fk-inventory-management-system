@@ -20,6 +20,8 @@ function ManageOrder() {
 	const [totalReject, setTotalReject] = useState(0);
 	const [totalProgress, setTotalProgress] = useState(0);
 
+	const [disableDelete, setDisableDelete] = useState([]);
+
 	const orderData = {
 		header: ["Vendor", "Order Status", "Issue Date", "Approve Date"],
 		colWidthPercent: ["30%", "20%", "10%", "10%"],
@@ -119,6 +121,7 @@ function ManageOrder() {
 				let tApproved = 0;
 				let tReject = 0;
 				let tPending = 0;
+				let dDelete = [];
 
 				response.forEach((item) => {
 
@@ -139,6 +142,8 @@ function ManageOrder() {
 					if (item.status) {
 						if (item.status === 'approved') {
 							status = item.status.charAt(0).toUpperCase() + item.status.slice(1) + ':#00c853';
+							dDelete.push(item._id);
+
 
 							tApproved++;
 						} else if (item.status === 'rejected') {
@@ -165,6 +170,7 @@ function ManageOrder() {
 				setTotalProgress(tPending);
 				setTotalReject(tReject);
 				setItems(rows);
+				setDisableDelete(dDelete);
 			}
 
 
@@ -227,7 +233,39 @@ function ManageOrder() {
 					items={items}
 					centered={orderData.centered}
 					colWidthPercent={orderData.colWidthPercent}
-					actions={orderData.actions}
+					actions={[
+						{
+							icon: "FaEdit",
+							callback: (n) => {
+								navigate("/user/order/update", {
+									replace: true,
+									state: { id: n },
+								});
+							},
+							tooltip: "Edit",
+							disabled: disableDelete,
+						},
+						{
+							icon: "FaTrashAlt",
+							callback: (n) => {
+								deleteItem(n);
+							},
+							tooltip: "Delete",
+							disabled: disableDelete,
+						},
+						{
+							icon: "FaCheckSquare",
+							callback: (n) => {
+								navigate("/user/order/approve", {
+									replace: true,
+									state: { id: n },
+								});
+							},
+							tooltip: "Approve",
+							disabled: disableDelete,
+						},
+
+					]}
 				/>
 			</div>
 		</div>
