@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
-import 'tippy.js/dist/backdrop.css';
-import 'tippy.js/animations/scale.css';
-import 'tippy.js/animations/shift-away.css';
+import "tippy.js/dist/backdrop.css";
+import "tippy.js/animations/scale.css";
+import "tippy.js/animations/shift-away.css";
 
 import * as ReactIcons from "react-icons/fa";
 
@@ -119,7 +119,7 @@ function Table({ ...props }) {
 						className={styles.data}
 						style={{
 							width: `${
-								(actions && actions.length > 0)
+								actions && actions.length > 0
 									? "calc(100% - 115px)"
 									: "calc(100% - 50px)"
 							}`,
@@ -140,7 +140,14 @@ function Table({ ...props }) {
 							</div>
 						))}
 					</div>
-					{(actions && actions.length > 0) && <div className={styles.col} style={{textAlign: "center"}}>Actions</div>}
+					{actions && actions.length > 0 && (
+						<div
+							className={styles.col}
+							style={{ textAlign: "center" }}
+						>
+							Actions
+						</div>
+					)}
 				</div>
 				<div className={styles.rows}>
 					{items.map((i, x) => (
@@ -152,7 +159,7 @@ function Table({ ...props }) {
 								className={styles.data}
 								style={{
 									width: `${
-										(actions && actions.length > 0)
+										actions && actions.length > 0
 											? "calc(100% - 115px)"
 											: "calc(100% - 50px)"
 									}`,
@@ -210,21 +217,40 @@ function Table({ ...props }) {
 									</div>
 								))}
 							</div>
-							{(actions && actions.length > 0) && (
+							{actions && actions.length > 0 && (
 								<div className={styles.actions}>
-									{actions.map((item, y) => (
-										<Tippy key={y} content={item.tooltip} delay={[500, 0]} duration={[100, 100]} animation="scale" inertia="true">
-											<div
+									{actions.map((item, y) => {
+										if (item.disabled) {
+											if (
+												item.disabled.indexOf(i[0]) > -1
+											) {
+												return <></>;
+											}
+										}
+
+										return (
+											<Tippy
 												key={y}
-												className={styles.action}
-												onClick={() =>
-													item.callback(items[x][0])
-												}
+												content={item.tooltip}
+												delay={[500, 0]}
+												duration={[100, 100]}
+												animation="scale"
+												inertia="true"
 											>
-												<Icon name={item.icon} />
-											</div>
-										</Tippy>
-									))}
+												<div
+													key={y}
+													className={styles.action}
+													onClick={() =>
+														item.callback(
+															items[x][0]
+														)
+													}
+												>
+													<Icon name={item.icon} />
+												</div>
+											</Tippy>
+										);
+									})}
 								</div>
 							)}
 						</div>
