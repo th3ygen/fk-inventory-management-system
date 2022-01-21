@@ -6,6 +6,10 @@ import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
+//message
+import * as swal from "sweetalert";
+import * as alertify from "alertifyjs";
+
 // components
 import Table from "components/Table.component";
 
@@ -31,6 +35,29 @@ function ApproveOrder() {
         header: ["Item", "Quantity", "Unit Price", "Sub Price"],
         colWidthPercent: ["30%", "20%", "15%", "15%"],
         centered: [false, true, true, true]
+    };
+
+    const deleteOrder = async () => {
+        // delete item with id from itemsData.items
+        const request = await fetch(
+            "http://localhost:8080/api/orders/delete/" + location.state.id,
+            {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+
+        if (request.status === 200) {
+            await swal('Success', 'You clicked Yes button', 'success');
+            navigate('/user/orders');
+
+        } else {
+            console.log(location.state.id, request);
+            await swal('Error', 'Error deleting item', 'error');
+
+        }
     };
 
     const genRandomHash = (len) => {
@@ -122,34 +149,16 @@ function ApproveOrder() {
         });
 
         if (request.status === 200) {
-            alert("Order update successfully");
+            await swal('Success', 'You clicked Yes button', 'success');
+            navigate('/user/orders');
+
         } else {
             console.log(request);
             alert("Error adding item");
         }
     };
 
-    const deleteOrder = async (id) => {
-		// delete item with id from itemsData.items
-		const request = await fetch(
-			"http://localhost:8080/api/orders/delete/" + id,
-			{
-				method: "DELETE",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			}
-		);
-
-		if (request.status === 200) {
-            
-			navigate('/user/orders');
-
-		} else {
-			console.log(id, request);
-			alert("Error deleting item");
-		}
-	};
+   
 
     return (
         <div className={styles.content}>
@@ -227,7 +236,7 @@ function ApproveOrder() {
 
                         <div className={styles.verifyButton}>
 
-                            <div className={styles.button} onClick={deleteOrder(location.state.id)}><FaTrashAlt /> Delete </div>
+                            <div className={styles.button} onClick={deleteOrder}><FaTrashAlt /> Delete </div>
                             <div className={styles.button} onClick={approveOrder}><FaSave /> Submit </div>
 
                         </div>

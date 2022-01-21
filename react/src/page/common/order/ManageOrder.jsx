@@ -72,12 +72,24 @@ function ManageOrder() {
 			const item = items.find(i => i[0] === id);
 
 			setTotalOrders(totalOrders - 1);
-			if (item[2] === 'approved') {
+
+			const status = item[2].split(':')[0];
+
+			if (status === 'Approved') {
+
 				setTotalApproved(totalApproved - 1);
-			}else if(item[2] === 'rejected') {
+
+
+			} else if (status === 'Rejected') {
+
 				setTotalReject(totalReject - 1);
-			}else{
+
+
+			} else {
+
 				setTotalProgress(totalProgress - 1);
+
+
 			}
 			setItems(items.filter((i) => i[0] !== id));
 
@@ -177,31 +189,31 @@ function ManageOrder() {
 
 			<div className={styles.summary}>
 				<StatWrapper >
-					<StatNumber 
+					<StatNumber
 						title="Total Order"
-						value={totalOrders}
-						unit= "Orders"
+						value={totalOrders || '0'}
+						unit="Orders"
 						icon="FaShoppingCart"
 					/>
 
 					<StatNumber
 						title="Progress Order"
-						value={totalProgress}
-						unit= "Orders"
+						value={totalProgress || '0'}
+						unit="Orders"
 						icon="FaSpinner"
 					/>
 
 					<StatNumber
 						title="Approve Order"
-						value={totalApproved}
-						unit= "Orders"
+						value={totalApproved || '0'}
+						unit="Orders"
 						icon="FaCheckSquare"
 					/>
 
 					<StatNumber
 						title="Reject Order"
-						value={totalReject}
-						unit= "Orders"
+						value={totalReject || '0'}
+						unit="Orders"
 						icon="FaTrash"
 					/>
 				</StatWrapper>
