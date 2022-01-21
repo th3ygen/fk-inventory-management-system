@@ -11,6 +11,10 @@ import StatNumber from "components/StatNumber.component";
 import StatWrapper from "components/StatWrapper.component";
 import PageHeader from 'components/PageHeader.component';
 
+//message
+import * as swal from "sweetalert";
+import * as alertify from "alertifyjs";
+
 function ManageOrder() {
 
 	const navigate = useNavigate();
@@ -22,6 +26,7 @@ function ManageOrder() {
 
 	const [disableDelete, setDisableDelete] = useState([]);
 	const [readOnly, setReadOnly] = useState([]);
+	const [orderStatus, setOrderStatus] = useState({});
 
 	const orderData = {
 		header: ["Vendor", "Order Status", "Issue Date", "Approve Date"],
@@ -72,6 +77,7 @@ function ManageOrder() {
 		);
 
 		if (request.status === 200) {
+			await swal("Deleted", "Order Succesfully Deleted!", "error");
 			const item = items.find(i => i[0] === id);
 
 			setTotalOrders(totalOrders - 1);
@@ -124,6 +130,7 @@ function ManageOrder() {
 				let tPending = 0;
 				let dDelete = [];
 				let dRead = [];
+				let oStatus = {};
 
 				response.forEach((item) => {
 
@@ -139,7 +146,7 @@ function ManageOrder() {
 						date = new Date(item.updatedAt);
 						approvedAt = `${date.getHours()}.${date.getMinutes()} ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
 					}
-
+					oStatus[item._id] = item.status;
 					let status = 'Pending:#888';
 					if (item.status) {
 						if (item.status === 'approved') {
@@ -178,6 +185,7 @@ function ManageOrder() {
 				setItems(rows);
 				setDisableDelete(dDelete);
 				setReadOnly(dRead);
+				setOrderStatus(oStatus);
 			}
 
 
@@ -246,7 +254,7 @@ function ManageOrder() {
 							callback: (n) => {
 								navigate("/user/order/update", {
 									replace: true,
-									state: { id: n },
+									state: { id: n, status: orderStatus[n] || 'unknown' },
 								});
 							},
 							tooltip: "Edit",

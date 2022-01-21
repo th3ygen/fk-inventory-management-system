@@ -50,7 +50,7 @@ function ApproveOrder() {
 		);
 
 		if (request.status === 200) {
-			await swal("Success", "You clicked Yes button", "success");
+			await swal("Deleted", "Order Has Been Deleted!", "error");
 			navigate("/user/orders");
 		} else {
 			console.log(location.state.id, request);
@@ -155,7 +155,7 @@ function ApproveOrder() {
 		);
 
 		if (request.status === 200) {
-			await swal("Success", "You clicked Yes button", "success");
+			await swal("Verified", "Order Had Been Verified!", "success");
 			navigate("/user/orders");
 		} else {
 			console.log(request);

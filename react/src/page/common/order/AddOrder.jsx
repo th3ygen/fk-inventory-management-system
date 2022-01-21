@@ -8,6 +8,10 @@ import { useNavigate } from 'react-router-dom';
 // components
 import Table from "components/Table.component";
 
+//message
+import * as swal from "sweetalert";
+import * as alertify from "alertifyjs";
+
 function AddOrder() {
 	
 	const navigate = useNavigate();
@@ -109,8 +113,8 @@ function AddOrder() {
 		});
 		
 		if (request.status === 200) {
-			navigate('/user/orders');
-			alert("Item added successfully");
+			await swal("Success", "Wait for Manager Verification!", "success");
+			navigate("/user/orders");
 		} else {
 			console.log(request);
 			alert("Error adding item");
