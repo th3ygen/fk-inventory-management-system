@@ -39,8 +39,10 @@ function ManageInventory() {
 	const [leastSoldItem, setLeastSoldItem] = useState({});
 	const [addSoldPopup, setAddSoldPopup] = useState(false);
 	const [addSoldItem, setAddSoldItem] = useState("");
+	const [addSoldId, setAddSoldId] = useState("");
 	const [addSoldQuantity, setAddSoldQuantity] = useState(0);
 	const [err, setErr] = useState(false);
+	const [refresh, setRefresh] = useState(false);
 
 	const addSoldInputRef = useRef();
 
@@ -175,7 +177,7 @@ function ManageInventory() {
 				setTotalSales(tSold.toFixed(2));
 			}
 		})();
-	}, []);
+	}, [refresh]);
 
 	// sleep function
 	const sleep = (ms) => {
@@ -207,6 +209,10 @@ function ManageInventory() {
 
 				setAddSoldItem(res.name);
 				setAddSoldQuantity(res.quantity);
+				setAddSoldId(id);
+			} else {
+				console.log(req);
+				alert("Error getting item");
 			}
 
 			setAddSoldPopup(true);
@@ -216,13 +222,18 @@ function ManageInventory() {
 	};
 
 	const addSold = async (id) => {
-		errorBlink();
-		alertify.error("Insufficient available items");
-
 		try {
 			let req, res;
 
 			const qnty = parseInt(addSoldInputRef.current.value);
+
+			if (qnty > addSoldQuantity) {
+				errorBlink();
+				alertify.error("Insufficient available items");
+
+				return; 
+			}
+
 
 			req = await fetch("http://localhost:8080/api/inventory/sold/add", {
 				method: "POST",
@@ -230,13 +241,27 @@ function ManageInventory() {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					item_id: id,
+					item_ID: addSoldId,
 					quantity: qnty,
 				}),
 			});
 
 			if (req.status === 200) {
-				alert("done");
+				const i = items.findIndex((item) => item[0] === addSoldId);
+
+				items[i][2] -= qnty;
+
+				setItems([...items]);
+				setRefresh(!refresh);
+				setAddSoldPopup(false);
+
+				await Swal({
+					title: "Success",
+					text: "Item sold",
+					icon: "success",
+					button: "OK",
+				});
+
 			}
 		} catch (e) {
 			console.log(e);
