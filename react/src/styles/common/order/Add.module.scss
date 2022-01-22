@@ -17,7 +17,7 @@ h2{
 }
 
 .order{
-    flex: 1 1 50%;
+    flex: 1 1 30%;
 }
 
 .orderForm{
@@ -82,17 +82,17 @@ h2{
     height: 100px;
     opacity: 50%;
     background-color: white;
+    padding: 10px;
     border: none;
     outline: none;
     border-bottom: 2px solid black;
     border-radius: 5px;
     box-shadow: 0 0 2px 1px #00000000;
     transition: 0.2s all;
-    text-align: center;
 }
 .formSelect{
     width: calc(100% - 110px);
-    height: 40px;
+    height: 45px;
     opacity: 50%;
     background-color: white;
     border: none;
@@ -101,7 +101,6 @@ h2{
     border-radius: 5px;
     box-shadow: 0 0 2px 1px #00000000;
     transition: 0.2s all;
-    text-align: center;
 }
 
 .itemButton{

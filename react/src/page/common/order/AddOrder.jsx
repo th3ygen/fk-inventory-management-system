@@ -61,14 +61,15 @@ function AddOrder() {
 		let item = {
 			itemName: itemName.current.value,
 			qty: parseInt(quantity.current.value),
-			unitPrice: parseFloat(unitPrice.current.value),
+			unitPrice: parseFloat(unitPrice.current.value).toFixed(2),
 		};
 
 		const subPrice = item.unitPrice * item.qty;
 
+		
 		gTotal += subPrice;
 
-		rows.push([item.id || genRandomHash(8), item.itemName, item.qty, item.unitPrice, subPrice]);
+		rows.push([item.id || genRandomHash(8), item.itemName, item.qty, item.unitPrice, subPrice.toFixed(2)]);
 
 		itemName.current.value = "";
 		quantity.current.value = "";
@@ -273,9 +274,9 @@ function AddOrder() {
 							>
 								Grand Total 
 							</label>
-							<label className={styles.vendor} for="gTotal">
-								: RM{grandTotal.toFixed(2)}
-							</label>
+							<div className={styles.vendor} for="gTotal">
+								: RM {grandTotal.toFixed(2)}
+							</div>
 						</div>
 						<div className={styles.contSum}>
 							<label
@@ -295,7 +296,10 @@ function AddOrder() {
 						</div>
 						<div className={styles.butOrder}>
 							<div className={styles.button} onClick={() => {
-                                setVendorName("");
+                                itemName.current.value = "";
+								quantity.current.value = "";
+								unitPrice.current.value = "";
+								setVendorName("");
 								orderRemarks.current.value = "";
                                 setItems([]);
                                 setGrandTotal(0);
@@ -306,12 +310,6 @@ function AddOrder() {
 								<FaCheckSquare />
 								Submit for Approval
 							</div>
-							<input
-								type="hidden"
-								name="status"
-								id="status"
-								value="Submit for Approval"
-							></input>
 						</div>
 					</div>
 				</div>
