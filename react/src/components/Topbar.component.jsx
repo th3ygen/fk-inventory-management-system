@@ -12,6 +12,11 @@ export default function Topbar() {
 		navigate(-1);
 	};
 
+	const logout = () => {
+		localStorage.removeItem("user");
+		navigate("/login");
+	};
+
 	return (
 		<div className={`${styles.container}`}>
 			<div className={styles.bar}>
@@ -25,7 +30,7 @@ export default function Topbar() {
 					</div>
 				</div>
 				<div className={styles["user-action"]}>
-					<div className={styles.logout}>
+					<div className={styles.logout} onClick={logout}>
 						<LogoutIcon size={20} />
 						Logout
 					</div>
