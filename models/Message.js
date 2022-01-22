@@ -10,14 +10,19 @@ const schema = new Schema({
     orderId: Types.ObjectId,
 }, { timestamps: true });
 
-schema.statics.add = async function (title, content, receivers, senderId) {
+schema.statics.add = async function (title, content, receivers, msgType) {
     const message = new this({
         title: title,
         content: content,
         receivers: receivers,
-        senderId: senderId,
+        msgType: msgType,
     });
     return message.save();
+};
+
+schema.methods.attachOrder = async function (orderId) {
+    this.orderId = orderId;
+    return this.save();
 };
 
 /* get all message that receivers array contains role */

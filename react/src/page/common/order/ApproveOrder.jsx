@@ -121,7 +121,7 @@ function ApproveOrder() {
 						genRandomHash(8),
 						i.name,
 						i.quantity,
-						i.unit_price.toFixed(2),
+						i.unit_price,
 						(i.quantity * i.unit_price).toFixed(2),
 					])
 				);
@@ -173,7 +173,7 @@ function ApproveOrder() {
 		let order = {
 			id: location.state.id,
 			status: approved.current.checked === true ? "approved" : "rejected",
-			managerID: managerID.current.value,
+			managerID: user.id,
 			managerRemarks: managerRemarks.current.value,
 		};
 

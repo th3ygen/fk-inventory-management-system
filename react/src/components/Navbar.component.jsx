@@ -38,10 +38,10 @@ export default function Navbar({ ...props }) {
                     </div>
                     <div className={styles.text}>
                         <div className={`${styles.title} card-text`}>
-                            Aidil
+                            {(props.user && props.user.name) || "Unknown"}
                         </div>
                         <div className={`${styles.label} card-text`}>
-                            Developer
+                            {(props.user && props.user.role) || "Unknown"}
                         </div>
                     </div>
                 </div>

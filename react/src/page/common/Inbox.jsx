@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 import * as alertify from "alertifyjs";
 import * as swal from "sweetalert";
@@ -13,16 +13,23 @@ import Wrapper from "components/FolderCard";
 function Inbox() {
     const navigate = useNavigate();
 
+	const [user] = useOutletContext();
+
 	const [inbox, setInbox] = useState([]);
 
 	useEffect(() => {
 		(async () => {
+			if (!user) {
+				return;
+			}
+
 			let request = await fetch(
-				"http://localhost:8080/api/inbox/list?receiver=staff",
+				`http://localhost:8080/api/inbox/list?receiver=${user.role}`,
 				{
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
+						authorization: `Bearer ${user.token}`,
 					},
 				}
 			);
@@ -33,7 +40,7 @@ function Inbox() {
 				setInbox(response);
 			}
 		})();
-	}, []);
+	}, [user]);
 
 	/* useEffect(() => {
         
@@ -59,7 +66,7 @@ function Inbox() {
 							className={styles.headCon}
 							style={{ textAlign: "center" }}
 						>
-							Source
+							Type
 						</div>
 						<div
 							className={styles.headCon}
@@ -78,8 +85,8 @@ function Inbox() {
                                         if (item.msgType === 'request') {
                                             alertify
                                                 .confirm(
-                                                    "Confirm Title",
-                                                    "Confirm Message",
+                                                    item.title,
+                                                    item.content,
                                                     async () => {
                                                         await swal('Success', 'You clicked Yes button', 'success');
 														navigate('/user/orders');
@@ -105,9 +112,9 @@ function Inbox() {
 									</div>
 									<div
 										className={styles.headCon}
-										style={{ textAlign: "center" }}
+										style={{ textAlign: "center", textTransform: "capitalize" }}
 									>
-										Staff
+										{item.msgType || "none"}
 									</div>
 									<div
 										className={styles.headCon}

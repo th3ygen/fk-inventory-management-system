@@ -158,6 +158,10 @@ function AddOrder() {
 
 	useEffect(() => {
 		(async () => {
+			if (!user) {
+				return;
+			}
+
 			let request = await fetch(
 				"http://localhost:8080/api/vendors/list",
 				{
@@ -185,7 +189,7 @@ function AddOrder() {
 				<div className={styles.fTitle}> Order Form</div>
 				<div className={styles.orderForm}>
 					<div className={styles.orderInput}>
-						<label className={styles.formLabel} for="vendor">
+						<label className={styles.formLabel} htmlFor="vendor">
 							Vendor{" "}
 						</label>
 						<select
@@ -202,7 +206,7 @@ function AddOrder() {
 						</select>
 					</div>
 					<div className={styles.orderInput}>
-						<label className={styles.formLabel} for="remarks">
+						<label className={styles.formLabel} htmlFor="remarks">
 							Remarks{" "}
 						</label>
 						<textarea
@@ -212,7 +216,7 @@ function AddOrder() {
 						></textarea>
 					</div>
 					<div className={styles.orderInput}>
-						<label className={styles.formLabel} for="itemName">
+						<label className={styles.formLabel} htmlFor="itemName">
 							Item Name{" "}
 						</label>
 						<input
@@ -222,7 +226,7 @@ function AddOrder() {
 						/>
 					</div>
 					<div className={styles.orderInput}>
-						<label className={styles.formLabel} for="unitPrice">
+						<label className={styles.formLabel} htmlFor="unitPrice">
 							Unit Price{" "}
 						</label>
 						<input
@@ -233,7 +237,7 @@ function AddOrder() {
 						/>
 					</div>
 					<div className={styles.orderInput}>
-						<label className={styles.formLabel} for="quantity">
+						<label className={styles.formLabel} htmlFor="quantity">
 							Quantity{" "}
 						</label>
 						<input
@@ -274,22 +278,22 @@ function AddOrder() {
 						<div className={styles.contSum}>
 							<label
 								className={styles.formLabel}
-								for="grandTotal"
+								htmlFor="grandTotal"
 							>
 								Grand Total 
 							</label>
-							<div className={styles.vendor} for="gTotal">
+							<div className={styles.vendor} htmlFor="gTotal">
 								: RM {grandTotal.toFixed(2)}
 							</div>
 						</div>
 						<div className={styles.contSum}>
 							<label
 								className={styles.formLabel}
-								for="vendorSummary"
+								htmlFor="vendorSummary"
 							>
 								Vendor:
 							</label>
-							<div className={styles.vendorDetails} for="vendorS">
+							<div className={styles.vendorDetails} htmlFor="vendorS">
 								<div className={styles.vendor}>
 									: {vendorName}
 								</div>

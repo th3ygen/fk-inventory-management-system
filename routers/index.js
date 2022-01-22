@@ -8,6 +8,6 @@ router.use('/vendors', require('./vendors.router'));
 /* router.use('/report', require('./report.router')); */
 router.use('/orders', jwt.verify, require('./order.router'));
 router.use('/report', require('./report.router'));
-router.use('/inbox', require('./inbox.router'));
+router.use('/inbox', jwt.verify, require('./inbox.router'));
 
 module.exports = router;

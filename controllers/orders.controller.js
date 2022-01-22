@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const Order = require('../models/Order');
 const Vendor = require('../models/Vendors');
+const Message = require('../models/Message');
 
 module.exports = {
     getOrders: async function(req, res){
@@ -51,6 +52,22 @@ module.exports = {
             const order = await Order.addOrder(vendor_ID, comment, orderItems);
 
             if(order){
+                /* render items as a list of ul li */
+                let items = '';
+                for(let x = 0; x < order.items.length; x++){
+                    items += `<li>${order.items[x].name}, ${order.items[x].quantity}, RM${order.items[x].unit_price} per unit</li>`;
+                }
+
+                const vendor = await Vendor.findById(order.vendor_ID);
+
+                const content = `<p>Order from vendor ${vendor.company_name}</p>
+                                <p>Items:</p>
+                                <ul>${items}</ul>`;
+
+                const msg = await Message.add('New order request', content, ['manager', 'admin'], 'request');
+
+                await msg.attachOrder(order._id);
+
                 res.status(200).json(order);
             }
             else{

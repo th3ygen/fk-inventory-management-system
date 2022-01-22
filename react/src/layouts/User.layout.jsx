@@ -52,7 +52,7 @@ export default function UserLayout(props) {
 	return (
 		<div>
 			<Topbar />
-			<Navbar paths={paths} />
+			<Navbar paths={paths} user={user}/>
 			<div className={styles.content}>
 				<Outlet context={[user]}/>
 			</div>
