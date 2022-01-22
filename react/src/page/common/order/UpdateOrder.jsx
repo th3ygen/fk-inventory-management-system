@@ -259,15 +259,15 @@ function UpdateOrder() {
                         <div className={styles.managerTitle}>Manager Details</div>
                         <div className={styles.managerContent}>
                             <div className={styles.contSum}>
-                                <label className={styles.managerLabel} for="managerLabel">Manager Name: </label>
-                                <div className={styles.managerInput} /* useRef={managerID} */>
-                                    {manager}
+                                <div className={styles.vendorL} >Manager Name </div>
+                                <div className={styles.vendor} /* useRef={managerID} */>
+                                    : {manager}
                                 </div>
                             </div>
                             <div className={styles.contSum}>
-                                <label className={styles.managerLabel} for="remarksLabel">Remarks: </label>
-                                <div className={styles.managerInput} /* useRef={managerR} */>
-                                    {managerRemarks}
+                                <div className={styles.vendorL} >Remarks </div>
+                                <div className={styles.vendor} /* useRef={managerR} */>
+                                   : {managerRemarks}
                                 </div>
                             </div>
                         </div>
