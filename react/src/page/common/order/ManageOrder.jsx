@@ -3,7 +3,7 @@ import styles from 'styles/common/order/ManageOrder.module.scss';
 import { FaTrashAlt, FaEdit, FaReply, FaCheckSquare } from 'react-icons/fa';
 
 import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 
 // components
 import Table from "components/Table.component";
@@ -16,6 +16,7 @@ import * as swal from "sweetalert";
 import * as alertify from "alertifyjs";
 
 function ManageOrder() {
+	const [user] = useOutletContext();
 
 	const navigate = useNavigate();
 	const [items, setItems] = useState([]);
@@ -73,6 +74,7 @@ function ManageOrder() {
 				method: "DELETE",
 				headers: {
 					"Content-Type": "application/json",
+					authorization: "Bearer " + user.token,
 				},
 			}
 		);
@@ -116,12 +118,17 @@ function ManageOrder() {
 
 	useEffect(() => {
 		(async () => {
+			if (!user) {
+				return;
+			}
+
 			let request = await fetch(
 				"http://localhost:8080/api/orders/get",
 				{
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
+						authorization: "Bearer " + user.token,
 					},
 				}
 			);
@@ -204,7 +211,7 @@ function ManageOrder() {
 
 
 		})();
-	}, []);
+	}, [user]);
 
 	return (
 		<div className={styles.container}>
