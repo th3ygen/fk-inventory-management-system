@@ -4,9 +4,11 @@
     TODO client validation
 */
 import { useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FaFileImport, FaTrashAlt } from "react-icons/fa";
 import BarcodeScanner from "javascript-barcode-reader";
+
+import Swal from "sweetalert";
 
 import PageHeader from "components/PageHeader.component";
 
@@ -15,6 +17,7 @@ import { useEffect } from "react";
 
 function UpdateItem() {
 	const location = useLocation();
+	const navigate = useNavigate();
 
 	const [vendors, setVendors] = useState([]);
 	const [vendor, setVendor] = useState({});
@@ -185,7 +188,14 @@ function UpdateItem() {
 			});
 
 			if (request.status === 200) {
-				alert("Item updated successfully");
+				await Swal({
+					title: "Success",
+					text: "Item updated successfully",
+					icon: "success",
+					button: "OK",
+				});
+
+				navigate('/user/inventory');
 			} else {
 				console.log(request);
 			}

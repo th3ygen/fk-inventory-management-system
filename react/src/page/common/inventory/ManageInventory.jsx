@@ -63,7 +63,14 @@ function ManageInventory() {
 		);
 
 		if (request.status === 200) {
-			setItems(items.filter((i) => i._id !== id));
+			setItems(items.filter((i) => i[0] !== id));
+
+			Swal({
+				title: "Deleted",
+				text: "Item has been deleted!",
+				icon: "success",
+				button: "Ok",
+			})
 		} else {
 			console.log(id, request);
 			alert("Error deleting item");
