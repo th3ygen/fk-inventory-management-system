@@ -1,5 +1,78 @@
+import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import * as alertify from "alertifyjs";
+
 import styles from "styles/common/Login.module.scss";
 function Login() {
+	const navigate = useNavigate();
+
+	const usernameRef = useRef();
+	const passwordRef = useRef();
+
+	const login = async () => {
+		try {
+			let res, req;
+
+			req = await fetch("http://localhost:8080/api/auth/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					username: usernameRef.current.value,
+					password: passwordRef.current.value,
+				}),
+			});
+
+			if (req.status === 200) {
+				res = await req.json();
+
+				localStorage.setItem('user', JSON.stringify({
+					username: res.username,
+					role: res.role || 'staff',
+					name: res.name,
+					token: res.token,
+				}));
+
+				const path = res.role === 'admin' ? '/admin' : '/user/inventory';
+
+				navigate(path, { state: { user: {
+					username: res.username,
+					role: res.role || 'staff',
+					name: res.name,
+					token: res.token,
+				} }, replace: true })
+			} else {
+				alertify.error("Unauthorized access");
+			}
+		} catch (e) {
+			alertify.error("Error logging in");
+			console.log(e);
+		}
+	}
+
+	const onEnter = (e) => {
+		if (e.key === 'Enter') {
+			login();
+		}
+	};
+
+	useEffect(() => {
+		try {
+			const user = localStorage.getItem('user');
+
+			if (user) {
+				if (user.role === 'admin') {
+					navigate("/admin", { state: { user: JSON.parse(user) }, replace: true });
+				} else {
+					navigate("/user/inventory", { state: { user: JSON.parse(user) }, replace: true });
+				}
+			}
+		} catch (e) {
+			console.log('log', e);
+		}
+	}, []);
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.whitecontainer}>
@@ -13,15 +86,14 @@ function Login() {
 				<form className={styles.formPassword}>
 					
 					<div>
-						<input type="username" placeholder="Username" />
+						<input type="username" placeholder="Username" ref={usernameRef}/>
 					</div>
                     
 					<div>
-						<input type="password" placeholder="Password" />
+						<input type="password" placeholder="Password" ref={passwordRef} onKeyPress={onEnter}/>
 					</div>
-					<div className={styles.button}>Login</div>
-					<a href="/Register"> Register
-					</a>
+					<div className={styles.button} onClick={login}>Login</div>
+					<div className={styles.button} onClick={() => navigate('/register')}>Register</div>
 					<a href="/ForgotPassword"> Forgot Password
 					</a>
 				</form>

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 
 import styles from "styles/layout/User.module.scss";
@@ -6,6 +7,8 @@ import Navbar from "components/Navbar.component";
 import Topbar from "components/Topbar.component";
 
 export default function UserLayout(props) {
+	const [user, setUser] = useState(null);
+
 	const paths = [
 		{
 			path: "/user/inventory",
@@ -34,12 +37,24 @@ export default function UserLayout(props) {
 		},
 	];
 
+	useEffect(() => {
+		try {
+			const u = JSON.parse(localStorage.getItem("user"));
+
+			if (u) {
+				setUser(u);
+			}
+		} catch (e) {	
+			console.error(e);
+		}
+	}, []);
+
 	return (
 		<div>
 			<Topbar />
 			<Navbar paths={paths} />
 			<div className={styles.content}>
-				<Outlet />
+				<Outlet context={[user]}/>
 			</div>
 		</div>
 	);

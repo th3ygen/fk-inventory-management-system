@@ -6,10 +6,10 @@ module.exports = {
 		try {
 			const { username, password } = req.body;
 
-			const token = await Account.login(username, password);
-			if (token) {
+			const account = await Account.login(username, password);
+			if (account) {
 				res.status(200).json({
-                    token
+                    token: account.token, username: account.username, name: account.name, id: account.id, role: account.role
                 });
 			} else {
 				res.status(401).json({
@@ -26,13 +26,14 @@ module.exports = {
 	// POST
 	register: async function (req, res) {
 		try {
-			const { email, username, password, contact } = req.body;
+			const { name, email, username, password, contact } = req.body;
 
 			const user = await Account.register(
-				email,
+				name,
 				username,
 				password,
-				contact
+				email,
+				contact,
 			);
 			res.status(200).json(user);
 		} catch (e) {

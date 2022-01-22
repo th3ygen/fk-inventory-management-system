@@ -224,7 +224,7 @@ function Table({ ...props }) {
 											if (
 												item.disabled.indexOf(i[0]) > -1
 											) {
-												return <></>;
+												return <div key={y} />;
 											}
 										}
 

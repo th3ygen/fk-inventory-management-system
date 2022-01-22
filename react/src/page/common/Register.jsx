@@ -1,5 +1,9 @@
+import { useNavigate } from "react-router-dom";
+
 import styles from "styles/common/Register.module.scss";
 function Register() {
+	const navigate = useNavigate();
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.whitecontainer}>
@@ -30,8 +34,7 @@ function Register() {
 					<div>
 						<input type="password" placeholder="Repeat Password" />
 					</div>
-					<a href="/Login"> Login
-					</a>
+					<div className={styles.button} onClick={() => navigate('/login')}>Login</div>
 					<div className={styles.button}>Register</div>
 				</form>
 			</div>

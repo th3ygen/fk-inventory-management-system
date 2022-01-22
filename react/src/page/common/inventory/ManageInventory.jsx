@@ -1,8 +1,5 @@
-/* 
-    TODO: fetch data
-*/
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import * as alertify from "alertifyjs";
 import Swal from "sweetalert";
 
@@ -29,6 +26,8 @@ import "alertifyjs/build/css/themes/bootstrap.min.css";
 
 function ManageInventory() {
 	const navigate = useNavigate();
+
+	const [user] = useOutletContext();
 
 	const [items, setItems] = useState([]);
 	const [totalItems, setTotalItems] = useState(0);
@@ -60,6 +59,7 @@ function ManageInventory() {
 				method: "DELETE",
 				headers: {
 					"Content-Type": "application/json",
+					authorization: "Bearer " + user.token,
 				},
 			}
 		);
@@ -81,12 +81,17 @@ function ManageInventory() {
 
 	useEffect(() => {
 		(async () => {
+			if (!user) {
+				return;
+			}
+
 			let request = await fetch(
 				"http://localhost:8080/api/inventory/item/list",
 				{
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
+						authorization: "Bearer " + user.token,
 					},
 				}
 			);
@@ -125,6 +130,7 @@ function ManageInventory() {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
+						authorization: "Bearer " + user.token,
 					},
 				}
 			);
@@ -177,7 +183,7 @@ function ManageInventory() {
 				setTotalSales(tSold.toFixed(2));
 			}
 		})();
-	}, [refresh]);
+	}, [user, refresh]);
 
 	// sleep function
 	const sleep = (ms) => {
@@ -200,6 +206,7 @@ function ManageInventory() {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
+						authorization: "Bearer " + user.token,
 					},
 				}
 			);
@@ -239,6 +246,7 @@ function ManageInventory() {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
+					authorization: "Bearer " + user.token,
 				},
 				body: JSON.stringify({
 					item_ID: addSoldId,

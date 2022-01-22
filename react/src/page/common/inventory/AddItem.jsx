@@ -1,11 +1,6 @@
-/* 
-    TODO add item form
-    TODO client validation
-    TODO fetch data from server
-*/
 import { useEffect, useRef, useState } from "react";
 import { FaFileImport, FaTrashAlt } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import BarcodeScanner from "javascript-barcode-reader";
 
 import Swal from "sweetalert";
@@ -16,6 +11,8 @@ import styles from "styles/common/inventory/AddItem.module.scss";
 
 function AddItem() {
 	const navigate = useNavigate();
+
+	const [user] = useOutletContext();
 
 	const [vendors, setVendors] = useState([]);
 	const [vendor, setVendor] = useState({});
@@ -145,6 +142,7 @@ function AddItem() {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
+				authorization: "Bearer " + user.token,
 			},
 			body: JSON.stringify(item),
 		});
@@ -182,6 +180,7 @@ function AddItem() {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
+						authorization: "Bearer " + user.token,
 					},
 				}
 			);
@@ -192,7 +191,7 @@ function AddItem() {
 			setVendors(v);
 
 		})();
-	}, []);
+	}, [user]);
 
 	return (
 		<div className={styles.container}>
