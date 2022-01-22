@@ -101,14 +101,14 @@ function ApproveOrder() {
 		let request;
 
 		if (location.state.id) {
-			request = await fetch("http://localhost:8080/api/orders/find/" + location.state.id, 
-			{
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					authorization: "Bearer " + user.token,
-				},
-			});
+			request = await fetch("http://localhost:8080/api/orders/find/" + location.state.id,
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						authorization: "Bearer " + user.token,
+					},
+				});
 
 			if (request.status === 200) {
 				const item = await request.json();
@@ -210,13 +210,13 @@ function ApproveOrder() {
 									className={styles.managerLabel}
 									htmlFor="orderIDLabel"
 								>
-									Order ID:{" "}
+									Order ID{" "}
 								</label>
 								<label
-									className={styles.managerLabel}
+									className={styles.vDetails}
 									htmlFor="orderID"
 								>
-									123abc123{" "}
+									: 123abc123{" "}
 								</label>
 							</div>
 							<div className={styles.contSum}>
@@ -224,10 +224,10 @@ function ApproveOrder() {
 									className={styles.managerLabel}
 									htmlFor="vendorLabel"
 								>
-									Vendor:{" "}
+									Vendor{" "}
 								</label>
-								<div className={styles.managerLabel}>
-									{vendor}
+								<div className={styles.vDetails}>
+									: {vendor}
 								</div>
 							</div>
 							<div className={styles.contSum}>
@@ -235,14 +235,17 @@ function ApproveOrder() {
 									className={styles.managerLabel}
 									htmlFor="detailLabel"
 								>
-									Vendor Details:{" "}
+									Vendor Details {" "}
 								</label>
-								<div className={styles.details}>
-									{vendorName}
+								<div className={styles.vendor}>
+									<div className={styles.vDetails}>
+										: {vendorName}
+									</div>
+									<div className={styles.vDetails}>
+										: {vendorPIC}
+									</div>
 								</div>
-								<div className={styles.details}>
-									{vendorPIC}
-								</div>
+
 							</div>
 							<div className={styles.contSum}>
 								<label
@@ -251,7 +254,7 @@ function ApproveOrder() {
 								>
 									Remarks:{" "}
 								</label>
-								<div className={styles.details}>
+								<div className={styles.vDetails}>
 									{" "}
 									: {orderRemarks}{" "}
 								</div>

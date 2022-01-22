@@ -216,5 +216,10 @@ h2{
 
 .vendor{
     color: #888;
-    width: 100%;
+    flex: 1 1 60%;
+}
+
+.sLabel{
+    color: #888;
+    flex: 0 0 20%;
 }
