@@ -4,7 +4,7 @@ import { FaSave, FaTrashAlt } from "react-icons/fa";
 
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 //message
 import * as swal from "sweetalert";
@@ -14,6 +14,9 @@ import * as alertify from "alertifyjs";
 import Table from "components/Table.component";
 
 function ApproveOrder() {
+
+	const [user] = useOutletContext();
+
 	const [items, setItems] = useState([]);
 
 	const location = useLocation();
@@ -38,7 +41,7 @@ function ApproveOrder() {
 	};
 
 	const deleteOrder = async () => {
-		
+
 		const confirm = await swal({
 			title: "Are you sure?",
 			text: "You won't be able to revert this!",
@@ -50,10 +53,10 @@ function ApproveOrder() {
 					value: 'delete',
 				},
 			},
-		
+
 		});
 
-		if(confirm !== 'delete'){
+		if (confirm !== 'delete') {
 			return;
 		}
 
@@ -64,6 +67,7 @@ function ApproveOrder() {
 				method: "DELETE",
 				headers: {
 					"Content-Type": "application/json",
+					authorization: "Bearer " + user.token,
 				},
 			}
 		);
@@ -97,9 +101,14 @@ function ApproveOrder() {
 		let request;
 
 		if (location.state.id) {
-			request = await fetch(
-				"http://localhost:8080/api/orders/find/" + location.state.id
-			);
+			request = await fetch("http://localhost:8080/api/orders/find/" + location.state.id, 
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					authorization: "Bearer " + user.token,
+				},
+			});
 
 			if (request.status === 200) {
 				const item = await request.json();
@@ -128,8 +137,14 @@ function ApproveOrder() {
 		}
 
 		request = await fetch(
-			"http://localhost:8080/api/vendors/get/" + vendorId
-		);
+			"http://localhost:8080/api/vendors/get/" + vendorId,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					authorization: "Bearer " + user.token,
+				},
+			});
 
 		if (request.status === 200) {
 			const vendor = await request.json();
@@ -141,8 +156,8 @@ function ApproveOrder() {
 	};
 
 	/* useEffect(() => {
-        loadData();
-    }, []); */
+		loadData();
+	}, []); */
 
 	useEffect(() => {
 		if (location.state.id) {
@@ -152,7 +167,7 @@ function ApproveOrder() {
 		if (location.state.readOnly) {
 			setReadOnly(true);
 		}
-	}, [location.state.id, location.state.readOnly]);
+	}, [location.state.id, location.state.readOnly, user]);
 
 	const approveOrder = async () => {
 		let order = {
@@ -168,6 +183,7 @@ function ApproveOrder() {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
+					authorization: "Bearer " + user.token,
 				},
 				body: JSON.stringify(order),
 			}

@@ -4,7 +4,7 @@ import { FaEdit, FaReply, FaTrashAlt } from 'react-icons/fa';
 
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 
 // components
 import Table from "components/Table.component";
@@ -15,6 +15,8 @@ import * as alertify from "alertifyjs";
 
 function UpdateOrder() {
 
+    const [user] = useOutletContext();
+    
     const navigate = useNavigate();
 
     const location = useLocation();
@@ -94,6 +96,7 @@ function UpdateOrder() {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
+                    
                 },
             }
         );
@@ -103,7 +106,14 @@ function UpdateOrder() {
         setVendors(v);
 
         if (location.state.id) {
-            request = await fetch('http://localhost:8080/api/orders/find/' + location.state.id);
+            request = await fetch('http://localhost:8080/api/orders/find/' + location.state.id, 
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					authorization: "Bearer " + user.token,
+				},
+			});
 
             if (request.status === 200) {
                 const item = await request.json();
@@ -175,7 +185,7 @@ function UpdateOrder() {
 
     useEffect(() => {
         loadData();
-    }, []);
+    }, [user]);
 
     useEffect(async () => {
         let request;
@@ -183,7 +193,14 @@ function UpdateOrder() {
         if (location.state.status === 'rejected') {
 
             if (location.state.id) {
-                request = await fetch('http://localhost:8080/api/orders/find/' + location.state.id);
+                request = await fetch('http://localhost:8080/api/orders/find/' + location.state.id, 
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        authorization: "Bearer " + user.token,
+                    },
+                });
 
                 if (request.status === 200) {
                     const item = await request.json();
@@ -198,7 +215,7 @@ function UpdateOrder() {
             setManagerRemarks('Not Verify Yet');
         }
 
-    }, [location.state.status]);
+    }, [location.state.status, user]);
 
     const requestDelete = async () => {
 		
@@ -208,6 +225,7 @@ function UpdateOrder() {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
+                    authorization: "Bearer " + user.token,
 				},
 			}
 		);
@@ -238,6 +256,7 @@ function UpdateOrder() {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                authorization: "Bearer " + user.token,
             },
             body: JSON.stringify(order),
         });

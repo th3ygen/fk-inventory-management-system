@@ -3,7 +3,7 @@ import styles from "styles/common/order/Add.module.scss";
 import { FaUndo, FaReply, FaEraser, FaCheckSquare } from "react-icons/fa";
 
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 
 // components
 import Table from "components/Table.component";
@@ -13,6 +13,8 @@ import * as swal from "sweetalert";
 import * as alertify from "alertifyjs";
 
 function AddOrder() {
+
+	const [user] = useOutletContext();
 	
 	const navigate = useNavigate();
 	
@@ -109,6 +111,7 @@ function AddOrder() {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
+				authorization: "Bearer " + user.token,
 			},
 			body: JSON.stringify(order),
 		});
@@ -161,6 +164,7 @@ function AddOrder() {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
+						authorization: "Bearer " + user.token,
 					},
 				}
 			);
@@ -173,7 +177,7 @@ function AddOrder() {
 			setVendorPIC(v[0].pic_name);
 
 		})();
-	}, []);
+	}, [user]);
 
 	return (
 		<div className={styles.content}>
