@@ -68,11 +68,9 @@ function App() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (!['/login', '/register'].includes(location.pathname )) {
+		if (!['/login', '/register'].includes(location.pathname)) {
 			try {
 				const user = JSON.parse(localStorage.getItem("user"));
-
-				console.log('test');
 
 				if (user) {
 					if (user.role === 'admin') {
