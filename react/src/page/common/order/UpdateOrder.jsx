@@ -213,11 +213,11 @@ function UpdateOrder() {
 		);
 
 		if (request.status === 200) {
-			await swal("Verifying", "Request Send For Verification!", "error");
+			await swal("Verifying", "Request Send For Verification!", "success");
 			navigate("/user/orders");
 		} else {
 			console.log(location.state.id, request);
-			await swal("Error", "Error deleting item", "error");
+			alertify.notify('Error request delete', 'error');
 		}
 	};
 
@@ -247,7 +247,7 @@ function UpdateOrder() {
 			navigate("/user/orders");
         } else {
             console.log(request);
-            alert("Error adding item");
+            alertify.notify('Error updating order', 'error');
         }
     };
 

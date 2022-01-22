@@ -68,7 +68,7 @@ function ManageOrder() {
 	const deleteItem = async (id) => {
 		// delete item with id from itemsData.items
 		const request = await fetch(
-			"http://localhost:8080/api/orders/delete/" + id,
+			"http://localhost:8080/api/orders/delete/" + '23eeq',
 			{
 				method: "DELETE",
 				headers: {
@@ -110,7 +110,7 @@ function ManageOrder() {
 
 		} else {
 			console.log(id, request);
-			alert("Error deleting item");
+			alertify.notify('Error deleting order', 'error');
 		}
 	};
 

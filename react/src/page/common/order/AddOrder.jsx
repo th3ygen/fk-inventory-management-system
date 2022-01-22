@@ -117,7 +117,7 @@ function AddOrder() {
 			navigate("/user/orders");
 		} else {
 			console.log(request);
-			alert("Error adding item");
+			alertify.notify('Error adding order', 'error');
 		}
 	};
 
