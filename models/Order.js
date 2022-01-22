@@ -59,6 +59,7 @@ schema.statics.updateOrder = async function (id, comment, orderItems) {
 
     order.comment = comment;
     order.items = orderItems;
+    order.status = "Pending";
 
     return order.save();
 }
