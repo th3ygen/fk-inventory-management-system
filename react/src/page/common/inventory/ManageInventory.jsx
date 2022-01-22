@@ -4,7 +4,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import * as alertify from "alertifyjs";
-import * as swal from "sweetalert";
+import Swal from "sweetalert";
 
 import Popup from "reactjs-popup";
 
@@ -39,8 +39,10 @@ function ManageInventory() {
 	const [leastSoldItem, setLeastSoldItem] = useState({});
 	const [addSoldPopup, setAddSoldPopup] = useState(false);
 	const [addSoldItem, setAddSoldItem] = useState("");
+	const [addSoldId, setAddSoldId] = useState("");
 	const [addSoldQuantity, setAddSoldQuantity] = useState(0);
 	const [err, setErr] = useState(false);
+	const [refresh, setRefresh] = useState(false);
 
 	const addSoldInputRef = useRef();
 
@@ -63,7 +65,14 @@ function ManageInventory() {
 		);
 
 		if (request.status === 200) {
-			setItems(items.filter((i) => i._id !== id));
+			setItems(items.filter((i) => i[0] !== id));
+
+			Swal({
+				title: "Deleted",
+				text: "Item has been deleted!",
+				icon: "success",
+				button: "Ok",
+			})
 		} else {
 			console.log(id, request);
 			alert("Error deleting item");
@@ -168,7 +177,7 @@ function ManageInventory() {
 				setTotalSales(tSold.toFixed(2));
 			}
 		})();
-	}, []);
+	}, [refresh]);
 
 	// sleep function
 	const sleep = (ms) => {
@@ -185,20 +194,27 @@ function ManageInventory() {
 		try {
 			let req, res;
 
-			req = await fetch('http://localhost:8080/api/inventory/item/id/'+id, {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
+			req = await fetch(
+				"http://localhost:8080/api/inventory/item/id/" + id,
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
 
 			if (req.status === 200) {
 				res = await req.json();
 
 				setAddSoldItem(res.name);
 				setAddSoldQuantity(res.quantity);
+				setAddSoldId(id);
+			} else {
+				console.log(req);
+				alert("Error getting item");
 			}
-				
+
 			setAddSoldPopup(true);
 		} catch (e) {
 			console.log(e);
@@ -206,31 +222,50 @@ function ManageInventory() {
 	};
 
 	const addSold = async (id) => {
-		errorBlink();
-		alertify.error("Insufficient available items");
-
-		/* try {
+		try {
 			let req, res;
 
 			const qnty = parseInt(addSoldInputRef.current.value);
 
-			res = await fetch("http://localhost:8080/api/inventory/sold/add", {
+			if (qnty > addSoldQuantity) {
+				errorBlink();
+				alertify.error("Insufficient available items");
+
+				return; 
+			}
+
+
+			req = await fetch("http://localhost:8080/api/inventory/sold/add", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					item_id: id,
+					item_ID: addSoldId,
 					quantity: qnty,
 				}),
 			});
 
-			if (res.status === 200) {
-				alert("done");
+			if (req.status === 200) {
+				const i = items.findIndex((item) => item[0] === addSoldId);
+
+				items[i][2] -= qnty;
+
+				setItems([...items]);
+				setRefresh(!refresh);
+				setAddSoldPopup(false);
+
+				await Swal({
+					title: "Success",
+					text: "Item sold",
+					icon: "success",
+					button: "OK",
+				});
+
 			}
 		} catch (e) {
 			console.log(e);
-		} */
+		}
 	};
 
 	return (
@@ -317,9 +352,24 @@ function ManageInventory() {
 						},
 						{
 							icon: "FaTrashAlt",
-							callback: (n) => {
-								// deleteItem(n);
-								swal("Item deleted", "The selected item is deleted from the system", "success");
+							callback: async (n) => {
+								const confirm = await Swal({
+									title: "Are you sure?",
+									text: "You won't be able to revert this!",
+									icon: 'warning',
+									buttons: {
+										cancel: 'Cancel',
+										delete: {
+											text: 'Delete',
+											value: 'delete',
+											
+										},
+									},
+								});
+
+								if (confirm === 'delete') {
+									deleteItem(n);
+								}
 							},
 							tooltip: "Delete",
 						},
@@ -341,10 +391,7 @@ function ManageInventory() {
 					</div>
 					<div className={`${styles.input} ${err && styles.error}`}>
 						<input type="text" ref={addSoldInputRef} />
-						<div
-							className={styles.btn}
-							onClick={addSold}
-						>
+						<div className={styles.btn} onClick={addSold}>
 							Add
 						</div>
 					</div>
