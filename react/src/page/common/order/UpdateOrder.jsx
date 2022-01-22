@@ -155,14 +155,14 @@ function UpdateOrder() {
         let item = {
             itemName: itemName.current.value,
             qty: parseInt(quantity.current.value),
-            unitPrice: parseFloat(unitPrice.current.value),
+            unitPrice: parseFloat(unitPrice.current.value).toFixed(2),
         };
 
         const subPrice = item.unitPrice * item.qty;
 
         gTotal += subPrice;
 
-        rows.push([item.id || genRandomHash(8), item.itemName, item.qty, item.unitPrice, subPrice]);
+        rows.push([item.id || genRandomHash(8), item.itemName, item.qty, item.unitPrice, subPrice.toFixed(2)]);
 
         itemName.current.value = "";
         quantity.current.value = "";

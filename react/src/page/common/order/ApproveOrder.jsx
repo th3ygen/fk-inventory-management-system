@@ -56,7 +56,7 @@ function ApproveOrder() {
 		if(confirm !== 'delete'){
 			return;
 		}
-		
+
 		// delete item with id from itemsData.items
 		const request = await fetch(
 			"http://localhost:8080/api/orders/delete/" + location.state.id,
@@ -112,8 +112,8 @@ function ApproveOrder() {
 						genRandomHash(8),
 						i.name,
 						i.quantity,
-						i.unit_price,
-						i.quantity * i.unit_price,
+						i.unit_price.toFixed(2),
+						(i.quantity * i.unit_price).toFixed(2),
 					])
 				);
 
