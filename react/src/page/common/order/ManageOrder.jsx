@@ -66,6 +66,25 @@ function ManageOrder() {
 	};
 
 	const deleteItem = async (id) => {
+
+		const confirm = await swal({
+			title: "Are you sure?",
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			buttons: {
+				cancel: 'Cancel',
+				delete: {
+					text: 'Delete',
+					value: 'delete',
+				},
+			},
+		
+		});
+
+		if(confirm !== 'delete'){
+			return;
+		}
+
 		// delete item with id from itemsData.items
 		const request = await fetch(
 			"http://localhost:8080/api/orders/delete/" + '23eeq',
