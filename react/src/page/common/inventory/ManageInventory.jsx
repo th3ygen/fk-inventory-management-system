@@ -4,7 +4,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import * as alertify from "alertifyjs";
-import * as swal from "sweetalert";
+import Swal from "sweetalert";
 
 import Popup from "reactjs-popup";
 
@@ -185,12 +185,15 @@ function ManageInventory() {
 		try {
 			let req, res;
 
-			req = await fetch('http://localhost:8080/api/inventory/item/id/'+id, {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
+			req = await fetch(
+				"http://localhost:8080/api/inventory/item/id/" + id,
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
 
 			if (req.status === 200) {
 				res = await req.json();
@@ -198,7 +201,7 @@ function ManageInventory() {
 				setAddSoldItem(res.name);
 				setAddSoldQuantity(res.quantity);
 			}
-				
+
 			setAddSoldPopup(true);
 		} catch (e) {
 			console.log(e);
@@ -209,12 +212,12 @@ function ManageInventory() {
 		errorBlink();
 		alertify.error("Insufficient available items");
 
-		/* try {
+		try {
 			let req, res;
 
 			const qnty = parseInt(addSoldInputRef.current.value);
 
-			res = await fetch("http://localhost:8080/api/inventory/sold/add", {
+			req = await fetch("http://localhost:8080/api/inventory/sold/add", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -225,12 +228,12 @@ function ManageInventory() {
 				}),
 			});
 
-			if (res.status === 200) {
+			if (req.status === 200) {
 				alert("done");
 			}
 		} catch (e) {
 			console.log(e);
-		} */
+		}
 	};
 
 	return (
@@ -317,9 +320,24 @@ function ManageInventory() {
 						},
 						{
 							icon: "FaTrashAlt",
-							callback: (n) => {
-								// deleteItem(n);
-								swal("Item deleted", "The selected item is deleted from the system", "success");
+							callback: async (n) => {
+								const confirm = await Swal({
+									title: "Are you sure?",
+									text: "You won't be able to revert this!",
+									icon: 'warning',
+									buttons: {
+										cancel: 'Cancel',
+										delete: {
+											text: 'Delete',
+											value: 'delete',
+											
+										},
+									},
+								});
+
+								if (confirm === 'delete') {
+									deleteItem(n);
+								}
 							},
 							tooltip: "Delete",
 						},
@@ -341,10 +359,7 @@ function ManageInventory() {
 					</div>
 					<div className={`${styles.input} ${err && styles.error}`}>
 						<input type="text" ref={addSoldInputRef} />
-						<div
-							className={styles.btn}
-							onClick={addSold}
-						>
+						<div className={styles.btn} onClick={addSold}>
 							Add
 						</div>
 					</div>
