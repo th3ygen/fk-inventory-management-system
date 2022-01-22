@@ -87,7 +87,7 @@ function ManageOrder() {
 
 		// delete item with id from itemsData.items
 		const request = await fetch(
-			"http://localhost:8080/api/orders/delete/" + '23eeq',
+			"http://localhost:8080/api/orders/delete/" + id,
 			{
 				method: "DELETE",
 				headers: {
