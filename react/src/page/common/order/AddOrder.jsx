@@ -277,7 +277,7 @@ function AddOrder() {
 					<div className={styles.sumContent}>
 						<div className={styles.contSum}>
 							<label
-								className={styles.formLabel}
+								className={styles.sLabel}
 								htmlFor="grandTotal"
 							>
 								Grand Total 
@@ -288,10 +288,10 @@ function AddOrder() {
 						</div>
 						<div className={styles.contSum}>
 							<label
-								className={styles.formLabel}
+								className={styles.sLabel}
 								htmlFor="vendorSummary"
 							>
-								Vendor:
+								Vendor
 							</label>
 							<div className={styles.vendorDetails} htmlFor="vendorS">
 								<div className={styles.vendor}>
