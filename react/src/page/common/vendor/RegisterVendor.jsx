@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { FaFileImport, FaTrashAlt } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
+
+import Swal from "sweetalert";
 
 import PageHeader from "components/PageHeader.component";
 
@@ -8,6 +10,9 @@ import styles from 'styles/common/vendor/RegisterVendor.module.scss';
 
 function RegisterVendor() {
     const [items, setItems] = useState([]);
+    const navigate = useNavigate();
+
+    const [user] = useOutletContext();
     
     const companyName = useRef('');
     const brandName = useRef('');
@@ -18,7 +23,47 @@ function RegisterVendor() {
     const picContact = useRef('');
 
     const addVendor = async () => {
-        
+        let item = {
+            company_name: companyName.current.value,
+            brand: brandName.current.value,
+            contact: contactNo.current.value,
+            address: addressInput.current.value,
+            email: email.current.value,
+            pic_name: picName.current.value,
+            pic_contact: picContact.current.value,
+        };
+
+        const request = await fetch("http://localhost:8080/api/vendors/add", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				authorization: "Bearer " + user.token,
+			},
+			body: JSON.stringify(item),
+		});
+
+        if (request.status === 200) {
+			await Swal({
+				title: "Success",
+				text: "Item added successfully",
+				icon: "success",
+				button: "OK",
+			});
+
+			navigate("/user/vendors");
+		} else {
+			alert("Error adding vendor");
+		}
+    }
+
+    const clearInput = () => {
+        companyName.current.value = "";
+        brandName.current.value = "";
+        contactNo.current.value = "";
+        addressInput.current.value = "";
+        email.current.value = "";
+        picName.current.value = "";
+        picContact.current.value = "";
     }
 
     return (
@@ -93,10 +138,22 @@ function RegisterVendor() {
                             ref={picContact}
                         />
                     </div>
-                    <div className={styles.button} onClick={addVendor}>
-                        <FaFileImport />
-                        Add
+                    <div className={`${styles.col} ${styles.full}`}>
+                        <div className={styles.row} style={{ alignItems: "flex-start" }}>
+
+                            <div className={styles.buttons}>
+                                <div className={`${styles.button} ${styles.invert}`} onClick={clearInput}>
+                                    <FaTrashAlt />
+                                    Clear
+                                </div>
+                                <div className={styles.button} onClick={addVendor}>
+                                    <FaFileImport />
+                                    Add
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    
                 </div>
             </form>
         </div>
