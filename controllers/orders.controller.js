@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+const Account = require('../models/Account');
 const Order = require('../models/Order');
 const Vendor = require('../models/Vendors');
 const Message = require('../models/Message');
@@ -35,7 +36,22 @@ module.exports = {
             const { id } = req.params;
 
             const order = await Order.getOrder(id);
-            res.status(200).json(order);
+
+            if (!order) {
+                return res.status(404).json({
+                    error: "Order not found"
+                });
+            }
+
+            const result = Object.assign({}, order._doc);
+
+            if (order.manager_ID) {
+                const manager = await Account.findById(order.manager_ID);
+
+                result.manager_name = manager.name;
+            }
+
+            res.status(200).json(result);
 
         }catch(e){
             console.log(`[ERROR] ${e.message}`);

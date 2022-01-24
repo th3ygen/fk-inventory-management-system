@@ -118,6 +118,16 @@ function ApproveOrder() {
 				const oRemarks = item.comment;
 				vendorId = item.vendor_ID;
 
+				managerID.current.value = item.manager_name;
+				managerRemarks.current.value = item.manager_remarks;
+
+				approved.current.checked = false;
+				rejected.current.checked = true;
+				if (item.status === 'approved') {
+					approved.current.checked = true;
+					rejected.current.checked = false;
+				}
+
 				setItems(
 					item.items.map((i) => [
 						genRandomHash(8),
@@ -163,6 +173,10 @@ function ApproveOrder() {
 	}, []); */
 
 	useEffect(() => {
+		if (!user) {
+			return;
+		}
+
 		if (location.state.id) {
 			loadData();
 		}

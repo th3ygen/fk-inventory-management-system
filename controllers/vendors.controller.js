@@ -6,12 +6,10 @@ module.exports = {
 		try {
 			const { id } = req.params;
 
-			const vendors = await Vendors.getVendor(id);
+			const vendor = await Vendors.getVendor(id);
 
-			res.status(200).json(vendors);
-
-			if (item) {
-				res.status(200).json(item);
+			if (vendor) {
+				res.status(200).json(vendor);
 			} else {
 				res.status(404).json({
 					error: "Vendor not found",
@@ -96,8 +94,8 @@ module.exports = {
 				pic_contact
 			);
 
-			if (item) {
-				res.status(200).json(item);
+			if (vendor) {
+				res.status(200).json(vendor);
 			} else {
 				res.status(404).json({
 					error: "Item not found",
