@@ -145,7 +145,7 @@ function Register() {
 			<div
 				ref={bgRef}
 				data-scalar-y="1.5"
-				data-scalar-x="3"
+				data-scalar-x="2"
 				className={styles.bg}
 			>
 				<div data-depth="0">

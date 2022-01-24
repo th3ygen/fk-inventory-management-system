@@ -101,7 +101,7 @@ function Login() {
 					</div>
 
 					<div>
-						<input type="password" placeholder="Password" ref={passwordRef} onKeyPress={onEnter} />
+						<input type="password" placeholder="Password" ref={passwordRef} onKeyPress={onEnter} autoComplete="new-password"/>
 					</div>
 					<div className={styles.button} onClick={login}>Login</div>
 
@@ -121,7 +121,7 @@ function Login() {
 			<div
 				ref={bgRef}
 				data-scalar-y="1.5"
-				data-scalar-x="3"
+				data-scalar-x="2"
 				className={styles.bg}
 			>
 				<div data-depth="0">
