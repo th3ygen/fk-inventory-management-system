@@ -12,6 +12,7 @@ import * as swal from "sweetalert";
 import * as alertify from "alertifyjs";
 
 function ManageVendor() {
+
     const [items, setItems] = useState([]);
     const navigate = useNavigate();
     const [user] = useOutletContext();
@@ -74,7 +75,7 @@ function ManageVendor() {
 
 		if (request.status === 200) {
 			await swal("Deleted", "Vendor Succesfully Deleted!", "error");
-			const item = items.find(i => i[0] === id);
+			setItems(items.filter((i) => i[0] !== id));
 
 		} else {
 			console.log(id, request);
