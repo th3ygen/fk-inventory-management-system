@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 // components
 import Table from "components/Table.component";
-import NumberWidget from "components/NumberWidget.component";
+import StatNumber from "components/StatNumber.component";
+import StatWrapper from "components/StatWrapper.component";
 
 import styles from "styles/admin/account/ManageAccount.module.scss";
 
@@ -97,31 +98,41 @@ function ManageAccount() {
 			<h2 className={styles.header2}>Manage Account</h2>
 			<div className={styles.title}>
 				<h5 className={styles.header5}>Easily manage the accounts details in one page</h5>
-				<div className={styles.stats}>
-					<NumberWidget
-						title="Total Accounts"
-						label="Account"
-						value={totalAccounts}
-						style={{ fontSize: "24px" }}
-					/>
-					<NumberWidget
-						title="Total Managers"
-						label="Manager"
-						value={totalManagers}
-						style={{ fontSize: "24px" }}
-					/>
-					<NumberWidget
-						title="Total Staffs"
-						label="Staff"
-						value={totalStaffs}
-						style={{ fontSize: "24px" }}
-					/>
-					<NumberWidget
-						title="Total Admins"
-						label="Admin"
-						value={totalAdmins}
-						style={{ fontSize: "24px" }}
-					/>
+				<div className={styles.statNum}>
+					<StatWrapper >
+						<StatNumber 
+							title="Total Accounts"
+							label="Account"
+							value={totalAccounts}
+							unit="Accounts"
+							icon="FaUsers"
+							style={{ fontSize: "24px" }}
+						/>
+						<StatNumber
+							title="Total Managers"
+							label="Manager"
+							value={totalManagers}
+							unit="Accounts"
+							icon="FaUserTie"
+							style={{ fontSize: "24px" }}
+						/>
+						<StatNumber
+							title="Total Staffs"
+							label="Staff"
+							value={totalStaffs}
+							unit="Accounts"
+							icon="FaUser"
+							style={{ fontSize: "24px" }}
+						/>
+						<StatNumber
+							title="Total Admins"
+							label="Admin"
+							value={totalAdmins}
+							unit="Accounts"
+							icon="FaUserEdit"
+							style={{ fontSize: "24px" }}
+						/>
+					</StatWrapper>
 				</div>
 				<div className={styles.butAdd}>
 					<button className={styles.button} onClick={() => navigate("/admin/accounts/add_account", { replace: true })}><FaUserPlus /> Add Account</button>
