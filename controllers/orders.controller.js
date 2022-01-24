@@ -107,8 +107,8 @@ module.exports = {
     verifiedOrder: async function(req, res){
         try{
             
-            const { id, status, managerRemarks, managerID } = req.body;
-            const order = await Order.verifiedOrder(id, status, managerRemarks, managerID);
+            const { id, status, managerRemarks } = req.body;
+            const order = await Order.verifiedOrder(id, status, managerRemarks, req.user._id);
             if(order){
                 res.status(200).json(order);
             }

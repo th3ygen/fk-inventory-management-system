@@ -26,6 +26,7 @@ function ApproveOrder() {
 	const [grandTotal, setGrandTotal] = useState(0);
 	const [vendorPIC, setVendorPIC] = useState("");
 	const [orderRemarks, setOrderRemarks] = useState("");
+	const [orderIssue, setOrderIssue] = useState([]);
 	const [readOnly, setReadOnly] = useState(false);
 
 	const [vendorName, setVendorName] = useState("Please select a vendor");
@@ -113,6 +114,7 @@ function ApproveOrder() {
 			if (request.status === 200) {
 				const item = await request.json();
 
+				const oID = item._id;
 				const oRemarks = item.comment;
 				vendorId = item.vendor_ID;
 
@@ -133,6 +135,7 @@ function ApproveOrder() {
 
 				setOrderRemarks(oRemarks);
 				setGrandTotal(total);
+				setOrderIssue(oID);
 			}
 		}
 
@@ -165,6 +168,7 @@ function ApproveOrder() {
 		}
 
 		if (location.state.readOnly) {
+			
 			setReadOnly(true);
 		}
 	}, [location.state.id, location.state.readOnly, user]);
@@ -216,7 +220,7 @@ function ApproveOrder() {
 									className={styles.vDetails}
 									htmlFor="orderID"
 								>
-									: 123abc123{" "}
+									: {orderIssue}
 								</label>
 							</div>
 							<div className={styles.contSum}>
@@ -334,6 +338,7 @@ function ApproveOrder() {
 									disabled={readOnly}
 									readOnly={readOnly}
 								/>
+								
 								<label
 									className={styles.formLabel}
 									htmlFor="approve"
