@@ -1,17 +1,19 @@
-/* 
-    TODO add item form
-    TODO client validation
-    TODO fetch data from server
-*/
 import { useEffect, useRef, useState } from "react";
 import { FaFileImport, FaTrashAlt } from "react-icons/fa";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import BarcodeScanner from "javascript-barcode-reader";
+
+import Swal from "sweetalert";
 
 import PageHeader from "components/PageHeader.component";
 
 import styles from "styles/common/inventory/AddItem.module.scss";
 
 function AddItem() {
+	const navigate = useNavigate();
+
+	const [user] = useOutletContext();
+
 	const [vendors, setVendors] = useState([]);
 	const [vendor, setVendor] = useState({});
 
@@ -140,15 +142,33 @@ function AddItem() {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
+				authorization: "Bearer " + user.token,
 			},
 			body: JSON.stringify(item),
 		});
 		
 		if (request.status === 200) {
-			alert("Item added successfully");
+			await Swal({
+				title: "Success",
+				text: "Item added successfully",
+				icon: "success",
+				button: "OK",
+			});
+
+			navigate("/user/inventory");
 		} else {
 			alert("Error adding item");
 		}
+	}
+
+	const clearInput = () => {
+		nameInput.current.value = "";
+		unitPriceInput.current.value = 0;
+		qntyInput.current.value = 0;
+		barcodeNumInput.current.value = "";
+		barcodeImage.current.src = "";
+		barcodeType.current.selectedIndex = 0;
+		vendorIdInput.current.value = "";
 	}
 
 	// fetch data from server onload
@@ -160,6 +180,7 @@ function AddItem() {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
+						authorization: "Bearer " + user.token,
 					},
 				}
 			);
@@ -170,7 +191,7 @@ function AddItem() {
 			setVendors(v);
 
 		})();
-	}, []);
+	}, [user]);
 
 	return (
 		<div className={styles.container}>
@@ -292,6 +313,7 @@ function AddItem() {
 						<div className={styles.buttons}>
 							<div
 								className={`${styles.button} ${styles.invert}`}
+								onClick={clearInput}
 							>
 								<FaTrashAlt />
 								Clear

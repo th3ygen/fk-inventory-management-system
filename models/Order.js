@@ -9,12 +9,8 @@ const schema = new Schema({
         type: Number,
         required: true
     },
-    issue_date: {
-        type: Number,
-        required: true
-    },
     comment: String,
-    approve_date: Number,
+    approve_date: Date,
     manager_remarks: String,
     status: String,
     items: [Object]
@@ -45,30 +41,32 @@ schema.statics.addOrder = function(vendor_ID, comment, orderItems) {
         vendor_ID,
         comment,
         grand_total,
-        items: orderItems
+        items: orderItems,
+        status: "Pending",
     });
 
     return order.save();
 }
 
-schema.statics.updateOrder = async function (orderId, comment, orderItems) {
+schema.statics.updateOrder = async function (id, comment, orderItems) {
     
-    const order = await this.findById(orderId);
+    const order = await this.findById(id);
     
     let grand_total = 0;
     for (let item of orderItems) {
-        grand_total += item.sub_total;
+        grand_total += parseInt(item.quantity) * parseFloat(item.unit_price);
     }
 
     order.comment = comment;
     order.items = orderItems;
+    order.status = "Pending";
 
     return order.save();
 }
 
-schema.statics.verifiedOrder = async function(orderID, status, managerRemarks, managerID){
+schema.statics.verifiedOrder = async function(id, status, managerRemarks, managerID){
 
-    const order = await this.findById(orderID);
+    const order = await this.findById(id);
 
     order.status = status;
     order.manager_remarks =managerRemarks;
@@ -77,13 +75,22 @@ schema.statics.verifiedOrder = async function(orderID, status, managerRemarks, m
     return order.save();
 }
 
-schema.statics.deleteOrder = function(orderID){
+schema.statics.deleteOrder = function(id){
     
-    return this.findById(orderID).remove();
+    return this.findByIdAndDelete(id);
+}
+
+schema.statics.requestDelete = async function (id) {
+    
+    const order = await this.findById(id);
+
+    order.status = "Request Delete";
+
+    return order.save();
 }
 
 
 const Order = model('Order', schema);
 
-module.exports = { Order };
+module.exports = Order;
 

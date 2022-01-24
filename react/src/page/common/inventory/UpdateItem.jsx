@@ -1,12 +1,9 @@
-/* 
-    TODO Update item form
-    TODO fetch item details
-    TODO client validation
-*/
 import { useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
 import { FaFileImport, FaTrashAlt } from "react-icons/fa";
 import BarcodeScanner from "javascript-barcode-reader";
+
+import Swal from "sweetalert";
 
 import PageHeader from "components/PageHeader.component";
 
@@ -15,6 +12,9 @@ import { useEffect } from "react";
 
 function UpdateItem() {
 	const location = useLocation();
+	const navigate = useNavigate();
+
+	const [user] = useOutletContext();
 
 	const [vendors, setVendors] = useState([]);
 	const [vendor, setVendor] = useState({});
@@ -146,7 +146,13 @@ function UpdateItem() {
 		setVendors(v);
 
 		if (location.state.id) {
-			request = await fetch('http://localhost:8080/api/inventory/item/id/' + location.state.id);
+			request = await fetch('http://localhost:8080/api/inventory/item/id/' + location.state.id, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					authorization: "Bearer " + user.token,
+				},
+			});
 
 			if (request.status === 200) {
 				const item = await request.json();
@@ -174,18 +180,24 @@ function UpdateItem() {
 				vendor_ID: vendorIdInput.current.value,
 			};
 
-			console.log(item);
-
 			const request = await fetch('http://localhost:8080/api/inventory/item/update/', {
 				method: "PATCH",
 				headers: {
 					"Content-Type": "application/json",
+					authorization: "Bearer " + user.token,
 				},
 				body: JSON.stringify(item),
 			});
 
 			if (request.status === 200) {
-				alert("Item updated successfully");
+				await Swal({
+					title: "Success",
+					text: "Item updated successfully",
+					icon: "success",
+					button: "OK",
+				});
+
+				navigate('/user/inventory');
 			} else {
 				console.log(request);
 			}
@@ -196,7 +208,7 @@ function UpdateItem() {
 
     useEffect(() => {
 		loadData();
-    }, []);
+    }, [user]);
 
 	return (
 		<div className={styles.container}>
