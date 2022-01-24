@@ -2,50 +2,51 @@ import styles from 'styles/common/order/Add.module.scss';
 
 import { FaUndo,FaReply,FaEraser,FaCheckSquare } from 'react-icons/fa';
 
+import { useState, useRef, useEffect } from "react";
+
 // components
 import Table from "components/Table.component";
 
 function AddOrder() {
 
+    const [items, setItems] = useState([]);
+    const itemName = useRef("");
+	const unitPrice = useRef(0);
+	const quantity = useRef(0);
+
     const itemList = {
 		header: ["Item", "Sub Price"],
-		items: [
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Test", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-			["1234","Item 1", "Item 2"],
-		],
-		colWidthPercent: ["20%", "20%", "20%", "20%"],
-		isBadge: [false, false, false, false],
-		badgeColor: [
-			["", "", "#71e071", ""],
-			["", "", "#ff7171", ""],
-		],
+        items: [
+			[1,"Item 1", "Item 2"],
+			[2,"Item 1", "Item 2"],
+        ],
+		colWidthPercent: ["30%", "20%", "10%", "10%"],
 		centered: [false, true, true, true],
-
 		actions: [
 			{
 				icon: "FaReply",
 				callback: (n) => {
 					console.log('editing', n);
 				},
+                tooltip: "Edit",
 			},
 		]
 	};
+
+    function getItems(){
+
+        let item = {
+            itemName: itemName.value,
+            qty: parseInt(quantity.value),
+            unitPrice: parseInt(unitPrice.value),
+        };
+
+        const subPrice = item.unitPrice * item.qty;
+
+        const gTotal =+ subPrice; 
+        
+        console.log(item, subPrice, gTotal);
+    }
 
     return (
         <div className={styles.content}>
@@ -66,18 +67,31 @@ function AddOrder() {
                     </div>
                     <div className={styles.orderInput}>
                         <label className={styles.formLabel} for="itemName">Item Name </label>
-                        <input className={styles.formInput} type="text"/>
+                        <input 
+                            className={styles.formInput} 
+                            type="text"
+                            ref={itemName}
+                        />
                     </div>
                     <div className={styles.orderInput}>
                         <label className={styles.formLabel} for="unitPrice">Unit Price </label>
-                        <input className={styles.formInput} type="number" />
+                        <input 
+                            className={styles.formInput} 
+                            type="number" 
+                            step="0.01"
+                            ref={unitPrice} 
+                        />
                     </div>
                     <div className={styles.orderInput}>
                         <label className={styles.formLabel} for="quantity">Quantity </label>
-                        <input className={styles.formInput} type="number" />
+                        <input 
+                            className={styles.formInput} 
+                            type="number"
+                            ref={quantity}
+                        />
                     </div>
                     <div className={styles.itemButton}>
-                        <div className={styles.button}><FaReply/> Update List </div>
+                        <div className={styles.button} onClick={getItems()}><FaReply/> Update List </div>
                         
                     </div>
                 </div>
@@ -85,10 +99,16 @@ function AddOrder() {
 
             <div className={styles.itemList}>
 				<div className={styles.itemTable}>
-					<Table title="Item List" data={itemList} />
+                    <Table
+					    title="Item List"
+					    headers={itemList.header}
+					    items={items}
+					    centered={itemList.centered}
+					    colWidthPercent={itemList.colWidthPercent}
+                        actions={itemList.actions}
+				    />
 				</div>
                 <div className={styles.summary}>
-                    <div className={styles.sumTitle}>Summary</div>
                     <div className={styles.sumContent}>
                         <div className={styles.contSum}>
                             <label className={styles.formLabel} for="grandTotal">Grand Total: </label>

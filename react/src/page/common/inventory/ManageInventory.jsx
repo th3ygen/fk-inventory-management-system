@@ -1,14 +1,31 @@
 /* 
     TODO: fetch data
 */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import * as alertify from "alertifyjs";
+import * as swal from "sweetalert";
+
+import Popup from "reactjs-popup";
 
 import NumberWidget from "components/NumberWidget.component";
 import Table from "components/Table.component";
 import PageHeader from "components/PageHeader.component";
 
+import StatNumber from "components/StatNumber.component";
+import StatWrapper from "components/StatWrapper.component";
+
 import styles from "styles/common/inventory/ManageInventory.module.scss";
+import "reactjs-popup/dist/index.css";
+import "alertifyjs/build/css/alertify.min.css";
+import "alertifyjs/build/css/themes/bootstrap.min.css";
+
+/* 
+	TODO: Popup for AddSold
+	       - show item name and quantity
+		   - input quantity
+		   - validate input <= quantity
+*/
 
 function ManageInventory() {
 	const navigate = useNavigate();
@@ -20,40 +37,17 @@ function ManageInventory() {
 	const [totalSales, setTotalSales] = useState(0);
 	const [mostSoldItem, setMostSoldItem] = useState({});
 	const [leastSoldItem, setLeastSoldItem] = useState({});
+	const [addSoldPopup, setAddSoldPopup] = useState(false);
+	const [addSoldItem, setAddSoldItem] = useState("");
+	const [addSoldQuantity, setAddSoldQuantity] = useState(0);
+	const [err, setErr] = useState(false);
+
+	const addSoldInputRef = useRef();
 
 	const itemsData = {
 		header: ["Name", "Quantity", "Unit price (RM)", "Barcode ID", "Vendor"],
 		colWidthPercent: ["30%", "5%", "10%", "15%", "15%"],
 		centered: [false, true, true, true],
-		actions: [
-			{
-				icon: "FaEdit",
-				callback: (n) => {
-					navigate("/user/inventory/edit", {
-						replace: true,
-						state: { id: n },
-					});
-				},
-				tooltip: "Edit",
-			},
-			{
-				icon: "FaCoins",
-				callback: (n) => {
-					navigate("/user/inventory/sell", {
-						replace: true,
-						state: { id: n },
-					});
-				},
-				tooltip: "Add sold",
-			},
-			{
-				icon: "FaTrashAlt",
-				callback: (n) => {
-					deleteItem(n);
-				},
-				tooltip: "Delete",
-			},
-		],
 	};
 
 	const deleteItem = async (id) => {
@@ -135,7 +129,7 @@ function ManageInventory() {
 				response.forEach((item) => {
 					if (item.item) {
 						tSoldItems += item.quantity;
-						tSold += item.item.unit_price * item.quantity;
+						tSold += item.total;
 					}
 				});
 
@@ -176,6 +170,69 @@ function ManageInventory() {
 		})();
 	}, []);
 
+	// sleep function
+	const sleep = (ms) => {
+		return new Promise((resolve) => setTimeout(resolve, ms));
+	};
+
+	const errorBlink = async () => {
+		setErr(true);
+		await sleep(500);
+		setErr(false);
+	};
+
+	const addSoldForm = async (id) => {
+		try {
+			let req, res;
+
+			req = await fetch('http://localhost:8080/api/inventory/item/id/'+id, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			if (req.status === 200) {
+				res = await req.json();
+
+				setAddSoldItem(res.name);
+				setAddSoldQuantity(res.quantity);
+			}
+				
+			setAddSoldPopup(true);
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
+	const addSold = async (id) => {
+		errorBlink();
+		alertify.error("Insufficient available items");
+
+		/* try {
+			let req, res;
+
+			const qnty = parseInt(addSoldInputRef.current.value);
+
+			res = await fetch("http://localhost:8080/api/inventory/sold/add", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					item_id: id,
+					quantity: qnty,
+				}),
+			});
+
+			if (res.status === 200) {
+				alert("done");
+			}
+		} catch (e) {
+			console.log(e);
+		} */
+	};
+
 	return (
 		<div className={styles.container}>
 			<PageHeader
@@ -190,43 +247,48 @@ function ManageInventory() {
 				]}
 			/>
 			<div className={styles.stats}>
-				<NumberWidget
-					title="Total Items"
-					label="Items"
-					value={totalItems}
-					style={{fontSize: "24px"}}
-				/>
-				<NumberWidget
-					title="Inventory Worth"
-					label="RM"
-					value={totalWorth}
-					style={{fontSize: "24px"}}
-				/>
-				<NumberWidget
-					title="Total Sales"
-					label="RM"
-					value={totalSales}
-					style={{fontSize: "24px"}}
-				/>
-				<NumberWidget
-					title="Total Sold Items"
-					label="Items"
-					value={totalSoldItems}
-					style={{fontSize: "24px"}}
-				/>
-				<NumberWidget
-					title="Most Sold Item"
-					label="Item"
-					value={`${mostSoldItem.name} (${mostSoldItem.value})`}
-					style={{fontSize: "16px"}}
-				/>
-				<NumberWidget
-					title="Least Sold Item"
-					label="Item"
-					value={`${leastSoldItem.name} (${leastSoldItem.value})`}
-					style={{fontSize: "16px"}}
-				/>
+				<StatWrapper>
+					<StatNumber
+						title="Total Items"
+						value={totalItems}
+						unit="Items"
+						icon="FaBoxOpen"
+					/>
+					<StatNumber
+						title="Inventory Worth"
+						value={totalWorth}
+						unit="MYR"
+						icon="FaMoneyBillAlt"
+					/>
+					<StatNumber
+						title="Total Sales"
+						value={totalSales}
+						unit="MYR"
+						icon="FaMoneyBillAlt"
+					/>
+					<StatNumber
+						title="Total Sold Items"
+						value={totalSoldItems}
+						unit="Items"
+						icon="FaBoxOpen"
+					/>
 
+					<StatNumber
+						title="Most Sold Item"
+						value={`${mostSoldItem.name} (${mostSoldItem.value})`}
+						unit="Items"
+						icon="FaBoxOpen"
+						valueSize={"1rem"}
+					/>
+
+					<StatNumber
+						title="Least Sold Item"
+						value={`${leastSoldItem.name} (${leastSoldItem.value})`}
+						unit="Items"
+						icon="FaBoxOpen"
+						valueSize={"1rem"}
+					/>
+				</StatWrapper>
 			</div>
 			<div className={styles.table}>
 				<Table
@@ -235,9 +297,59 @@ function ManageInventory() {
 					items={items}
 					centered={itemsData.centered}
 					colWidthPercent={itemsData.colWidthPercent}
-					actions={itemsData.actions}
+					actions={[
+						{
+							icon: "FaEdit",
+							callback: (n) => {
+								navigate("/user/inventory/edit", {
+									replace: true,
+									state: { id: n },
+								});
+							},
+							tooltip: "Edit",
+						},
+						{
+							icon: "FaCoins",
+							callback: (n) => {
+								addSoldForm(n);
+							},
+							tooltip: "Add sold",
+						},
+						{
+							icon: "FaTrashAlt",
+							callback: (n) => {
+								// deleteItem(n);
+								swal("Item deleted", "The selected item is deleted from the system", "success");
+							},
+							tooltip: "Delete",
+						},
+					]}
 				/>
 			</div>
+
+			<Popup open={addSoldPopup} onClose={() => setAddSoldPopup(false)}>
+				<div className={`${styles.formpop} `}>
+					<div className={styles.details}>
+						<div className={styles.detail}>
+							<label>Item name</label>
+							<span>: {addSoldItem}</span>
+						</div>
+						<div className={styles.detail}>
+							<label>Total available</label>
+							<span>: {addSoldQuantity}</span>
+						</div>
+					</div>
+					<div className={`${styles.input} ${err && styles.error}`}>
+						<input type="text" ref={addSoldInputRef} />
+						<div
+							className={styles.btn}
+							onClick={addSold}
+						>
+							Add
+						</div>
+					</div>
+				</div>
+			</Popup>
 		</div>
 	);
 }

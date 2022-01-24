@@ -6,5 +6,6 @@ router.use('/inventory', require('./inventory.router'));
 router.use('/vendors', require('./vendors.router'));
 /* router.use('/report', require('./report.router')); */
 router.use('/orders', require('./order.router'));
+router.use('/report', require('./report.router'));
 
 module.exports = router;

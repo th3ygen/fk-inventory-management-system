@@ -163,6 +163,37 @@ function UpdateItem() {
 		}
 	}
 
+	const updateItem = async () => {
+		try {
+			const item = {
+				id: location.state.id,
+				name: nameInput.current.value,
+				unit_price: unitPriceInput.current.value,
+				quantity: qntyInput.current.value,
+				barcode_ID: barcodeNumInput.current.value,
+				vendor_ID: vendorIdInput.current.value,
+			};
+
+			console.log(item);
+
+			const request = await fetch('http://localhost:8080/api/inventory/item/update/', {
+				method: "PATCH",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(item),
+			});
+
+			if (request.status === 200) {
+				alert("Item updated successfully");
+			} else {
+				console.log(request);
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
     useEffect(() => {
 		loadData();
     }, []);
@@ -292,7 +323,7 @@ function UpdateItem() {
 								<FaTrashAlt />
 								Reset
 							</div>
-							<div className={styles.button}>
+							<div className={styles.button} onClick={updateItem}>
 								<FaFileImport />
 								Update
 							</div>

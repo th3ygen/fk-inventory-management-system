@@ -23,6 +23,9 @@ import InventoryAddSoldPage from 'page/common/inventory/AddSold';
 // Report page
 import DisplayReportPage from 'page/common/report/DisplayReport';
 import ForgotPasswordPage from 'page/common/ForgotPassword';
+import LoginPage from 'page/common/Login';
+import RegisterPage from 'page/common/Register';
+
 //UpdatePW
 import UpdatePasswordPage from 'page/common/UpdatePassword';
 
@@ -30,7 +33,6 @@ import UpdatePasswordPage from 'page/common/UpdatePassword';
 import ManageAccountPage from 'page/admin/account/ManageAccount';
 import AddAccountPage from 'page/admin/account/AddAccount';
 import UpdateAccountPage from 'page/admin/account/UpdateAccount';
-
 
 // Order page
 import ManageOrderPage from 'page/common/order/ManageOrder';
@@ -63,6 +65,8 @@ function App() {
 		<div className="App">
 			<Routes>
 				<Route path="/ForgotPassword" element={<ForgotPasswordPage />} />
+				<Route path="/Login" element={<LoginPage />} />
+				<Route path="/Register" element={<RegisterPage />} />
 				<Route path="/user" element={<UserLayout />}>
 					<Route index element={<Home />} />
 					<Route path="vendors" element={<ManageVendor />} />

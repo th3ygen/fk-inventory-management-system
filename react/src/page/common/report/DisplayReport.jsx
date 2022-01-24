@@ -6,6 +6,9 @@ import TopList from "components/TopList.component";
 import DateAxisLineChart from "components/DateAxisLineChart.component";
 import NumberWidget from "components/NumberWidget.component";
 
+import StatNumber from "components/StatNumber.component";
+import StatWrapper from "components/StatWrapper.component";
+
 import styles from "styles/common/report/DisplayReport.module.scss";
 
 function DisplayReport() {
@@ -15,40 +18,14 @@ function DisplayReport() {
 	const [avrSales, setAvrSales] = useState(0);
 	const [totalSoldItems, setTotalSoldItems] = useState(0);
 	const [totalSales, setTotalSales] = useState(0);
+	const [topItems, setTopItems] = useState([]);
 
 	const itemsData = {
 		headers: ["Items Name", "Vendor name", "Total sales", "Total income"],
 		colWidthPercent: ["30%", "10%", "10%", "10%"],
 		centered: [false, true, true, true],
 		actions: [
-			{
-				icon: "FaEdit",
-				tooltip: "Edit",
-				callback: (n) => {
-					console.log("editing", n);
-				},
-			},
-			{
-				icon: "FaCog",
-				tooltip: "Whot?!",
-				callback: (n) => {
-					console.log("editing", n);
-				},
-			},
-			{
-				icon: "FaCoins",
-				tooltip: "Boooo!",
-				callback: (n) => {
-					console.log("editing", n);
-				},
-			},
-			{
-				icon: "FaTrashAlt",
-				tooltip: "Delete",
-				callback: (n) => {
-					console.log("deleting", n);
-				},
-			},
+			
 		],
 	};
 
@@ -254,6 +231,14 @@ function DisplayReport() {
 				setTotalSoldItems(tItems);
 				setItems(rows);
 			}
+			const mostSold = await fetch(
+				"http://localhost:8080/api/report/getMostSold"
+			);
+			if (mostSold.status===200){
+				const list = await mostSold.json()
+				setTopItems (list)
+			}
+
 		})();
 	}, []);
 
@@ -265,7 +250,7 @@ function DisplayReport() {
 	return (
 		<div className={styles.container}>
 			<div className={styles.stats}>
-				<NumberWidget
+				{/* <NumberWidget
 					title="Total sold"
 					value={totalSoldItems}
 					label="Items"
@@ -294,7 +279,38 @@ function DisplayReport() {
 					value={leastSoldItem.name}
 					label="Item"
 					style={{ fontSize: "14px" }}
-				/>
+				/> */}
+			</div>
+			<div className={styles.statNum}>
+				<StatWrapper >
+					<StatNumber 
+						title="Total sold"
+						value={totalSoldItems}
+						unit="Items"
+						icon="FaShoppingCart"
+					/>
+
+					<StatNumber
+						title="Total sales"
+						value={totalSales}
+						unit="MYR"
+						icon="FaMoneyBillAlt"
+					/>
+
+					<StatNumber
+						title="Most sold"
+						value={mostSoldItem.name}
+						icon="FaLevelUpAlt"
+						valueSize={"1rem"}
+					/>
+
+					<StatNumber
+						title="Least sold"
+						value={leastSoldItem.name}
+						icon="FaLevelDownAlt"
+						valueSize={"1rem"}
+					/>
+				</StatWrapper>
 			</div>
 			<div className={styles.itemsSoldTable}>
 				<Table
@@ -307,13 +323,13 @@ function DisplayReport() {
 				/>
 			</div>
 			<div className={styles.topSoldList}>
-				<TopList title="Hot items" data={topSold} />
+				<TopList title="Hot items" data={topItems} />
 			</div>
 			<div className={styles.profitTrend} onClick={testClick}>
 				<DateAxisLineChart
-					title="Profit trend"
+					title="Sales trend"
 					data={profit}
-					label="Profit"
+					label="Sales"
 					height="250px"
 				/>
 			</div>
