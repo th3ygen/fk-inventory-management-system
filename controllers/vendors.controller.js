@@ -110,11 +110,11 @@ module.exports = {
 			});
 		}
 	},
-	deleteVendor: function (req, res) {
+	deleteVendor: async function (req, res) {
 		try {
 			const { id } = req.params;
 
-			const vendor = Vendors.removeVendor(id);
+			const vendor = await Vendors.removeVendor(id);
 
 			res.status(200).json({
 				message: "Item deleted",

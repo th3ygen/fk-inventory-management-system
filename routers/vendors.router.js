@@ -8,6 +8,6 @@ router.get('/get/:id', controller.getVendor);
 router.get('/list', controller.getAllVendor);
 router.post('/add', controller.addVendor);
 router.post('/update', controller.updateVendor);
-router.get('/delete', controller.deleteVendor);
+router.delete('/delete/:id', controller.deleteVendor);
 
 module.exports = router;

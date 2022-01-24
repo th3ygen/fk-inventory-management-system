@@ -75,7 +75,9 @@ schema.methods.updateVendors = function(vendor_ID,company_name,brand,contact,add
 
 // delete vendor
 schema.methods.removeVendor = function(id) {
-    return this.remove(id);
+
+    return this.findByIdAndDelete(id);
+    
 }
 
 const Vendors = model('Vendors', schema);
