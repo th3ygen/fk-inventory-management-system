@@ -169,42 +169,87 @@ function ApproveOrder() {
 			return;
 		}
 
-		if (location.state.id) {
-			loadData();
-			managerID.current.value = user.name;
-			managerRemarks.current.value = "";
-		}
+		if (user.role === 'staff') {
 
-		if (location.state.readOnly && location.state.id) {
-
-			let request;
-
-			request = await fetch("http://localhost:8080/api/orders/find/" + location.state.id,
-				{
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						authorization: "Bearer " + user.token,
-					},
-				});
-
-			if (request.status === 200) {
-				const item = await request.json();
-
-				managerID.current.value = item.manager_name;
-				managerRemarks.current.value = item.manager_remarks;
-
-				approved.current.checked = false;
-				rejected.current.checked = true;
-				if (item.status === 'approved') {
-					approved.current.checked = true;
-					rejected.current.checked = false;
-				}
+			if (location.state.id) {
+				loadData();
+				managerID.current.value = "Not verify yet";
+				managerRemarks.current.value = "Not verify yet";
 				setReadOnly(true);
 			}
 
+			if(location.state.status === 'approved'){
+				let request;
+
+				request = await fetch("http://localhost:8080/api/orders/find/" + location.state.id,
+					{
+						method: "GET",
+						headers: {
+							"Content-Type": "application/json",
+							authorization: "Bearer " + user.token,
+						},
+					});
+
+				if (request.status === 200) {
+					const item = await request.json();
+
+					managerID.current.value = item.manager_name;
+					managerRemarks.current.value = item.manager_remarks;
+
+					approved.current.checked = false;
+					rejected.current.checked = true;
+					if (item.status === 'approved') {
+						approved.current.checked = true;
+						rejected.current.checked = false;
+					}
+					setReadOnly(true);
+				}
+			}
+
+
+
+		} else {
+
+			if (location.state.id) {
+				loadData();
+				managerID.current.value = user.name;
+				managerRemarks.current.value = "";
+			}
+
+			if (location.state.readOnly && location.state.id) {
+
+				console.log(location.state.readOnly);
+
+				let request;
+
+				request = await fetch("http://localhost:8080/api/orders/find/" + location.state.id,
+					{
+						method: "GET",
+						headers: {
+							"Content-Type": "application/json",
+							authorization: "Bearer " + user.token,
+						},
+					});
+
+				if (request.status === 200) {
+					const item = await request.json();
+
+					managerID.current.value = item.manager_name;
+					managerRemarks.current.value = item.manager_remarks;
+
+					approved.current.checked = false;
+					rejected.current.checked = true;
+					if (item.status === 'approved') {
+						approved.current.checked = true;
+						rejected.current.checked = false;
+					}
+					setReadOnly(true);
+				}
+
+			}
 		}
-	}, [location.state.id, location.state.readOnly, user]);
+
+	}, [location.state.id, location.state.readOnly, user, location.state.status]);
 
 	const approveOrder = async () => {
 		let order = {
