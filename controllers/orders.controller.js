@@ -1,10 +1,26 @@
+const mongoose = require('mongoose');
+
 const Order = require('../models/Order');
+const Vendor = require('../models/Vendors');
+const Message = require('../models/Message');
 
 module.exports = {
     getOrders: async function(req, res){
         try{
-            const orders = await Order.getOrders();
-            res.status(200).json(orders);
+            let orders = await Order.getOrders();
+
+            let result = [];
+
+            for (let x = 0; x < orders.length; x++) {
+                let vendor = await Vendor.findById(orders[x].vendor_ID);
+
+                result.push({
+                    ...orders[x]._doc,
+                    vendor_name: vendor.company_name
+                });;
+            }
+
+            res.status(200).json(result);
 
         }catch(e){
             console.log('[ERROR] ${e}');
@@ -18,11 +34,11 @@ module.exports = {
 
             const { id } = req.params;
 
-            const order = await Order.getOrder();
-            res.status(200).json(orders);
+            const order = await Order.getOrder(id);
+            res.status(200).json(order);
 
         }catch(e){
-            console.log('[ERROR] ${e}');
+            console.log(`[ERROR] ${e.message}`);
             res.status(500).json({
                 error: e
             });
@@ -36,7 +52,23 @@ module.exports = {
             const order = await Order.addOrder(vendor_ID, comment, orderItems);
 
             if(order){
-                res.status(200).json(orders);
+                /* render items as a list of ul li */
+                let items = '';
+                for(let x = 0; x < order.items.length; x++){
+                    items += `<li>${order.items[x].name}, ${order.items[x].quantity}, RM${order.items[x].unit_price} per unit</li>`;
+                }
+
+                const vendor = await Vendor.findById(order.vendor_ID);
+
+                const content = `<p>Order from vendor ${vendor.company_name}</p>
+                                <p>Items:</p>
+                                <ul>${items}</ul>`;
+
+                const msg = await Message.add('New order request', content, ['manager', 'admin'], 'request');
+
+                await msg.attachOrder(order._id);
+
+                res.status(200).json(order);
             }
             else{
                 res.status(404).json({
@@ -44,7 +76,7 @@ module.exports = {
                 });
             }        
         }catch(e){
-            console.log('[ERROR] ${e}');
+            console.log(`[ERROR] ${e.message}`);
             res.status(500).json({
                 error: e
             });
@@ -53,18 +85,20 @@ module.exports = {
     updateOrder: async function(req, res){
         try{
             
-            const { orderID, comment, orderItems } = req.body;
-            const order = await Order.updateOrder(orderId, comment, orderItems);
+            const { id, comment, orderItems } = req.body;
+            const order = await Order.updateOrder(id, comment, orderItems);
+            
             if(order){
-                res.status(200).json(orders);
+                res.status(200).json(order);
             }
             else{
                 res.status(404).json({
                     error: 'Order not found'
                 });
-            }     
+            }
+
         }catch(e){
-            console.log('[ERROR] ${e}');
+            console.log(`[ERROR] ${e}`);
             res.status(500).json({
                 error: e
             });
@@ -73,10 +107,10 @@ module.exports = {
     verifiedOrder: async function(req, res){
         try{
             
-            const { orderID, status, managerRemarks, managerID } = req.body;
-            const order = await Order.verifiedOrder(orderId, status, managerRemarks, managerID);
+            const { id, status, managerRemarks, managerID } = req.body;
+            const order = await Order.verifiedOrder(id, status, managerRemarks, managerID);
             if(order){
-                res.status(200).json(orders);
+                res.status(200).json(order);
             }
             else{
                 res.status(404).json({
@@ -84,21 +118,44 @@ module.exports = {
                 });
             }     
         }catch(e){
-            console.log('[ERROR] ${e}');
+            console.log(`[ERROR] ${e}`);
             res.status(500).json({
                 error: e
             });
         }
     },
-    deleteOrder: function(req, res){
+    requestDelete: async function(req, res){
+        try{
+            
+            const { id } = req.params;
+            const order = await Order.requestDelete(id);
+            
+            if(order){
+                res.status(200).json(order);
+            }
+            else{
+                res.status(404).json({
+                    error: 'Order not found'
+                });
+            }
+
+        }catch(e){
+            console.log(`[ERROR] ${e}`);
+            res.status(500).json({
+                error: e
+            });
+        }
+    },
+    deleteOrder: async function(req, res){
         try{
             const { id } = req.params;
-            const order = Order.deleteOrder(id);
+            const order = await Order.deleteOrder(id);
+
             res.status(200).json({
                 message: 'Order deleted'
             });
         }catch(e){
-            console.log('[ERROR] ${e}');
+            console.log(`[ERROR] ${e}`);
             res.status(500).json({
                 error: e
             });

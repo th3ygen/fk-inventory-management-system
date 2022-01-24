@@ -41,8 +41,8 @@
 }
 
 .managerLabel{
-    width: 200px;
-    height: fit-content;
+    flex: 0 0 15%;
+    color: #888;
 }
 
 .managerInput{
@@ -198,10 +198,8 @@
     width: 100%;
 }
 
-.details{
-    width: calc(100% - 220px);
-    display:flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
+.vDetails{
+    flex: 1 1 60%;
+    color:#888;
 }
+

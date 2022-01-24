@@ -8,7 +8,7 @@ module.exports = {
 
 			const vendors = await Vendors.getVendor(id);
 
-			res.status(200).json();
+			res.status(200).json(vendors);
 
 			if (item) {
 				res.status(200).json(item);

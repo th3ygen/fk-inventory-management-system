@@ -114,22 +114,29 @@ schema.statics.login = async function (username, password) {
 					_id: user._id,
 					username: user.username,
 					role: user.role,
+					name: user.name,
 				},
 				secret,
 				{ expiresIn: "10h" }
 			);
 
-			return token;
+			return {
+				token,
+				username: user.username,
+				role: user.role,
+				name: user.name,
+				id: user._id,
+			};
 		}
 	}
 
 	return null;
 };
 
-schema.statics.register = function (username, password, email, contact) {
-	password = bcrypt.hashSync(password, 10);
+schema.statics.register = function (name, username, password, email, contact) {
+    password = bcrypt.hashSync(password, 10);
 
-	const user = new this({ username, password, email, contact });
+	const user = new this({ name, username, password, email, contact, role: 'staff' });
 
 	return user.save();
 };
@@ -147,4 +154,4 @@ schema.statics.updatePW = async function (username, password) {
 
 const Account = model("Account", schema);
 
-module.exports = { Account };
+module.exports = Account;
