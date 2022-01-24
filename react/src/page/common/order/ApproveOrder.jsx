@@ -118,15 +118,7 @@ function ApproveOrder() {
 				const oRemarks = item.comment;
 				vendorId = item.vendor_ID;
 
-				managerID.current.value = item.manager_name;
-				managerRemarks.current.value = item.manager_remarks;
 
-				approved.current.checked = false;
-				rejected.current.checked = true;
-				if (item.status === 'approved') {
-					approved.current.checked = true;
-					rejected.current.checked = false;
-				}
 
 				setItems(
 					item.items.map((i) => [
@@ -172,18 +164,45 @@ function ApproveOrder() {
 		loadData();
 	}, []); */
 
-	useEffect(() => {
+	useEffect(async () => {
 		if (!user) {
 			return;
 		}
 
 		if (location.state.id) {
 			loadData();
+			managerID.current.value = user.name;
+			managerRemarks.current.value = "";
 		}
 
-		if (location.state.readOnly) {
-			
-			setReadOnly(true);
+		if (location.state.readOnly && location.state.id) {
+
+			let request;
+
+			request = await fetch("http://localhost:8080/api/orders/find/" + location.state.id,
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						authorization: "Bearer " + user.token,
+					},
+				});
+
+			if (request.status === 200) {
+				const item = await request.json();
+
+				managerID.current.value = item.manager_name;
+				managerRemarks.current.value = item.manager_remarks;
+
+				approved.current.checked = false;
+				rejected.current.checked = true;
+				if (item.status === 'approved') {
+					approved.current.checked = true;
+					rejected.current.checked = false;
+				}
+				setReadOnly(true);
+			}
+
 		}
 	}, [location.state.id, location.state.readOnly, user]);
 
@@ -352,7 +371,7 @@ function ApproveOrder() {
 									disabled={readOnly}
 									readOnly={readOnly}
 								/>
-								
+
 								<label
 									className={styles.formLabel}
 									htmlFor="approve"
