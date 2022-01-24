@@ -75,8 +75,7 @@ function ManageVendor() {
 
 		if (request.status === 200) {
 			await swal("Deleted", "Vendor Succesfully Deleted!", "error");
-			setItems(items.filter((i) => i[0] !== id));
-
+            setItems(items.filter((i) => i[0] !== id));
 		} else {
 			console.log(id, request);
 			alertify.notify('Error deleting vendor', 'error');
