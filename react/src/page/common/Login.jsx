@@ -2,10 +2,13 @@ import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import * as alertify from "alertifyjs";
 
+import Parallax from "parallax-js";
+
 import styles from "styles/common/Login.module.scss";
 function Login() {
 	const navigate = useNavigate();
 
+	const bgRef = useRef();
 	const usernameRef = useRef();
 	const passwordRef = useRef();
 
@@ -73,15 +76,19 @@ function Login() {
 		}
 	}, []);
 
+	useEffect(() => {
+		const parallax = new Parallax(bgRef.current, {
+			relativeInput: true,
+		});
+	}, []);
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.whitecontainer}>
 				<div className={styles.title}>
 					Login
 				</div>
-				<div className={styles.description}> 
-				Please enter Username and Password.
-				</div>
+				
 
 				<form className={styles.formPassword}>
 					
@@ -97,6 +104,26 @@ function Login() {
 					<a href="/ForgotPassword"> Forgot Password
 					</a>
 				</form>
+			</div>
+
+			<div
+				ref={bgRef}
+				data-scalar-y="1.5"
+				data-scalar-x="3"
+				className={styles.bg}
+			>
+				<div data-depth="0">
+					<img src="/img/parallax/j4.png" alt="lol" />
+				</div>
+				<div data-depth="0.1">
+					<img src="/img/parallax/j3.png" alt="lol" />
+				</div>
+				<div data-depth="0.4">
+					<img src="/img/parallax/j2.png" alt="lol" />
+				</div>
+				<div data-depth="0.9">
+					<img src="/img/parallax/j1.png" alt="lol" />
+				</div>
 			</div>
 		</div>
 	);
