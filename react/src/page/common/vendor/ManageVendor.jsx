@@ -74,7 +74,7 @@ function ManageVendor() {
 
 		if (request.status === 200) {
 			await swal("Deleted", "Vendor Succesfully Deleted!", "error");
-			
+			const item = items.find(i => i[0] === id);
 
 		} else {
 			console.log(id, request);

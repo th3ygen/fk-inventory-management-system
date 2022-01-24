@@ -114,7 +114,7 @@ module.exports = {
 		try {
 			const { id } = req.params;
 
-			const vendor = await Vendors.removeVendor(id);
+			const vendor = await Vendors.deleteVendor(id);
 
 			res.status(200).json({
 				message: "Item deleted",
