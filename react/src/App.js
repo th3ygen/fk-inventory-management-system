@@ -67,8 +67,8 @@ function App() {
 	const location = useLocation();
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		if (!['/login', '/register'].includes(location.pathname)) {
+	/* useEffect(() => {
+		if (!['/login', '/register', '/img'].includes(location.pathname)) {
 			try {
 				const user = JSON.parse(localStorage.getItem("user"));
 
@@ -94,7 +94,7 @@ function App() {
 				navigate("/login");
 			}
 		}
-	}, [location, navigate]);
+	}, [location, navigate]); */
 
 	return (
 		<div className="App">
