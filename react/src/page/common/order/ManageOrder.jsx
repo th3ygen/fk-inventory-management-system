@@ -16,6 +16,7 @@ import * as swal from "sweetalert";
 import * as alertify from "alertifyjs";
 
 function ManageOrder() {
+
 	const [user] = useOutletContext();
 
 	const navigate = useNavigate();
@@ -29,41 +30,13 @@ function ManageOrder() {
 	const [disableDelete, setDisableDelete] = useState([]);
 	const [readOnly, setReadOnly] = useState([]);
 	const [orderStatus, setOrderStatus] = useState({});
+	const [disableEdit, setDisableEdit] = useState([]);
 
 	const orderData = {
 		header: ["Vendor", "Order Status", "Issue Date", "Approve Date"],
 		colWidthPercent: ["30%", "20%", "10%", "10%"],
 		centered: [false, true, true, true],
-		actions: [
-			{
-				icon: "FaEdit",
-				callback: (n) => {
-					navigate("/user/order/update", {
-						replace: true,
-						state: { id: n },
-					});
-				},
-				tooltip: "Edit",
-			},
-			{
-				icon: "FaTrashAlt",
-				callback: (n) => {
-					deleteItem(n);
-				},
-				tooltip: "Delete",
-			},
-			{
-				icon: "FaCheckSquare",
-				callback: (n) => {
-					navigate("/user/order/approve", {
-						replace: true,
-						state: { id: n },
-					});
-				},
-				tooltip: "Approve",
-			},
-
-		]
+		
 	};
 
 	const deleteItem = async (id) => {
@@ -79,10 +52,10 @@ function ManageOrder() {
 					value: 'delete',
 				},
 			},
-		
+
 		});
 
-		if(confirm !== 'delete'){
+		if (confirm !== 'delete') {
 			return;
 		}
 
@@ -163,6 +136,7 @@ function ManageOrder() {
 				let tReqDel = 0;
 				let dDelete = [];
 				let dRead = [];
+				let dEdit = [];
 				let oStatus = {};
 
 				response.forEach((item) => {
@@ -182,30 +156,61 @@ function ManageOrder() {
 					oStatus[item._id] = item.status;
 					let status = 'Pending:#888';
 					if (item.status) {
-						if (item.status === 'approved') {
-							status = item.status.charAt(0).toUpperCase() + item.status.slice(1) + ':#00c853';
+
+						if (['admin', 'manager'].includes(user.role)) {
+
+							if (item.status === 'approved') {
+								status = item.status.charAt(0).toUpperCase() + item.status.slice(1) + ':#00c853';
+								dDelete.push(item._id);
+								dEdit.push(item._id);
+
+								tApproved++;
+							} else if (item.status === 'rejected') {
+								status = item.status.charAt(0).toUpperCase() + item.status.slice(1) + ':#e63946';
+
+								dRead.push(item._id);
+
+								tReject++;
+							} else if (item.status === 'Request Delete') {
+								status = item.status + ':#e63946';
+
+								dRead.push(item._id);
+
+								tReqDel++;
+							} else {
+								status = item.status.charAt(0).toUpperCase() + item.status.slice(1) + ':#888';
+								dRead.push(item._id);
+
+								tPending++;
+							}
+						}else{
 							dDelete.push(item._id);
+							if (item.status === 'approved') {
+								status = item.status.charAt(0).toUpperCase() + item.status.slice(1) + ':#00c853';
 
+								dEdit.push(item._id);
 
-							tApproved++;
-						} else if (item.status === 'rejected') {
-							status = item.status.charAt(0).toUpperCase() + item.status.slice(1) + ':#e63946';
+								tApproved++;
+							} else if (item.status === 'rejected') {
+								status = item.status.charAt(0).toUpperCase() + item.status.slice(1) + ':#e63946';
 
-							dRead.push(item._id);
+								dRead.push(item._id);
 
-							tReject++;
-						} else if (item.status === 'Request Delete') {
-							status = item.status + ':#e63946';
+								tReject++;
+							} else if (item.status === 'Request Delete') {
+								status = item.status + ':#e63946';
 
-							dRead.push(item._id);
+								
 
-							tReqDel++;
-						} else {
-							status = item.status.charAt(0).toUpperCase() + item.status.slice(1) + ':#888';
-							dRead.push(item._id);
+								tReqDel++;
+							} else {
+								status = item.status.charAt(0).toUpperCase() + item.status.slice(1) + ':#888';
+								dRead.push(item._id);
 
-							tPending++;
+								tPending++;
+							}
 						}
+
 					}
 
 					rows.push([
@@ -224,6 +229,7 @@ function ManageOrder() {
 				setTotalReqDelete(tReqDel);
 				setItems(rows);
 				setDisableDelete(dDelete);
+				setDisableEdit(dEdit);
 				setReadOnly(dRead);
 				setOrderStatus(oStatus);
 			}
@@ -280,7 +286,7 @@ function ManageOrder() {
 
 					<StatNumber
 						title="Request Delete"
-						value={totalReqDelete|| '0'}
+						value={totalReqDelete || '0'}
 						unit="Orders"
 						icon="FaTrash"
 					/>
@@ -305,7 +311,7 @@ function ManageOrder() {
 								});
 							},
 							tooltip: "Edit",
-							disabled: disableDelete,
+							disabled: disableEdit,
 						},
 						{
 							icon: "FaEye",
