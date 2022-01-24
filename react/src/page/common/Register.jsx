@@ -2,6 +2,7 @@ import { useRef, useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 import * as alertify from "alertifyjs";
+import Swal from "sweetalert";
 
 import Parallax from "parallax-js";
 
@@ -38,7 +39,12 @@ function Register() {
 			);
 
 			if (response.status === 200) {
-				alertify.success("Register success");
+				await Swal({
+					title: "Success",
+					text: "You have successfully registered",
+					icon: "success",
+					button: "OK",
+				});
 				navigate("/login");
 			}
 		} catch (e) {
