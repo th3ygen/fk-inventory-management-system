@@ -39,12 +39,16 @@ function Login() {
 
 				const path = res.role === 'admin' ? '/admin' : '/user/inventory';
 
-				navigate(path, { state: { user: {
-					username: res.username,
-					role: res.role || 'staff',
-					name: res.name,
-					token: res.token,
-				} }, replace: true })
+				navigate(path, {
+					state: {
+						user: {
+							username: res.username,
+							role: res.role || 'staff',
+							name: res.name,
+							token: res.token,
+						}
+					}, replace: true
+				})
 			} else {
 				alertify.error("Unauthorized access");
 			}
@@ -88,21 +92,29 @@ function Login() {
 				<div className={styles.title}>
 					Login
 				</div>
-				
+
 
 				<form className={styles.formPassword}>
-					
+
 					<div>
-						<input type="username" placeholder="Username" ref={usernameRef}/>
+						<input type="username" placeholder="Username" ref={usernameRef} />
 					</div>
-                    
+
 					<div>
-						<input type="password" placeholder="Password" ref={passwordRef} onKeyPress={onEnter}/>
+						<input type="password" placeholder="Password" ref={passwordRef} onKeyPress={onEnter} />
 					</div>
 					<div className={styles.button} onClick={login}>Login</div>
-					<div className={styles.button} onClick={() => navigate('/register')}>Register</div>
-					<a href="/ForgotPassword"> Forgot Password
-					</a>
+
+					<div className={styles.redirect}>
+						<div className={styles.back} onClick={() => {
+							navigate('/register');
+						}}>Register </div>
+						<div  className={styles.back} onClick={() => {
+							navigate('/ForgotPassword');
+						}}> Forgot Password</div>
+					</div>
+					
+
 				</form>
 			</div>
 
