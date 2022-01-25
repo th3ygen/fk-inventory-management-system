@@ -84,7 +84,7 @@ function AddAccount() {
                             </label>
                         </div>
                         <div className={styles.box}>
-                        <label for="role">Role</label>
+                        <label htmlFor="role">Role</label>
                         <select id="role" name="role" ref={roleInput}>
                             <option value="Manager">Manager</option>
                             <option value="Staff">Staff</option>
@@ -101,12 +101,12 @@ function AddAccount() {
                     <div className={styles.wrapper}>
                         <div className={styles.box}>
                             <p align="left">
-                                <button type="submit" class={styles.clearButton}><FaUndoAlt />Reset</button>
+                                <button type="submit" className={styles.clearButton}><FaUndoAlt />Reset</button>
                             </p>
                         </div>
                         <div className={styles.box}>
                             <p align="right">
-                                <button type="submit" class={styles.updateButton} onClick={addAccount}><FaRegSave />Save</button>
+                                <button type="submit" className={styles.updateButton} onClick={addAccount}><FaRegSave />Save</button>
                             </p>
                         </div>
                     </div>
