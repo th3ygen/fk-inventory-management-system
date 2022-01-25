@@ -5,6 +5,7 @@
     flex-wrap: wrap;
     gap: 30px;
     justify-content: center;
+    overflow: hidden;
 }
 
 .form {
@@ -13,7 +14,7 @@
 
     flex-wrap: wrap;
 
-    width: 40%;
+    width: 45%;
 
     padding: 20px 30px;
     
@@ -28,13 +29,13 @@
 
         display: flex;
         flex-direction: column;
-        gap: 30px;
+        gap: 40px;
 
         .row {
             display: flex;
             flex-direction: column;
 
-            width: 100%;
+            width: 50%;
         }
 
         &.half {
@@ -47,35 +48,6 @@
     }
 }
 
-.vendor {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-
-    .item {
-        display: flex;
-        gap: 20px;
-
-        .key {
-            flex: 0 0 100px;
-
-            color: #2179FF;
-            font-size: 14px;
-        }
-
-        .value {
-            flex: 1 1 auto;
-
-            color: #828282;
-
-            /* put column character at before */
-            &::before {
-                content: ': ';
-            }
-        }
-    }
-}
-
 .label {
     font-size: 14px;
     font-weight: 500;
@@ -84,16 +56,33 @@
 }
 
 .input {
-    padding: 5px 10px;
+    padding: 5px 5px;
+    width: 200%;
 
     border: 1px solid #2179FF;
     border-radius: 3px;
 
     margin: 0 !important;
+    color: black;
 
     &[type="number"] {
         width: 150px;
     }
+
+}
+
+.address {
+    padding: 5px 5px;
+    width: 200%;
+    height: 450%;
+    resize: none;
+
+    border: 1px solid #2179FF;
+    border-radius: 3px;
+
+    margin: 0 !important;
+    color: black;
+
 }
 
 .buttons {
