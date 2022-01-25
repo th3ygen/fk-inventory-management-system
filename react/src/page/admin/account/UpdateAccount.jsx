@@ -76,9 +76,9 @@ function UpdateAccount() {
 			nameInput.current.value = response.name;
 			emailInput.current.value = response.email;
 			roleInput.current.selectedIndex = [
-				"Manager",
-				"Staff",
-				"Admin",
+				"manager",
+				"staff",
+				"admin",
 			].indexOf(response.role);
 			contactInput.current.value = response.contact;
 			addressInput.current.value = response.address;
