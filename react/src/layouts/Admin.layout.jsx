@@ -1,4 +1,5 @@
-import { Outlet } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
 
 import Navbar from 'components/Navbar.component';
 import Topbar from 'components/Topbar.component';
@@ -6,6 +7,8 @@ import Topbar from 'components/Topbar.component';
 import styles from 'styles/layout/Admin.module.scss';
 
 export default function AdminLayout() {
+    const [user, setUser] = useState(null);
+
     const paths = [
         {
             path: '/admin/accounts',
@@ -39,12 +42,24 @@ export default function AdminLayout() {
         },
     ];
 
+    useEffect(() => {
+		try {
+			const u = JSON.parse(localStorage.getItem("user"));
+
+			if (u) {
+				setUser(u);
+			}
+		} catch (e) {	
+			console.error(e);
+		}
+	}, []);
+
     return (
         <div>
             <Topbar />
-            <Navbar paths={ paths }/>
+            <Navbar paths={ paths } user={user}/>
             <div className={ styles.content }>
-                <Outlet />
+                <Outlet context={[user]}/>
             </div>
         </div>
     );

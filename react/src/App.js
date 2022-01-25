@@ -68,17 +68,17 @@ function App() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (!['/login', '/register', '/img'].includes(location.pathname)) {
+		if (!["/login", "/register", "/img"].includes(location.pathname)) {
 			try {
 				const user = JSON.parse(localStorage.getItem("user"));
 
 				if (user) {
-					if (user.role === 'admin') {
-						if (!location.pathname.includes('/admin')) {
+					if (user.role === "admin") {
+						if (!location.pathname.includes("/admin")) {
 							navigate("/admin/accounts", { replace: true });
 						}
 					} else {
-						if (!location.pathname.includes('/user')) {
+						if (!location.pathname.includes("/user")) {
 							navigate("/user/inventory", { replace: true });
 						}
 					}
@@ -160,6 +160,16 @@ function App() {
 					<Route
 						path="/admin/accounts/update_account"
 						element={<UpdateAccountPage />}
+					/>
+					<Route path="orders" element={<ManageOrderPage />} />
+					<Route
+						path="/admin/order/approve"
+						element={<ApproveOrderPage />}
+					/>
+					<Route path="/admin/order/add" element={<AddOrderPage />} />
+					<Route
+						path="/admin/order/update"
+						element={<UpdateOrderPage />}
 					/>
 					<Route path="report" element={<DisplayReportPage />} />
 					<Route path="inventory" element={<ManageInventoryPage />} />
