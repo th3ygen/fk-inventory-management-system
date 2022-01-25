@@ -64,7 +64,7 @@ function UpdateAccount() {
 			<h5 className={styles.header5}>
 				Please enter password that is not used at other sites.
 			</h5>
-			<body>
+			<div>
 				<div className={styles.form}>
 					<form className={styles.formAccount}>
 						<div className={styles.wrapper}>
@@ -99,7 +99,7 @@ function UpdateAccount() {
 								<p align="left">
 									<button
 										type="Submit"
-										class={styles.backButton}
+										className={styles.backButton}
 										onClick={(e) => {
 											e.preventDefault();
 
@@ -115,7 +115,7 @@ function UpdateAccount() {
 								<p align="right">
 									<button
 										type="Submit"
-										class={styles.updateButton}
+										className={styles.updateButton}
 										onClick={updatePassword}
 									>
 										<FaRegSave />
@@ -126,7 +126,7 @@ function UpdateAccount() {
 						</div>
 					</form>
 				</div>
-			</body>
+			</div>
 		</div>
 	);
 }

@@ -179,7 +179,7 @@ function UpdateAccount() {
 								</label>
 							</div>
 							<div className={styles.box}>
-								<label for="role">Role</label>
+								<label htmlFor="role">Role</label>
 								<select className={styles.inputData} id="role" name="role" ref={roleInput}>
 									<option value="Manager">Manager</option>
 									<option value="Staff">Staff</option>
@@ -228,7 +228,7 @@ function UpdateAccount() {
 						</div>
 						<div className={styles.wrapper}>
 							<div className={styles.box}>
-								<p align="left">
+								<div align="left">
 									<div
 										className={styles.clearButton}
 										onClick={load}
@@ -236,10 +236,10 @@ function UpdateAccount() {
 										<FaUndoAlt />
 										Reset
 									</div>
-								</p>
+								</div>
 							</div>
 							<div className={styles.box}>
-								<p align="right">
+								<div align="right">
 									<div
 										className={styles.updateButton}
 										onClick={updateAccount}
@@ -247,7 +247,7 @@ function UpdateAccount() {
 										<FaRegSave />
 										Save
 									</div>
-								</p>
+								</div>
 							</div>
 						</div>
 					</form>
