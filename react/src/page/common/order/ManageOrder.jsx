@@ -31,6 +31,7 @@ function ManageOrder() {
 	const [readOnly, setReadOnly] = useState([]);
 	const [orderStatus, setOrderStatus] = useState({});
 	const [disableEdit, setDisableEdit] = useState([]);
+	
 
 	const orderData = {
 		header: ["Vendor", "Order Status", "Issue Date", "Approve Date"],
@@ -205,7 +206,7 @@ function ManageOrder() {
 								tReqDel++;
 							} else {
 								status = item.status.charAt(0).toUpperCase() + item.status.slice(1) + ':#888';
-								dRead.push(item._id);
+								
 
 								tPending++;
 							}
@@ -318,7 +319,7 @@ function ManageOrder() {
 							callback: (n) => {
 								navigate("/user/order/approve", {
 									replace: true,
-									state: { id: n, readOnly: true },
+									state: { id: n, readOnly: true, status: orderStatus[n] || 'unknown' },
 								});
 							},
 							tooltip: "View order",
