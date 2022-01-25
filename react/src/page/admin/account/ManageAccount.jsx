@@ -15,11 +15,14 @@ import PageHeader from 'components/PageHeader.component';
 function ManageAccount() {
 	const [user] = useOutletContext();
 
+	//get total accounts, total managers, staffs, and admins
 	const navigate = useNavigate();
 	const [totalAccounts, setTotalAccounts] = useState(0)
 	const [totalManagers, setTotalManagers] = useState(0)
 	const [totalStaffs, setTotalStaffs] = useState(0)
 	const [totalAdmins, setTotalAdmins] = useState(0)
+
+	//fetch account list
 	const [accounts, setAccounts] = useState([]);
 
 	const [basePath, setBasePath] = useState('/user');
