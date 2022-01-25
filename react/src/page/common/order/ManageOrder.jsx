@@ -155,8 +155,8 @@ function ManageOrder() {
 					// dd/mm/yyyy
 					let approvedAt = '-';
 
-					if (item.approvedAt) {
-						date = new Date(item.updatedAt);
+					if (item.approved_date) {
+						date = new Date(item.approved_date);
 						approvedAt = `${date.getHours()}.${date.getMinutes()} ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
 					}
 					oStatus[item._id] = item.status;
