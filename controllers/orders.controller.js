@@ -107,6 +107,11 @@ module.exports = {
             if(order){
                 await Message.findOneAndDelete({ orderId: id });
 
+                let items = '';
+                for(let x = 0; x < order.items.length; x++){
+                    items += `<li>${order.items[x].name}, ${order.items[x].quantity}, RM${order.items[x].unit_price} per unit</li>`;
+                }
+
                 const vendor = await Vendor.findById(order.vendor_ID);
 
                 const content = `<p>Order from vendor ${vendor.company_name}</p>
