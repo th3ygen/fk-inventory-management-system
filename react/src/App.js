@@ -173,6 +173,18 @@ function App() {
 					/>
 					<Route path="report" element={<DisplayReportPage />} />
 					<Route path="inventory" element={<ManageInventoryPage />} />
+					<Route
+						path="/admin/inventory/add"
+						element={<InventoryAddItemPage />}
+					/>
+					<Route
+						path="/admin/inventory/edit"
+						element={<InventoryEditItemPage />}
+					/>
+					<Route
+						path="/admin/inventory/sell"
+						element={<InventoryAddSoldPage />}
+					/>
 					<Route path="inbox" element={<InboxPage />} />
 				</Route>
 			</Routes>

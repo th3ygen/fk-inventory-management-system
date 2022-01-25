@@ -18,6 +18,7 @@ function UpdateItem() {
 
 	const [vendors, setVendors] = useState([]);
 	const [vendor, setVendor] = useState({});
+	const [basePath, setBasePath] = useState('/user');
 
 	const nameInput = useRef("");
 	const unitPriceInput = useRef(0);
@@ -197,7 +198,7 @@ function UpdateItem() {
 					button: "OK",
 				});
 
-				navigate('/user/inventory');
+				navigate(basePath + '/inventory');
 			} else {
 				console.log(request);
 			}
@@ -207,6 +208,14 @@ function UpdateItem() {
 	};
 
     useEffect(() => {
+		if (!user) {
+			return;
+		}
+
+		if (user.role === 'admin') {
+			setBasePath('/admin');
+		}
+
 		loadData();
     }, [user]);
 
@@ -219,7 +228,7 @@ function UpdateItem() {
 					{
 						icon: "FaReply",
 						name: "Manage inventory",
-						path: "/user/inventory",
+						path: basePath + "/inventory",
 					},
 				]}
 			/>

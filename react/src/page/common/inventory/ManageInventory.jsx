@@ -42,6 +42,7 @@ function ManageInventory() {
 	const [addSoldQuantity, setAddSoldQuantity] = useState(0);
 	const [err, setErr] = useState(false);
 	const [refresh, setRefresh] = useState(false);
+	const [basePath, setBasePath] = useState("/user");
 
 	const addSoldInputRef = useRef();
 
@@ -83,6 +84,10 @@ function ManageInventory() {
 		(async () => {
 			if (!user) {
 				return;
+			}
+
+			if (user.role === 'admin') {
+				setBasePath('/admin');
 			}
 
 			let request = await fetch(
@@ -285,7 +290,7 @@ function ManageInventory() {
 					{
 						icon: "FaReply",
 						name: "Add item",
-						path: "/user/inventory/add",
+						path: basePath + "/inventory/add",
 					},
 				]}
 			/>
@@ -344,7 +349,7 @@ function ManageInventory() {
 						{
 							icon: "FaEdit",
 							callback: (n) => {
-								navigate("/user/inventory/edit", {
+								navigate(basePath + "/inventory/edit", {
 									replace: true,
 									state: { id: n },
 								});

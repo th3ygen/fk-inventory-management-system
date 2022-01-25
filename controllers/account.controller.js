@@ -1,5 +1,5 @@
 //const Account = require('../Account');
-const { Account } = require('../models/Account');
+const Account = require('../models/Account');
 
 module.exports = {
     // GET
@@ -82,6 +82,24 @@ module.exports = {
 
             res.status(200).json({
                 message: 'Account deleted'
+            });
+        } catch(e) {
+            console.log(`[ERROR] ${e}`);
+            res.status(500).json({
+                error: e
+            });
+        }
+    },
+    updatePassword: async function(req, res) {
+        try {
+            const { id } = req.params;
+
+            const { password } = req.body;
+
+            await Account.updatePW(id, password);
+
+            res.status(200).json({
+                message: 'Password updated'
             });
         } catch(e) {
             console.log(`[ERROR] ${e}`);

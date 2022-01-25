@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 
 // components
 import Table from "components/Table.component";
@@ -12,6 +13,8 @@ import StatWrapper from "components/StatWrapper.component";
 import styles from "styles/common/report/DisplayReport.module.scss";
 
 function DisplayReport() {
+	const [user] = useOutletContext();
+
 	const [items, setItems] = useState([]);
 	const [mostSoldItem, setMostSoldItem] = useState({});
 	const [leastSoldItem, setLeastSoldItem] = useState({});
@@ -19,14 +22,13 @@ function DisplayReport() {
 	const [totalSoldItems, setTotalSoldItems] = useState(0);
 	const [totalSales, setTotalSales] = useState(0);
 	const [topItems, setTopItems] = useState([]);
+	const [salesData, setSalesData] = useState([]);
 
 	const itemsData = {
-		headers: ["Items Name", "Vendor name", "Total sales", "Total income"],
+		headers: ["Items Name", "Vendor name", "Total sold", "Total sales"],
 		colWidthPercent: ["30%", "10%", "10%", "10%"],
 		centered: [false, true, true, true],
-		actions: [
-			
-		],
+		actions: [],
 	};
 
 	const stats = [
@@ -148,9 +150,22 @@ function DisplayReport() {
 	};
 
 	useEffect(() => {
+		if (!user) {
+			return;
+		}
+
 		(async () => {
-			const request = await fetch(
-				"http://localhost:8080/api/inventory/sold/list"
+			let request, response;
+
+			request = await fetch(
+				"http://localhost:8080/api/inventory/sold/list",
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						authorization: "Bearer " + user.token,
+					},
+				}
 			);
 
 			if (request.status === 200) {
@@ -159,27 +174,6 @@ function DisplayReport() {
 				let rows = [];
 				let tSales = 0;
 				let tItems = 0;
-
-				/* 
-					{
-						"_id": "61d9251b046fe704e0ff65be",
-						"item_ID": "61d7f6512f46700ce02e565d",
-						"quantity": 2,
-						"total": 26,
-						"item": {
-							"_id": "61d7f6512f46700ce02e565d",
-							"vendor_ID": "61d7ea0bc1e4b29d22a55723",
-							"name": "Fried water",
-							"unit_price": 13,
-							"barcode_ID": "12345678",
-							"barcode_encoding": "code-39"
-						},
-						"vendor": {
-							"_id": "61d7ea0bc1e4b29d22a55723",
-							"company_name": "UMP 5 star"
-						}
-					},
-				*/
 
 				let sold = {};
 
@@ -196,16 +190,14 @@ function DisplayReport() {
 						} else {
 							sold[item.item.name] = item.quantity;
 						}
-
 					}
 
 					rows.push([
 						item._id,
 						(item.item && item.item.name) || "DELETED:#888",
-						(item.vendor && item.vendor.company_name) ||
-							"DELETED:#888",
+						item.vendor_name || "DELETED:#888",
 						item.quantity,
-						item.total.toFixed(2)
+						item.total.toFixed(2),
 					]);
 				});
 
@@ -234,13 +226,33 @@ function DisplayReport() {
 			const mostSold = await fetch(
 				"http://localhost:8080/api/report/getMostSold"
 			);
-			if (mostSold.status===200){
-				const list = await mostSold.json()
-				setTopItems (list)
+			if (mostSold.status === 200) {
+				const list = await mostSold.json();
+				setTopItems(list);
 			}
 
+			request = await fetch(
+				"http://localhost:8080/api/report/weeklysales",
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						authorization: "Bearer " + user.token,
+					},
+				}
+			);
+
+			if (request.status === 200) {
+				response = await request.json();
+				setSalesData(
+					response.map((i) => ({
+						date: new Date(i.date).getTime(),
+						value: i.value,
+					}))
+				);
+			}
 		})();
-	}, []);
+	}, [user]);
 
 	// sort the topSold array by quantity
 	topSold.sort((a, b) => {
@@ -282,8 +294,8 @@ function DisplayReport() {
 				/> */}
 			</div>
 			<div className={styles.statNum}>
-				<StatWrapper >
-					<StatNumber 
+				<StatWrapper>
+					<StatNumber
 						title="Total sold"
 						value={totalSoldItems}
 						unit="Items"
@@ -323,12 +335,12 @@ function DisplayReport() {
 				/>
 			</div>
 			<div className={styles.topSoldList}>
-				<TopList title="Hot items" data={topItems} />
+				<TopList title="Popular items" data={topItems} />
 			</div>
 			<div className={styles.profitTrend} onClick={testClick}>
 				<DateAxisLineChart
-					title="Sales trend"
-					data={profit}
+					title="This week sales"
+					data={salesData}
 					label="Sales"
 					height="250px"
 				/>

@@ -16,6 +16,7 @@ function AddItem() {
 
 	const [vendors, setVendors] = useState([]);
 	const [vendor, setVendor] = useState({});
+	const [basePath, setBasePath] = useState('/user');
 
 	const nameInput = useRef("");
 	const unitPriceInput = useRef(0);
@@ -155,7 +156,7 @@ function AddItem() {
 				button: "OK",
 			});
 
-			navigate("/user/inventory");
+			navigate(basePath + "/inventory");
 		} else {
 			alert("Error adding item");
 		}
@@ -173,6 +174,14 @@ function AddItem() {
 
 	// fetch data from server onload
 	useEffect(() => {
+		if (!user) {
+			return;
+		}
+
+		if (user.role === 'admin') {
+			setBasePath('/admin');
+		}
+
 		(async () => {
 			let request = await fetch(
 				"http://localhost:8080/api/vendors/list",
@@ -202,7 +211,7 @@ function AddItem() {
 					{
 						icon: "FaReply",
 						name: "Manage inventory",
-						path: "/user/inventory",
+						path: basePath + "/inventory",
 					},
 				]}
 			/>

@@ -180,7 +180,26 @@ module.exports = {
 		try {
 			const items = await ItemSold.getSalesWithItemDetails();
 
-			res.status(200).json(items);
+			const result = [];
+
+		
+			// add vendor details to the item
+			for (let i = 0; i < items.length; i++) {
+				let item = Object.assign({}, items[i]);
+
+				if (item.item) {
+					const vendor = await Vendor.findById(item.item.vendor_ID);
+					
+					if (vendor) {
+						console.log(vendor.company_name);
+						item["vendor_name"] = vendor.company_name;
+					}
+				}
+		
+				result.push(item);
+			}
+
+			res.status(200).json(result);
 		} catch (e) {
 			console.log(`[ERROR] ${e}`);
 			res.status(500).json({

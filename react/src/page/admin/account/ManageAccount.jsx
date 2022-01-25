@@ -55,6 +55,13 @@ function ManageAccount() {
 					}
 				},
 			},
+			{
+				tooltip: 'Update password',
+				icon: 'FaKey',
+				callback: async (n) => {
+					navigate("/admin/updatepassword", { state: { id: n } });
+				}
+			}
 		]
 	};
 
@@ -81,9 +88,9 @@ function ManageAccount() {
 					]);
 				});
 				setTotalAccounts(list.length)
-				setTotalManagers(list.filter(i => (i[2] === "Manager")).length)
-				setTotalStaffs(list.filter(i => (i[2] === "Staff")).length)
-				setTotalAdmins(list.filter(i => (i[2] === "Admin")).length)
+				setTotalManagers(list.filter(i => (i[2] === "Manager")).length || "0")
+				setTotalStaffs(list.filter(i => (i[2] === "Staff")).length || "0")
+				setTotalAdmins(list.filter(i => (i[2] === "Admin")).length || "0")
 
 				setAccounts(list);
 			} else {

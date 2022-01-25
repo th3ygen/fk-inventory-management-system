@@ -144,9 +144,11 @@ schema.statics.register = function (name, username, password, email, contact) {
 // TODO add notify admin function
 schema.statics.forgetPW = function () {};
 // TODO hashing
-schema.statics.updatePW = async function (username, password) {
-	const user = await this.findOne({ username });
+schema.statics.updatePW = async function (id, password) {
+	const user = await this.findById(id);
 	if (user) {
+		password = bcrypt.hashSync(password, 10);
+		
 		user.password = password;
 		return user.save();
 	}
