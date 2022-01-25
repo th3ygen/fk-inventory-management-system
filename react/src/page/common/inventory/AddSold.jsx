@@ -33,7 +33,7 @@ function AddSold() {
 
 		if (request.status === 200) {
 			alert("Item sold successfully");
-			navigate("/user/inventory", { replace: true });
+			navigate("/user/inventory");
 		} else {
 			alert("Error selling item");
 		}

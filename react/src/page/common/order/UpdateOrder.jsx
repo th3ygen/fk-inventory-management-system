@@ -313,7 +313,7 @@ function UpdateOrder() {
                     <div className={styles.fTitle}> Order Form</div>
                     <div className={styles.orderForm}>
                         <div className={styles.orderInput}>
-                            <label className={styles.formLabel} for="vendor">Vendor </label>
+                            <label className={styles.formLabel} htmlFor="vendor">Vendor </label>
                             <select
                                 className={styles.formSelect}
                                 onChange={selectVendor}
@@ -328,7 +328,7 @@ function UpdateOrder() {
                             </select>
                         </div>
                         <div className={styles.orderInput}>
-                            <label className={styles.formLabel} for="remarks">Remarks </label>
+                            <label className={styles.formLabel} htmlFor="remarks">Remarks </label>
                             <textarea
                                 className={styles.remarks}
                                 id="remarks"
@@ -336,7 +336,7 @@ function UpdateOrder() {
                             ></textarea>
                         </div>
                         <div className={styles.orderInput}>
-                            <label className={styles.formLabel} for="itemName">Item Name </label>
+                            <label className={styles.formLabel} htmlFor="itemName">Item Name </label>
                             <input
                                 className={styles.formInput}
                                 type="text"
@@ -345,7 +345,7 @@ function UpdateOrder() {
                             />
                         </div>
                         <div className={styles.orderInput}>
-                            <label className={styles.formLabel} for="unitPrice">Unit Price </label>
+                            <label className={styles.formLabel} htmlFor="unitPrice">Unit Price </label>
                             <input
                                 className={styles.formInput}
                                 type="number"
@@ -354,7 +354,7 @@ function UpdateOrder() {
                             />
                         </div>
                         <div className={styles.orderInput}>
-                            <label className={styles.formLabel} for="quantity">Quantity </label>
+                            <label className={styles.formLabel} htmlFor="quantity">Quantity </label>
                             <input
                                 className={styles.formInput}
                                 type="number"
@@ -393,14 +393,14 @@ function UpdateOrder() {
                     <div className={styles.sumDetails}>
                         <div className={styles.sumContent}>
                             <div className={styles.contSum}>
-                                <label className={styles.formLabel} for="grandTotal">Grand Total: </label>
-                                <div className={styles.vendor} for="gTotal">
+                                <label className={styles.formLabel} htmlFor="grandTotal">Grand Total: </label>
+                                <div className={styles.vendor} htmlFor="gTotal">
                                     : RM {grandTotal.toFixed(2)}
                                 </div>
                             </div>
                             <div className={styles.contSum}>
-                                <label className={styles.formLabel} for="vendorSummary">Vendor: </label>
-                                <div className={styles.vendorDetails} for="vendorS">
+                                <label className={styles.formLabel} htmlFor="vendorSummary">Vendor: </label>
+                                <div className={styles.vendorDetails} htmlFor="vendorS">
                                     <div className={styles.vendor}>
                                         : {vendorName}
                                     </div>
