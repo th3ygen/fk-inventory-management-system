@@ -5,6 +5,8 @@ import { FaUndo, FaReply, FaEraser, FaCheckSquare } from "react-icons/fa";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useOutletContext } from 'react-router-dom';
 
+import Swal from "sweetalert";
+
 // components
 import Table from "components/Table.component";
 
@@ -30,6 +32,8 @@ function AddOrder() {
 	const unitPrice = useRef(0);
 	const quantity = useRef(0);
 	const [grandTotal, setGrandTotal] = useState(0);
+
+	const [basePath, setBasePath] = useState('/user');
 
 	const itemList = {
 		header: ["Item", "Quantity", "Unit Price", "Sub Price"],
@@ -118,7 +122,7 @@ function AddOrder() {
 		
 		if (request.status === 200) {
 			await swal("Success", "Wait for Manager Verification!", "success");
-			navigate("/user/orders");
+			navigate(basePath + "/orders");
 		} else {
 			console.log(request);
 			alertify.notify('Error adding order', 'error');
@@ -128,31 +132,36 @@ function AddOrder() {
 	const selectVendor = (e) => {
 		// find vendor by id
 
-		let vendor;
-		if (e.target) {
-			vendor = Object.assign(
-				{},
-				vendors.find((v) => v._id === e.target.value)
-			);
-		} else {
-			vendor = Object.assign({}, e);
+		try {
+			let vendor;
+			if (e.target) {
+				vendor = Object.assign(
+					{},
+					vendors.find((v) => v._id === e.target.value)
+				);
+			} else {
+				vendor = Object.assign({}, e);
+			}
+	
+			delete vendor._id;
+			delete vendor.__v;
+	
+			setVendorName(vendor.brand);
+			setVendorPIC(vendor.pic_name);
+			setVendor(vendor);
+			// replace key names
+			// replace underscore with space
+			// capitalize first letter
+			Object.keys(vendor).forEach((key) => {
+				vendor[
+					key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())
+				] = vendor[key];
+				delete vendor[key];
+			});
+
+		} catch (e) {
+			console.log(e);
 		}
-
-		delete vendor._id;
-		delete vendor.__v;
-
-		setVendorName(vendor.brand);
-		setVendorPIC(vendor.pic_name);
-		setVendor(vendor);
-		// replace key names
-		// replace underscore with space
-		// capitalize first letter
-		Object.keys(vendor).forEach((key) => {
-			vendor[
-				key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())
-			] = vendor[key];
-			delete vendor[key];
-		});
 
 	};
 
@@ -160,6 +169,12 @@ function AddOrder() {
 		(async () => {
 			if (!user) {
 				return;
+			}
+
+			let path = '/user';
+			if (user.role === 'admin') {
+				setBasePath('/admin');
+				path = '/admin';
 			}
 
 			let request = await fetch(
@@ -174,6 +189,18 @@ function AddOrder() {
 			);
 
 			const v = await request.json();
+
+			if (v.length === 0) {
+				await Swal({
+					title: "No vendors found",
+					text: "Please add a vendor first",
+					icon: "warning",
+					button: "OK",
+				});
+
+				navigate(path + "/vendors/add");
+			}
+
 			selectVendor(v[0]);
 
 			setVendors(v);
