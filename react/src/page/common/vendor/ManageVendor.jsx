@@ -141,7 +141,7 @@ function ManageVendor() {
                 navs={[
                     {
                         icon: "FaReply",
-                        name: "Issue new Vendor",
+                        name: "Register Vendor",
                         path: basePath + "/vendors/add",
                     },
                     
