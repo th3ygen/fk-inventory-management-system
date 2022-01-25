@@ -69,7 +69,8 @@ function ManageAccount() {
 					const request = await fetch("http://localhost:8080/api/accounts/delete/" + n, {
 						method: "GET",
 						headers: {
-							"Content-Type": "application/json"
+							"Content-Type": "application/json",
+							authorization: "Bearer " + user.token,
 						}
 					})
 					if (request.status === 200) {
