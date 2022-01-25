@@ -3,21 +3,19 @@ const mqtt = require('../services/mqtt.service.js').client;
 const Device = require('../models/Device.js');
 const Data = require('../models/Data.js');
 
+const parseData = (payload) => {
+    let res = {};
+
+    payload.toString().split('&').forEach(item => {
+        const [key, value] = item.split('=');
+        res[key] = value;
+    });
+
+    return res;
+};
+
 mqtt.on('message', async (topic, message) => {
     const dir = topic.split('/');
-
-    console.log(topic, message.toString());
-
-    const parseData = (payload) => {
-        let res = {};
-
-        payload.toString().split('&').forEach(item => {
-            const [key, value] = item.split('=');
-            res[key] = value;
-        });
-
-        return res;
-    };
 
     try {
         if (dir[0] === 'device' && dir[2] === 'data') {

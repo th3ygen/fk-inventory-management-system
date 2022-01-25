@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 
 // components
 import Table from "components/Table.component";
@@ -9,6 +10,8 @@ import DeviceData from "components/DeviceData.component";
 import styles from "styles/common/facilities/PondDevices.module.scss";
 
 function DisplayReport(props) {
+	const [mqtt] = useOutletContext();
+
 	const [labels, setLabels] = useState([]);
 
 	const requestLabels = async () => {
@@ -29,16 +32,10 @@ function DisplayReport(props) {
 	}, []);
 
 	useEffect(() => {
-		if (props.mqtt) {
-			props.mqtt.on('message', (topic, message) => {
-				const state = message.toString();
+		if (!mqtt) return;
 
-				if (state === 'NEWDEVICE') {
-					requestLabels();
-				}
-			});
-		}
-	}, [props.mqtt])
+		console.log("mqtt", mqtt);
+	}, [mqtt]);
 
 	return (
 		<div className={styles.container}>
@@ -49,12 +46,6 @@ function DisplayReport(props) {
 				</div>
 			</div>
 			<div className={styles.body}>
-				{/* <div className={styles.itemsSoldTable}>
-					<Table title="Items sold" data={itemsData} />
-				</div>
-				<div className={styles.topSoldList}>
-					<TopList title="Hot items" data={topSold} />
-				</div> */}
 				<div className={styles.charts}>
 					{labels.map((item, x) => (
 						<DeviceData
@@ -65,28 +56,6 @@ function DisplayReport(props) {
 							mqtt={props.mqtt}
 						/>
 					))}
-					{/* <DeviceData 
-						name={"Pond 1"}
-						chartHeight={"100px"}
-					/>
-					<DeviceData 
-						name={"Pond 2"}
-						chartHeight={"100px"}
-					/>
-					<DeviceData 
-						name={"Pond 3"}
-						chartHeight={"100px"}
-					/>
-					<DeviceData 
-						name={"Pond 4"}
-						chartHeight={"100px"}
-					/> */}
-					{/* <DateAxisLineChart
-						title="Profit trend"
-						data={profit}
-						label="Profit2"
-						height="250px"
-					/> */}
 				</div>
 
 			</div>

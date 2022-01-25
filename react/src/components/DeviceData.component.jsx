@@ -1,12 +1,10 @@
 import { useEffect, useState, useRef } from "react";
-import { useSubscription } from "mqtt-react-hooks";
 
 import styles from "styles/component/DeviceData.module.scss";
 
 import SimpleLineChart from "components/SimpleLineChart";
 
 function DeviceData(props) {
-	const { message, connectionStatus } = useSubscription('server/state');
 
 	let setup = useRef(false);
 
@@ -45,7 +43,7 @@ function DeviceData(props) {
 
 	};
 
-	useEffect(() => {
+	/* useEffect(() => {
 		if (message) {
 			const s = message.message.split(':');
 			if (s.length > 1) {
@@ -54,7 +52,7 @@ function DeviceData(props) {
 				}
 			}
 		}
-	}, [message]);
+	}, [message]); */
 
 	useEffect(() => {
 		requestData();
