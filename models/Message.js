@@ -5,7 +5,6 @@ const schema = new Schema({
     content: String,
     senderId: Types.ObjectId,
     receivers: [String],
-    read: Boolean,
     msgType: String,
     orderId: Types.ObjectId,
 }, { timestamps: true });
@@ -36,9 +35,6 @@ schema.statics.delete = async function (id) {
     return this.findByIdAndDelete(id);
 };
 
-schema.statics.markAsRead = async function (id) {
-    return this.findByIdAndUpdate(id, { read: true });
-};
 
 const Message = model("Message", schema);
 
