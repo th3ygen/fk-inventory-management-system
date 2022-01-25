@@ -396,7 +396,7 @@ function ManageInventory() {
 						</div>
 					</div>
 					<div className={`${styles.input} ${err && styles.error}`}>
-						<input type="text" ref={addSoldInputRef} />
+						<input type="number" ref={addSoldInputRef} />
 						<div className={styles.btn} onClick={addSold}>
 							Add
 						</div>
