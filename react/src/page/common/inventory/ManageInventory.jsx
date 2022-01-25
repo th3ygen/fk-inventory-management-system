@@ -17,13 +17,6 @@ import "reactjs-popup/dist/index.css";
 import "alertifyjs/build/css/alertify.min.css";
 import "alertifyjs/build/css/themes/bootstrap.min.css";
 
-/* 
-	TODO: Popup for AddSold
-	       - show item name and quantity
-		   - input quantity
-		   - validate input <= quantity
-*/
-
 function ManageInventory() {
 	const navigate = useNavigate();
 
@@ -321,7 +314,7 @@ function ManageInventory() {
 						icon="FaBoxOpen"
 					/>
 
-					<StatNumber
+					{/* <StatNumber
 						title="Most Sold Item"
 						value={`${mostSoldItem.name} (${mostSoldItem.value})`}
 						unit="Items"
@@ -335,7 +328,7 @@ function ManageInventory() {
 						unit="Items"
 						icon="FaBoxOpen"
 						valueSize={"1rem"}
-					/>
+					/> */}
 				</StatWrapper>
 			</div>
 			<div className={styles.table}>

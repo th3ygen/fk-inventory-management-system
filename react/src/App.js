@@ -190,6 +190,10 @@ function App() {
 						element={<InventoryAddSoldPage />}
 					/>
 					<Route path="inbox" element={<InboxPage />} />
+					<Route path="vendors" element={<ManageVendor />} />
+					<Route path="/admin/vendors/add" element={<RegisterVendor />}/>
+					<Route path="/admin/vendors/edit" element={<EditVendor />}/>
+					<Route path="/admin/vendors/show" element={<ShowVendor />}/>
 				</Route>
 			</Routes>
 		</div>

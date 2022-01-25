@@ -17,6 +17,8 @@ function ManageVendor() {
     const navigate = useNavigate();
     const [user] = useOutletContext();
 
+    const [basePath, setBasePath] = useState('/user');
+
     const vendorData = {
         header: ["Company Name", "brand", "contact", "email", "Person in Charge", "Contact Number"],
         
@@ -91,6 +93,11 @@ function ManageVendor() {
             if (!user) {
 				return;
 			}
+
+            if (user.role === 'admin') {
+                setBasePath('/admin');
+            }
+
             let request = await fetch(
                 "http://localhost:8080/api/vendors/list",
                 {
@@ -135,7 +142,7 @@ function ManageVendor() {
                     {
                         icon: "FaReply",
                         name: "Issue new Vendor",
-                        path: "/user/vendors/add",
+                        path: basePath + "/vendors/add",
                     },
                     
                 ]}

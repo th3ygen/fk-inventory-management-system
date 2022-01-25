@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { FaUserPlus } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
+
+import Swal from 'sweetalert';
 
 // components
 import Table from "components/Table.component";
@@ -8,14 +10,19 @@ import StatNumber from "components/StatNumber.component";
 import StatWrapper from "components/StatWrapper.component";
 
 import styles from "styles/admin/account/ManageAccount.module.scss";
+import PageHeader from 'components/PageHeader.component';
 
 function ManageAccount() {
+	const [user] = useOutletContext();
+
 	const navigate = useNavigate();
 	const [totalAccounts, setTotalAccounts] = useState(0)
 	const [totalManagers, setTotalManagers] = useState(0)
 	const [totalStaffs, setTotalStaffs] = useState(0)
 	const [totalAdmins, setTotalAdmins] = useState(0)
 	const [accounts, setAccounts] = useState([]);
+
+	const [basePath, setBasePath] = useState('/user');
 
 	const accountData = {
 		header: ["Name", "Role", "Username", "Contact"],
@@ -32,13 +39,30 @@ function ManageAccount() {
 				icon: "FaEdit",
 				tooltip: "Update Account",
 				callback: (n) => {
-					navigate("/admin/accounts/update_account", { replace: true, state: { id: n } })
+					navigate("/admin/accounts/update_account", { state: { id: n } })
 				},
 			},
 			{
 				icon: "FaTrashAlt",
 				tooltip: "Delete Account",
 				callback: async (n) => {
+					const confirm = await Swal({
+						title: "Are you sure?",
+						text: "You won't be able to revert this!",
+						icon: 'warning',
+						buttons: {
+							cancel: 'Cancel',
+							delete: {
+								text: 'Delete',
+								value: 'delete',
+							},
+						},
+					})
+
+					if (!confirm) {
+						return
+					}
+
 					const request = await fetch("http://localhost:8080/api/accounts/delete/" + n, {
 						method: "GET",
 						headers: {
@@ -66,11 +90,20 @@ function ManageAccount() {
 	};
 
 	useEffect(() => {
+		if (!user) {
+			return;
+		}
+
+		if (user.role === 'admin') {
+			setBasePath('/admin')
+		}
+
 		(async () => {
 			const request = await fetch("http://localhost:8080/api/accounts/get", {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
+					"Authorization": "Bearer " + user.token
 				},
 			});
 
@@ -98,13 +131,22 @@ function ManageAccount() {
 				alert("Error: " + request.status);
 			}
 		})();
-	}, []);
+	}, [user]);
 
 	return (
 		<div className={styles.header}>
-			<h2 className={styles.header2}>Manage Account</h2>
+			<PageHeader
+				title="Manage Accounts"
+				brief="Easily manage user accounts, add, update, and delete."
+				navs={[
+					{
+						icon: "FaUserPlus",
+						name: "Add Account",
+						path: basePath + "/accounts/add_account",
+					},
+				]}
+			/>
 			<div className={styles.title}>
-				<h5 className={styles.header5}>Easily manage the accounts details in one page</h5>
 				<div className={styles.statNum}>
 					<StatWrapper >
 						<StatNumber 
@@ -140,9 +182,6 @@ function ManageAccount() {
 							style={{ fontSize: "24px" }}
 						/>
 					</StatWrapper>
-				</div>
-				<div className={styles.butAdd}>
-					<button className={styles.button} onClick={() => navigate("/admin/accounts/add_account", { replace: true })}><FaUserPlus /> Add Account</button>
 				</div>
 			</div>
 			<div className={styles.container}>

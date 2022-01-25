@@ -11,6 +11,7 @@ import StatNumber from "components/StatNumber.component";
 import StatWrapper from "components/StatWrapper.component";
 
 import styles from "styles/common/report/DisplayReport.module.scss";
+import PageHeader from "components/PageHeader.component";
 
 function DisplayReport() {
 	const [user] = useOutletContext();
@@ -29,124 +30,6 @@ function DisplayReport() {
 		colWidthPercent: ["30%", "10%", "10%", "10%"],
 		centered: [false, true, true, true],
 		actions: [],
-	};
-
-	const stats = [
-		{
-			title: "Total Accounts",
-			value: "12,000",
-			label: "Orders",
-		},
-		{
-			title: "Total Managers",
-			value: "12,000",
-			label: "Managers",
-		},
-		{
-			title: "Total Staffs",
-			value: "12,000",
-			label: "Staffs",
-		},
-		{
-			title: "Total Staffs",
-			value: "12,000",
-			label: "Staffs",
-		},
-	];
-
-	const topSold = [
-		{
-			Name: "Item 5",
-			"Total Sold": "50",
-		},
-		{
-			Name: "Item 1",
-			"Total Sold": "10",
-		},
-		{
-			Name: "Item 2",
-			"Total Sold": "20",
-		},
-		{
-			Name: "Item 3",
-			"Total Sold": "30",
-		},
-		{
-			Name: "Item 4",
-			"Total Sold": "40",
-		},
-	];
-
-	const profitData = [
-		{
-			date: new Date(2021, 0, 1).getTime(),
-			value: 100,
-		},
-		{
-			date: new Date(2021, 0, 2).getTime(),
-			value: 320,
-		},
-		{
-			date: new Date(2021, 0, 3).getTime(),
-			value: 216,
-		},
-		{
-			date: new Date(2021, 0, 4).getTime(),
-			value: 150,
-		},
-		{
-			date: new Date(2021, 0, 5).getTime(),
-			value: 156,
-		},
-		{
-			date: new Date(2021, 0, 6).getTime(),
-			value: 199,
-		},
-		{
-			date: new Date(2021, 0, 7).getTime(),
-			value: 114,
-		},
-		{
-			date: new Date(2021, 0, 8).getTime(),
-			value: 269,
-		},
-		{
-			date: new Date(2021, 0, 9).getTime(),
-			value: 90,
-		},
-		{
-			date: new Date(2021, 0, 10).getTime(),
-			value: 300,
-		},
-		{
-			date: new Date(2021, 0, 11).getTime(),
-			value: 150,
-		},
-		{
-			date: new Date(2021, 0, 12).getTime(),
-			value: 110,
-		},
-		{
-			date: new Date(2021, 0, 13).getTime(),
-			value: 185,
-		},
-	];
-
-	const [profit, setProfit] = useState(profitData);
-	const [count, setCount] = useState(1);
-
-	const testClick = () => {
-		let newData = profit;
-
-		newData.push({
-			date: new Date(2021, 0, 13 + count).getTime(),
-			value: Math.floor(Math.random() * 100),
-		});
-
-		setProfit(newData);
-		console.log("click");
-
-		setCount(count + 1);
 	};
 
 	useEffect(() => {
@@ -224,7 +107,14 @@ function DisplayReport() {
 				setItems(rows);
 			}
 			const mostSold = await fetch(
-				"http://localhost:8080/api/report/getMostSold"
+				"http://localhost:8080/api/report/getMostSold",
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						authorization: "Bearer " + user.token,
+					},
+				}
 			);
 			if (mostSold.status === 200) {
 				const list = await mostSold.json();
@@ -254,45 +144,13 @@ function DisplayReport() {
 		})();
 	}, [user]);
 
-	// sort the topSold array by quantity
-	topSold.sort((a, b) => {
-		return a.quantity - b.quantity;
-	});
-
 	return (
 		<div className={styles.container}>
-			<div className={styles.stats}>
-				{/* <NumberWidget
-					title="Total sold"
-					value={totalSoldItems}
-					label="Items"
-					style={{ fontSize: "18px" }}
-				/>
-				<NumberWidget
-					title="Total sales"
-					value={totalSales}
-					label="RM"
-					style={{ fontSize: "18px" }}
-				/>
-				<NumberWidget
-					title="Average sales"
-					value={avrSales}
-					label="RM"
-					style={{ fontSize: "18px" }}
-				/>
-				<NumberWidget
-					title="Most sold"
-					value={mostSoldItem.name}
-					label="Item"
-					style={{ fontSize: "14px" }}
-				/>
-				<NumberWidget
-					title="Least sold"
-					value={leastSoldItem.name}
-					label="Item"
-					style={{ fontSize: "14px" }}
-				/> */}
-			</div>
+			<PageHeader
+				title="Report"
+				brief="Get the overall report for the inventory"
+				navs={[]}
+			/>
 			<div className={styles.statNum}>
 				<StatWrapper>
 					<StatNumber
@@ -337,7 +195,7 @@ function DisplayReport() {
 			<div className={styles.topSoldList}>
 				<TopList title="Popular items" data={topItems} />
 			</div>
-			<div className={styles.profitTrend} onClick={testClick}>
+			<div className={styles.profitTrend}>
 				<DateAxisLineChart
 					title="This week sales"
 					data={salesData}

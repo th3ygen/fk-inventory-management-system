@@ -22,6 +22,8 @@ function RegisterVendor() {
     const picName = useRef('');
     const picContact = useRef('');
 
+    const [basePath, setBasePath] = useState('/user');
+
     const addVendor = async () => {
         let item = {
             company_name: companyName.current.value,
@@ -50,7 +52,7 @@ function RegisterVendor() {
 				button: "OK",
 			});
 
-			navigate("/user/vendors");
+			navigate(basePath + "/vendors");
 		} else {
 			alert("Error adding vendor");
 		}
@@ -66,6 +68,14 @@ function RegisterVendor() {
         picContact.current.value = "";
     }
 
+    useEffect(() => {
+        if (!user) return;
+
+        if (user.role === 'admin') {
+            setBasePath('/admin');
+        }
+    }, [user]);
+
     return (
         <div className={styles.container}>
             <PageHeader
@@ -75,7 +85,7 @@ function RegisterVendor() {
 					{
 						icon: "FaReply",
 						name: "Manage vendor",
-						path: "/user/vendors",
+						path: basePath + "/vendors",
 					},
 				]}
 			/>
