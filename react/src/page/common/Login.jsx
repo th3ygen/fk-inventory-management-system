@@ -57,6 +57,27 @@ function Login() {
 			console.log(e);
 		}
 	}
+	const forgotPassword = async () => {
+		try {
+			let res, req;
+
+			req = await fetch("http://localhost:8080/api/auth/forgot", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				
+			});
+
+			if (req.status === 200) {
+				res = await req.json();
+			}
+				
+		} catch (e) {
+			console.log(e);
+		}
+	}
+	
 
 	const onEnter = (e) => {
 		if (e.key === 'Enter') {

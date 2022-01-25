@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const Message = require('./Message');
 
 // hardcoded secret key, irl this should be in a config file
 const secret = "s33eecr3t";
@@ -134,7 +135,7 @@ schema.statics.login = async function (username, password) {
 };
 
 schema.statics.register = function (name, username, password, email, contact) {
-    password = bcrypt.hashSync(password, 10);
+	password = bcrypt.hashSync(password, 10);
 
 	const user = new this({ name, username, password, email, contact, role: 'staff' });
 
@@ -142,13 +143,19 @@ schema.statics.register = function (name, username, password, email, contact) {
 };
 
 // TODO add notify admin function
-schema.statics.forgetPW = function () {};
+schema.statics.forgetPW = function () {
+	const content = `Requesting for password change`;
+
+	const msg = await Message.add('Forgot Password', content, ['admin'], 'request');
+	return msg;
+
+};
 // TODO hashing
 schema.statics.updatePW = async function (id, password) {
 	const user = await this.findById(id);
 	if (user) {
 		password = bcrypt.hashSync(password, 10);
-		
+
 		user.password = password;
 		return user.save();
 	}
