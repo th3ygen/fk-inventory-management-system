@@ -79,9 +79,17 @@ function App() {
 						if (!location.pathname.includes("/admin")) {
 							navigate("/admin/accounts", { replace: true });
 						}
+
+						if (location.pathname === "/admin") {
+							navigate("/admin/inbox", { replace: true });
+						}
 					} else {
 						if (!location.pathname.includes("/user")) {
 							navigate("/user/inventory", { replace: true });
+						}
+
+						if (location.pathname === "/user") {
+							navigate("/user/inbox", { replace: true });
 						}
 					}
 				} else {

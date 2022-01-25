@@ -180,7 +180,7 @@ function UpdateAccount() {
 							</div>
 							<div className={styles.box}>
 								<label for="role">Role</label>
-								<select id="role" name="role" ref={roleInput}>
+								<select className={styles.inputData} id="role" name="role" ref={roleInput}>
 									<option value="Manager">Manager</option>
 									<option value="Staff">Staff</option>
 									<option value="Admin">Admin</option>

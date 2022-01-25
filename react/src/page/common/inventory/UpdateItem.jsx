@@ -138,6 +138,7 @@ function UpdateItem() {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
+					authorization: "Bearer " + user.token,
 				},
 			}
 		);
