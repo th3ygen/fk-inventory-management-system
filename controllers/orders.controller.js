@@ -105,7 +105,17 @@ module.exports = {
             const order = await Order.updateOrder(id, comment, orderItems);
             
             if(order){
-                const msg = await Message.findOneAndDelete({ orderId: id });
+                await Message.findOneAndDelete({ orderId: id });
+
+                const vendor = await Vendor.findById(order.vendor_ID);
+
+                const content = `<p>Order from vendor ${vendor.company_name}</p>
+                                <p>Items:</p>
+                                <ul>${items}</ul>`;
+
+                const msg = await Message.add('New order request', content, ['manager', 'admin'], 'request');
+
+                await msg.attachOrder(order._id);
 
                 res.status(200).json(order);
             }
@@ -151,6 +161,8 @@ module.exports = {
             const order = await Order.requestDelete(id);
             
             if(order){
+                await Message.findOneAndDelete({ orderId: id });
+
                 res.status(200).json(order);
             }
             else{
