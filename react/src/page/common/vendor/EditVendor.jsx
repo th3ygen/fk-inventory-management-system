@@ -136,11 +136,11 @@ function EditVendor() {
                     </div>
                     <div className={styles.row}>
                         <div className={styles.label}>Address</div>
-                        <input
-                            className={styles.input}
+                        <textarea 
+                            className={styles.address}
                             type="text"
                             ref={addressInput}
-                        />
+                        ></textarea>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.label}>Email</div>
