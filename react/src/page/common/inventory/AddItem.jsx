@@ -102,31 +102,35 @@ function AddItem() {
 
 	const selectVendor = (e) => {
 		// find vendor by id
-
-		let vendor;
-		if (e.target) {
-			vendor = Object.assign(
-				{},
-				vendors.find((v) => v._id === e.target.value)
-			);
-		} else {
-			vendor = Object.assign({}, e);
+		try {
+			let vendor;
+			if (e.target) {
+				vendor = Object.assign(
+					{},
+					vendors.find((v) => v._id === e.target.value)
+				);
+			} else {
+				vendor = Object.assign({}, e);
+			}
+	
+			delete vendor._id;
+			delete vendor.__v;
+	
+			// replace key names
+			// replace underscore with space
+			// capitalize first letter
+			Object.keys(vendor).forEach((key) => {
+				vendor[
+					key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())
+				] = vendor[key];
+				delete vendor[key];
+			});
+	
+			setVendor(vendor);
+		} catch (e) {
+			console.log(e);
 		}
 
-		delete vendor._id;
-		delete vendor.__v;
-
-		// replace key names
-		// replace underscore with space
-		// capitalize first letter
-		Object.keys(vendor).forEach((key) => {
-			vendor[
-				key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())
-			] = vendor[key];
-			delete vendor[key];
-		});
-
-		setVendor(vendor);
 	};
 
 	const addItem = async () => {
