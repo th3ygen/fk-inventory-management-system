@@ -18,7 +18,7 @@
     width: 100%;
     display: flex;
     gap: 10px;
-    padding-right: 10px;
+    padding-right: 70px;
     & > div {
         color: #2179FFFF;
         font-weight: 800;
@@ -45,6 +45,21 @@
     /* display: flex; */
     border-radius: 10px;
     padding: 5px;
+}
+
+.actions {
+    flex: 0 0 40px;
+    display: flex;
+    align-items: center;
+
+    div {
+        cursor: pointer;
+
+        transition: .3s all;
+        &:hover {
+            color: #2179FFFF;
+        }
+    }
 }
 
 .tableCont{

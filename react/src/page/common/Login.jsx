@@ -37,7 +37,7 @@ function Login() {
 					token: res.token,
 				}));
 
-				const path = res.role === 'admin' ? '/admin' : '/user/inventory';
+				const path = res.role === 'admin' ? '/admin/inbox' : '/user/inbox';
 
 				navigate(path, {
 					state: {

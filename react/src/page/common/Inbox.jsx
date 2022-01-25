@@ -1,7 +1,7 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
 
 import * as alertify from "alertifyjs";
-import * as swal from "sweetalert";
+import swal from "sweetalert";
 
 import styles from "styles/common/Inbox.module.scss";
 
@@ -9,13 +9,40 @@ import { useState, useEffect } from "react";
 
 //component
 import Wrapper from "components/FolderCard";
+import { FaTrash } from "react-icons/fa";
 
 function Inbox() {
-    const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	const [user] = useOutletContext();
 
 	const [inbox, setInbox] = useState([]);
+
+	const deleteMsg = async (id) => {
+		try {
+			const req = await fetch(
+				"http://localhost:8080/api/inbox/delete/" + id,
+				{
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+						authorization: "Bearer " + user.token,
+					},
+				}
+			);
+
+				console.log(id);
+
+			if (req.status === 200) {
+				alertify.success("Message Deleted");
+				setInbox(inbox.filter((item) => item._id !== id));
+			}
+
+			console.log(req);
+		} catch (e) {
+			console.log(e);
+		}
+	};
 
 	useEffect(() => {
 		(async () => {
@@ -82,26 +109,39 @@ function Inbox() {
 									key={index}
 									className={styles.row}
 									onClick={() => {
-                                        if (item.msgType === 'request') {
-                                            alertify
-                                                .confirm(
-                                                    item.title,
-                                                    item.content,
-                                                    async () => {
-                                                        await swal('Success', 'You clicked Yes button', 'success');
-														navigate('/user/orders');
-                                                    },
-                                                    () => {
-                                                        navigate('/user/order/approve', { state: { id: item.orderId } });
-                                                    }
-                                                )
-                                                .set({'invokeOnCloseOff': true})
-                                                .set("labels", {
-                                                    ok: "Approve",
-                                                    cancel: "Review",
-                                                })
-                                                .set("reverseButtons", true);
-                                        }
+										if (item.msgType === "request") {
+											alertify
+												.confirm(
+													item.title,
+													item.content,
+													async () => {
+														await swal(
+															"Success",
+															"You clicked Yes button",
+															"success"
+														);
+														navigate(
+															"/user/orders"
+														);
+													},
+													() => {
+														navigate(
+															"/user/order/approve",
+															{
+																state: {
+																	id: item.orderId,
+																},
+															}
+														);
+													}
+												)
+												.set({ invokeOnCloseOff: true })
+												.set("labels", {
+													ok: "Approve",
+													cancel: "Review",
+												})
+												.set("reverseButtons", true);
+										}
 									}}
 								>
 									<div className={styles.headNum}>
@@ -112,7 +152,10 @@ function Inbox() {
 									</div>
 									<div
 										className={styles.headCon}
-										style={{ textAlign: "center", textTransform: "capitalize" }}
+										style={{
+											textAlign: "center",
+											textTransform: "capitalize",
+										}}
 									>
 										{item.msgType || "none"}
 									</div>
@@ -121,6 +164,38 @@ function Inbox() {
 										style={{ textAlign: "center" }}
 									>
 										12/1/2022
+									</div>
+									<div
+										className={styles.actions}
+										style={{ textAlign: "center" }}
+									>
+										<div
+											className=""
+											onClick={async () => {
+												const id = item._id;
+
+												const confirm = await swal({
+													title: "Are you sure?",
+													text: "You won't be able to revert this!",
+													icon: "warning",
+													buttons: true,
+													dangerMode: true,
+												});
+
+												if (confirm) {
+													await deleteMsg(id);
+
+													swal(
+														"Poof! Your message has been deleted!",
+														{
+															icon: "success",
+														}
+													);
+												}
+											}}
+										>
+											<FaTrash />
+										</div>
 									</div>
 								</div>
 							);
