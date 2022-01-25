@@ -177,7 +177,7 @@ function ManageInventory() {
 				setMostSoldItem(mostSold);
 				setLeastSoldItem(leastSold);
 
-				setTotalSoldItems(tSoldItems);
+				setTotalSoldItems(tSoldItems || "0");
 				setTotalSales(tSold.toFixed(2));
 			}
 		})();
