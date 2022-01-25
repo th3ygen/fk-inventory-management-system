@@ -1,7 +1,6 @@
 const { Schema, model } = require('mongoose');
 
 const schema = new Schema({
-    vendor_ID: Schema.Types.ObjectId,
     company_name: {
         type: String,
         required: true
@@ -59,18 +58,18 @@ schema.statics.getAllVendors = function() {
 }
 
 // update vendor
-schema.methods.updateVendors = function(vendor_ID,company_name,brand,contact,address,email,pic_name,pic_contact) {
-    const filter = { vendor_ID: vendor_ID};
-    const update = {
-        company_name: company_name,
-        brand: brand,
-        contact: contact,
-        address: address,
-        email: email,
-        pic_name: pic_name,
-        pic_contact: pic_contact
-    };
-    return this.findOneAndUpdate(filter,update);
+schema.statics.updateVendors = async function(id,company_name,brand,contact,address,email,pic_name,pic_contact) {
+    const vendor = await this.findById(id);
+
+    vendor.company_name = company_name;
+    vendor.brand = brand;
+    vendor.contact = contact;
+    vendor.address = address;
+    vendor.email = email;
+    vendor.pic_name = pic_name;
+    vendor.pic_contact = pic_contact;
+
+    return vendor.save();
 }
 
 // delete vendor

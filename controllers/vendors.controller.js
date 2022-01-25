@@ -76,7 +76,7 @@ module.exports = {
 	updateVendor: async function (req, res) {
 		try {
 			const {
-				vendor_ID,
+				id,
 				company_name,
 				brand,
 				contact,
@@ -87,7 +87,7 @@ module.exports = {
 			} = req.body;
 
 			const vendor = await Vendors.updateVendors(
-				vendor_ID,
+				id,
 				company_name,
 				brand,
 				contact,
@@ -97,11 +97,11 @@ module.exports = {
 				pic_contact
 			);
 
-			if (item) {
-				res.status(200).json(item);
+			if (vendor) {
+				res.status(200).json(vendor);
 			} else {
 				res.status(404).json({
-					error: "Item not found",
+					error: "Vendor not found",
 				});
 			}
 		} catch (e) {

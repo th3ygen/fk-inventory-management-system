@@ -23,7 +23,10 @@ function ManageVendor() {
             {
                 icon: "FaEdit",
                 callback: (n) => {
-					navigate("/user/vendors/edit");
+					navigate('/user/vendors/edit', {
+                        replace: true,
+                        state: { id: n }
+                    });
 				},
                 tooltip: "Edit",
             },
