@@ -15,7 +15,6 @@ import TestPage from "page/Test";
 import ManageVendor from "page/common/vendor/ManageVendor";
 import RegisterVendor from "page/common/vendor/RegisterVendor";
 import EditVendor from "page/common/vendor/EditVendor";
-import ShowVendor from "page/common/vendor/ShowVendor";
 
 // Inventory page
 import ManageInventoryPage from "page/common/inventory/ManageInventory";
@@ -120,7 +119,6 @@ function App() {
 					<Route path="vendors" element={<ManageVendor />} />
 					<Route path="/user/vendors/add" element={<RegisterVendor />}/>
 					<Route path="/user/vendors/edit" element={<EditVendor />}/>
-					<Route path="/user/vendors/show" element={<ShowVendor />}/>
 
 					<Route path="inventory" element={<ManageInventoryPage />} />
 					<Route
@@ -201,7 +199,6 @@ function App() {
 					<Route path="vendors" element={<ManageVendor />} />
 					<Route path="/admin/vendors/add" element={<RegisterVendor />}/>
 					<Route path="/admin/vendors/edit" element={<EditVendor />}/>
-					<Route path="/admin/vendors/show" element={<ShowVendor />}/>
 				</Route>
 			</Routes>
 		</div>
