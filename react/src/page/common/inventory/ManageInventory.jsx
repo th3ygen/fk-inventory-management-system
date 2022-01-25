@@ -116,7 +116,7 @@ function ManageInventory() {
 				// convert tWorth and aPrice to 2 decimal places
 				tWorth = tWorth.toFixed(2);
 
-				setTotalItems(rows.length);
+				setTotalItems(rows.length || 0);
 				setTotalWorth(tWorth);
 
 				setItems(rows);
