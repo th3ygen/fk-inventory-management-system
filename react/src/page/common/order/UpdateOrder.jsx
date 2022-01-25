@@ -36,6 +36,8 @@ function UpdateOrder() {
     const [manager, setManager] = useState('');
     const [managerRemarks, setManagerRemarks] = useState('');
 
+    const [basePath, setBasepath] = useState('/user');
+
     const itemList = {
         header: ["Item", "Quantity", "Unit Price", "Sub Price"],
         colWidthPercent: ["30%", "15%", "15%", "15%"],
@@ -184,36 +186,50 @@ function UpdateOrder() {
 
 
     useEffect(() => {
+        if (!user) {
+            return;
+        }
+
         loadData();
     }, [user]);
 
-    useEffect(async () => {
-        let request;
-
-        if (location.state.status === 'rejected') {
-
-            if (location.state.id) {
-                request = await fetch('http://localhost:8080/api/orders/find/' + location.state.id, 
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        authorization: "Bearer " + user.token,
-                    },
-                });
-
-                if (request.status === 200) {
-                    const item = await request.json();
-
-                    setManager(item.manager_ID);
-                    setManagerRemarks(item.manager_remarks);
-
-                }
-            }
-        } else {
-            setManager('-');
-            setManagerRemarks('Not Verify Yet');
+    useEffect(() => {
+        if (!user) {
+            return;
         }
+
+        if (user.role === 'admin') {
+            setBasepath('/admin');
+        }
+
+        (async () => {
+            let request;
+    
+            if (location.state.status === 'rejected') {
+    
+                if (location.state.id) {
+                    request = await fetch('http://localhost:8080/api/orders/find/' + location.state.id, 
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            authorization: "Bearer " + user.token,
+                        },
+                    });
+    
+                    if (request.status === 200) {
+                        const item = await request.json();
+    
+                        setManager(item.manager_ID);
+                        setManagerRemarks(item.manager_remarks);
+    
+                    }
+                }
+            } else {
+                setManager('-');
+                setManagerRemarks('Not Verify Yet');
+            }
+        })();
 
     }, [location.state.status, user]);
 
@@ -232,7 +248,7 @@ function UpdateOrder() {
 
 		if (request.status === 200) {
 			await swal("Verifying", "Request Send For Verification!", "success");
-			navigate("/user/orders");
+			navigate(basePath + "/orders");
 		} else {
 			console.log(location.state.id, request);
 			alertify.notify('Error request delete', 'error');
@@ -263,7 +279,7 @@ function UpdateOrder() {
 
         if (request.status === 200) {
             await swal("Updated", "Order Detail Update Successfully!", "success");
-			navigate("/user/orders");
+			navigate(basePath + "/orders");
         } else {
             console.log(request);
             alertify.notify('Error updating order', 'error');
