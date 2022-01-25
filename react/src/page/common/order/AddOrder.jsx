@@ -199,6 +199,8 @@ function AddOrder() {
 				});
 
 				navigate(path + "/vendors/add");
+
+				return;
 			}
 
 			selectVendor(v[0]);
