@@ -161,7 +161,13 @@ schema.statics.getWeeklySales = async function () {
 	const sales = [];
 
 	for (let i = 0; i < averageSalesPerDay.length; i++) {
-		const date = new Date(start.getTime() + i * 24 * 60 * 60 * 1000);
+		const s = new Date(
+			today.getFullYear(),
+			today.getMonth(),
+			today.getDate() - today.getDay()
+		);
+
+		const date = new Date(s.getTime() + i * 24 * 60 * 60 * 1000);
 
 		sales.push({
 			date,
