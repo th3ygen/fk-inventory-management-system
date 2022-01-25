@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Vendors = require("../models/Vendors");
 
 module.exports = {
@@ -73,7 +74,7 @@ module.exports = {
 	updateVendor: async function (req, res) {
 		try {
 			const {
-				vendor_ID,
+				id,
 				company_name,
 				brand,
 				contact,
@@ -84,7 +85,7 @@ module.exports = {
 			} = req.body;
 
 			const vendor = await Vendors.updateVendors(
-				vendor_ID,
+				id,
 				company_name,
 				brand,
 				contact,
@@ -98,7 +99,7 @@ module.exports = {
 				res.status(200).json(vendor);
 			} else {
 				res.status(404).json({
-					error: "Item not found",
+					error: "Vendor not found",
 				});
 			}
 		} catch (e) {
@@ -108,11 +109,11 @@ module.exports = {
 			});
 		}
 	},
-	deleteVendor: function (req, res) {
+	deleteVendor: async function (req, res) {
 		try {
 			const { id } = req.params;
 
-			const vendor = Vendors.removeVendor(id);
+			const vendor = await Vendors.deleteVendor(id);
 
 			res.status(200).json({
 				message: "Item deleted",

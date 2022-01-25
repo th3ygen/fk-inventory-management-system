@@ -12,9 +12,11 @@ import AdminLayout from "layouts/Admin.layout";
 import TestPage from "page/Test";
 
 // Vendor page
-// import ManageVendor from "page/common/vendor/ManageVendor";
-// import RegisterVendor from "page/common/vendor/RegisterVendor";
-// import EditVendor from "page/common/vendor/EditVendor";
+import ManageVendor from "page/common/vendor/ManageVendor";
+import RegisterVendor from "page/common/vendor/RegisterVendor";
+import EditVendor from "page/common/vendor/EditVendor";
+import ShowVendor from "page/common/vendor/ShowVendor";
+
 // Inventory page
 import ManageInventoryPage from "page/common/inventory/ManageInventory";
 import InventoryAddItemPage from "page/common/inventory/AddItem";
@@ -107,9 +109,11 @@ function App() {
 				<Route path="/Register" element={<RegisterPage />} />
 				<Route path="/user" element={<UserLayout />}>
 					<Route index element={<Home />} />
-					{/* <Route path="vendors" element={<ManageVendor />} />
+					<Route path="vendors" element={<ManageVendor />} />
 					<Route path="/user/vendors/add" element={<RegisterVendor />}/>
-					<Route path="/user/vendors/edit" element={<EditVendor />}/> */}
+					<Route path="/user/vendors/edit" element={<EditVendor />}/>
+					<Route path="/user/vendors/show" element={<ShowVendor />}/>
+
 					<Route path="inventory" element={<ManageInventoryPage />} />
 					<Route
 						path="/user/inventory/add"
