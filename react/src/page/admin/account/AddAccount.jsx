@@ -90,9 +90,9 @@ function AddAccount() {
                         <div className={styles.box}>
                         <label htmlFor="role">Role</label>
                         <select id="role" name="role" ref={roleInput}>
-                            <option value="Manager">Manager</option>
-                            <option value="Staff">Staff</option>
-                            <option value="Admin">Admin</option>
+                            <option value="manager">manager</option>
+                            <option value="staff">staff</option>
+                            <option value="admin">admin</option>
                         </select>
                         </div>
                     </div>
