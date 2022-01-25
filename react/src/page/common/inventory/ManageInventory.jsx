@@ -353,6 +353,7 @@ function ManageInventory() {
 							icon: "FaCoins",
 							callback: (n) => {
 								addSoldForm(n);
+								setRefresh(!refresh);
 							},
 							tooltip: "Add sold",
 						},
@@ -375,6 +376,7 @@ function ManageInventory() {
 
 								if (confirm === 'delete') {
 									deleteItem(n);
+									setRefresh(!refresh);
 								}
 							},
 							tooltip: "Delete",

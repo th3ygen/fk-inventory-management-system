@@ -45,7 +45,9 @@ module.exports = {
 
 				const vendor = await Vendor.findById(result.vendor_ID);
 
-				result.vendor_name = vendor.company_name;
+				if (vendor) {
+					result.vendor_name = vendor.company_name;
+				}
 
 				res.status(200).json(result);
 			} else {
