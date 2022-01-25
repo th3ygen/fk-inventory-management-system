@@ -197,7 +197,7 @@ function DisplayReport() {
 			</div>
 			<div className={styles.profitTrend}>
 				<DateAxisLineChart
-					title="This week sales"
+					title="Average sales per week"
 					data={salesData}
 					label="Sales"
 					height="250px"

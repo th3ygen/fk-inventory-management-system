@@ -182,26 +182,46 @@ function AddItem() {
 			return;
 		}
 
+		let path = '/user';
+
 		if (user.role === 'admin') {
 			setBasePath('/admin');
+			path = '/admin';
 		}
 
 		(async () => {
-			let request = await fetch(
-				"http://localhost:8080/api/vendors/list",
-				{
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						authorization: "Bearer " + user.token,
-					},
+			try {
+				let request = await fetch(
+					"http://localhost:8080/api/vendors/list",
+					{
+						method: "GET",
+						headers: {
+							"Content-Type": "application/json",
+							authorization: "Bearer " + user.token,
+						},
+					}
+				);
+	
+				const v = await request.json();
+				
+				if (v.length === 0) {
+					await Swal({
+						title: "No vendors found",
+						text: "Please add a vendor first",
+						icon: "warning",
+						button: "OK",
+					});
+
+					navigate(path + "/vendors/add");
 				}
-			);
+	
+				selectVendor(v[0]);
+	
+				setVendors(v);
 
-			const v = await request.json();
-			selectVendor(v[0]);
-
-			setVendors(v);
+			} catch (e) {
+				console.log(e);
+			}
 
 		})();
 	}, [user]);
