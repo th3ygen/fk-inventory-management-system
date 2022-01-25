@@ -4,6 +4,7 @@ import styles from 'styles/admin/account/AddAccount.module.scss';
 
 import { FaRegSave, FaUndoAlt} from 'react-icons/fa';
 import Swal from "sweetalert";
+import PageHeader from "components/PageHeader.component";
 
 function AddAccount() {
     const navigate = useNavigate();
@@ -40,7 +41,7 @@ function AddAccount() {
 		if (request.status === 200) {
             await Swal({
                 title: "Success",
-                text: "Password updated successfully",
+                text: "Account added successfully",
                 icon: "success",
                 button: "OK",
             });
@@ -54,8 +55,10 @@ function AddAccount() {
 
     return (
         <div>
-            <h2 className={styles.header2}>Add New Account</h2>
-            <h5 className={styles.header5}>Fill out the form to add new account.</h5>
+            <PageHeader
+                title="Add an New Account"
+                brief="You can add a new account."
+            />
         <div className={styles.body}>
             <div className={styles.form}>
                 <form className={styles.formAccount}>

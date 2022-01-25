@@ -49,7 +49,7 @@ function UpdateAccount() {
 		if (request.status === 200) {
 			await Swal({
                 title: "Success",
-                text: "Password updated successfully",
+                text: "Account updated successfully",
                 icon: "success",
                 button: "OK",
             });
