@@ -74,9 +74,9 @@ function ManageAccount() {
 						let list = accounts.filter(f => f[0] !== n)
 						setAccounts(list)
 						setTotalAccounts(list.length)
-						setTotalManagers(list.filter(i => (i[2] === "Manager")).length)
-						setTotalStaffs(list.filter(i => (i[2] === "Staff")).length)
-						setTotalAdmins(list.filter(i => (i[2] === "Admin")).length)
+						setTotalManagers(list.filter(i => (i[2] === "manager")).length)
+						setTotalStaffs(list.filter(i => (i[2] === "staff")).length)
+						setTotalAdmins(list.filter(i => (i[2] === "admin")).length)
 					}
 				},
 			},
@@ -122,9 +122,9 @@ function ManageAccount() {
 					]);
 				});
 				setTotalAccounts(list.length)
-				setTotalManagers(list.filter(i => (i[2] === "Manager")).length || "0")
-				setTotalStaffs(list.filter(i => (i[2] === "Staff")).length || "0")
-				setTotalAdmins(list.filter(i => (i[2] === "Admin")).length || "0")
+				setTotalManagers(list.filter(i => (i[2] === "manager")).length || "0")
+				setTotalStaffs(list.filter(i => (i[2] === "staff")).length || "0")
+				setTotalAdmins(list.filter(i => (i[2] === "admin")).length || "0")
 
 				setAccounts(list);
 			} else {
