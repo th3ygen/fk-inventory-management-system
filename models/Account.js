@@ -5,35 +5,38 @@ const jwt = require("jsonwebtoken");
 // hardcoded secret key, irl this should be in a config file
 const secret = "s33eecr3t";
 
-const schema = new Schema({
-	name: {
-		type: String,
-		required: true,
+const schema = new Schema(
+	{
+		name: {
+			type: String,
+			required: true,
+		},
+		email: {
+			type: String,
+			required: true,
+			unique: true,
+		},
+		role: String,
+		contact: {
+			type: String,
+			required: true,
+		},
+		address: {
+			type: String,
+		},
+		username: {
+			type: String,
+			required: true,
+		},
+		password: {
+			type: String,
+			required: true,
+		},
 	},
-	email: {
-		type: String,
-		required: true,
-		unique: true,
-	},
-	role: String,
-	contact: {
-		type: String,
-		required: true,
-	},
-	address: {
-		type: String,
-	},
-	username: {
-		type: String,
-		required: true,
-	},
-	password: {
-		type: String,
-		required: true,
-	},
-}, {
-    timestamps: true,
-});
+	{
+		timestamps: true,
+	}
+);
 
 // CRUD - create
 schema.statics.addAccount = function (
@@ -45,6 +48,8 @@ schema.statics.addAccount = function (
 	username,
 	password
 ) {
+	password = bcrypt.hashSync(password, 10);
+
 	const accounts = new this({
 		name: name,
 		email: email,
@@ -96,7 +101,6 @@ schema.statics.updateAccount = async function (
 schema.statics.deleteAccount = function (account_ID) {
 	return this.findByIdAndDelete(account_ID);
 };
-
 
 schema.statics.login = async function (username, password) {
 	const user = await this.findOne({ username });

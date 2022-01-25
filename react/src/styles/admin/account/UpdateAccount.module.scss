@@ -28,7 +28,7 @@
     box-sizing: border-box;
 }
   
-.updateButton[type=submit] {
+.updateButton {
     width: fit-content;
     padding: 6px 10px;
     background-color: #2179FFFF;
@@ -61,7 +61,7 @@
 //     border: 1px solid #2179FFFF;
 //   }
 
-.backButton[type=submit] {
+.clearButton {
     width: fit-content;
     padding: 5px 10px;
     background-color: white;

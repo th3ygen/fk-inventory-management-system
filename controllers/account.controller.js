@@ -55,9 +55,9 @@ module.exports = {
     // POST
     updateAccount: async function(req, res) {
         try {
-            const { name, email, role, contact, address, username } = req.body;
+            const { account_ID, name, email, role, contact, address, username } = req.body;
 
-            const account = await Account.updateAccount(name, email, role, contact, address, username);
+            const account = await Account.updateAccount(account_ID, name, email, role, contact, address, username);
 
             if (account) {
                 res.status(200).json(account);
@@ -74,11 +74,11 @@ module.exports = {
         }
     },
     // GET
-    deleteAccount: function(req, res) {
+    deleteAccount: async function(req, res) {
         try {
-            const { account_ID } = req.params;
+            const { id } = req.params;
 
-            await Account.deleteAccount(account_ID);
+            await Account.deleteAccount(id);
 
             res.status(200).json({
                 message: 'Account deleted'
