@@ -86,7 +86,12 @@ function Inbox() {
 			if (request.status === 200) {
 				let response = await request.json();
 
-				setInbox(response);
+				setInbox(response.map((item) => {
+					// change to createdAt to dd/mm/yyyy
+					item.createdAt = new Date(item.createdAt).toLocaleDateString();
+
+					return item;
+				}));
 			}
 		})();
 	}, [user]);
@@ -197,7 +202,7 @@ function Inbox() {
 										className={styles.headCon}
 										style={{ textAlign: "center" }}
 									>
-										12/1/2022
+										{item.createdAt}
 									</div>
 									{/* <div
 										className={styles.actions}
