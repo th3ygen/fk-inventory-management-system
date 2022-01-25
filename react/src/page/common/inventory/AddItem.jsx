@@ -182,8 +182,11 @@ function AddItem() {
 			return;
 		}
 
+		let path = '/user';
+
 		if (user.role === 'admin') {
 			setBasePath('/admin');
+			path = '/admin';
 		}
 
 		(async () => {
@@ -209,7 +212,7 @@ function AddItem() {
 						button: "OK",
 					});
 
-					navigate(basePath + "/vendors/add");
+					navigate(path + "/vendors/add");
 				}
 	
 				selectVendor(v[0]);
