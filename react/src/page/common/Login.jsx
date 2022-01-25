@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import * as alertify from "alertifyjs";
+import Swal from "sweetalert";
 
 import Parallax from "parallax-js";
 
@@ -58,6 +59,11 @@ function Login() {
 		}
 	}
 	const forgotPassword = async () => {
+		if (usernameRef.current.value === '') {
+			alertify.error("Username is required");
+			return;
+		}
+
 		try {
 			let res, req;
 
@@ -66,11 +72,23 @@ function Login() {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				
+				body: JSON.stringify({
+					username: usernameRef.current.value,
+				}),
 			});
 
 			if (req.status === 200) {
-				res = await req.json();
+				Swal({
+					title: "Password change request sent",
+					text: "Kindly wait for the admin to process your query, you will be notified via email",
+					icon: "success",
+				});
+			} else {
+				Swal({
+					title: "Error",
+					text: "Username does not exists",
+					icon: "error",
+				})
 			}
 				
 		} catch (e) {
@@ -131,7 +149,7 @@ function Login() {
 							navigate('/register');
 						}}>Register </div>
 						<div  className={styles.back} onClick={() => {
-							navigate('/ForgotPassword');
+							forgotPassword();
 						}}> Forgot Password</div>
 					</div>
 					

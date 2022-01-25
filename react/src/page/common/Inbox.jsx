@@ -18,7 +18,20 @@ function Inbox() {
 
 	const [inbox, setInbox] = useState([]);
 
+	const [basePath, setBasePath] = useState('/user');
+
 	const deleteMsg = async (id) => {
+		const confirm = await swal({
+			title: "Are you sure?",
+			text: "Once deleted, you will not be able to recover this message!",
+			icon: "warning",
+			buttons: true,
+		});
+
+		if (!confirm) {
+			return;
+		}
+
 		try {
 			const req = await fetch(
 				"http://localhost:8080/api/inbox/delete/" + id,
@@ -34,7 +47,12 @@ function Inbox() {
 				console.log(id);
 
 			if (req.status === 200) {
-				alertify.success("Message Deleted");
+				swal({
+					title: "Deleted",
+					text: "Message Deleted",
+					icon: "success",
+					button: "OK",
+				});
 				setInbox(inbox.filter((item) => item._id !== id));
 			}
 
@@ -48,6 +66,10 @@ function Inbox() {
 		(async () => {
 			if (!user) {
 				return;
+			}
+
+			if (user.role === "admin") {
+				setBasePath("/admin");
 			}
 
 			let request = await fetch(
@@ -109,36 +131,48 @@ function Inbox() {
 									key={index}
 									className={styles.row}
 									onClick={() => {
+										console.log(item)
 										if (item.msgType === "request") {
 											alertify
 												.confirm(
 													item.title,
 													item.content,
-													async () => {
-														await swal(
-															"Success",
-															"You clicked Yes button",
-															"success"
-														);
-														navigate(
-															"/user/orders"
-														);
-													},
 													() => {
 														navigate(
-															"/user/order/approve",
+															basePath + "/order/approve",
 															{
 																state: {
 																	id: item.orderId,
 																},
 															}
 														);
-													}
+													},
+													async () => {
+														await deleteMsg(item._id)
+														
+													},
 												)
 												.set({ invokeOnCloseOff: true })
 												.set("labels", {
-													ok: "Approve",
-													cancel: "Review",
+													ok: "Review",
+													cancel: "Delete message",
+												})
+												.set("reverseButtons", true);
+										} else if (item.msgType === "forgotpw") {
+											alertify
+												.confirm(
+													item.title,
+													item.content,
+													() => {
+													},
+													async () => {
+														await deleteMsg(item._id)
+													},
+												)
+												.set({ invokeOnCloseOff: true })
+												.set("labels", {
+													ok: "Close",
+													cancel: "Delete message",
 												})
 												.set("reverseButtons", true);
 										}
@@ -165,7 +199,7 @@ function Inbox() {
 									>
 										12/1/2022
 									</div>
-									<div
+									{/* <div
 										className={styles.actions}
 										style={{ textAlign: "center" }}
 									>
@@ -196,7 +230,7 @@ function Inbox() {
 										>
 											<FaTrash />
 										</div>
-									</div>
+									</div> */}
 								</div>
 							);
 						})}

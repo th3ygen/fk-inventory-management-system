@@ -31,6 +31,7 @@ function ManageOrder() {
 	const [readOnly, setReadOnly] = useState([]);
 	const [orderStatus, setOrderStatus] = useState({});
 	const [disableEdit, setDisableEdit] = useState([]);
+	const [basePath, setBasePath] = useState('/user');
 	
 
 	const orderData = {
@@ -113,6 +114,10 @@ function ManageOrder() {
 		(async () => {
 			if (!user) {
 				return;
+			}
+
+			if (user.role === 'admin') {
+				setBasePath('/admin');
 			}
 
 			let request = await fetch(
@@ -248,7 +253,7 @@ function ManageOrder() {
 					{
 						icon: "FaReply",
 						name: "Issue New Order",
-						path: "/user/order/add",
+						path: basePath + "/order/add",
 					},
 
 				]}
@@ -306,7 +311,7 @@ function ManageOrder() {
 						{
 							icon: "FaEdit",
 							callback: (n) => {
-								navigate("/user/order/update", {
+								navigate(basePath + "/order/update", {
 									replace: true,
 									state: { id: n, status: orderStatus[n] || 'unknown' },
 								});
@@ -317,7 +322,7 @@ function ManageOrder() {
 						{
 							icon: "FaEye",
 							callback: (n) => {
-								navigate("/user/order/approve", {
+								navigate(basePath + "/order/approve", {
 									replace: true,
 									state: { id: n, readOnly: true, status: orderStatus[n] || 'unknown' },
 								});
@@ -336,7 +341,7 @@ function ManageOrder() {
 						{
 							icon: "FaCheckSquare",
 							callback: (n) => {
-								navigate("/user/order/approve", {
+								navigate(basePath + "/order/approve", {
 									replace: true,
 									state: { id: n },
 								});

@@ -191,7 +191,6 @@ module.exports = {
 					const vendor = await Vendor.findById(item.item.vendor_ID);
 					
 					if (vendor) {
-						console.log(vendor.company_name);
 						item["vendor_name"] = vendor.company_name;
 					}
 				}

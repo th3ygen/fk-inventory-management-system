@@ -143,12 +143,21 @@ schema.statics.register = function (name, username, password, email, contact) {
 };
 
 // TODO add notify admin function
-schema.statics.forgetPW = function () {
-	const content = `Requesting for password change`;
+schema.statics.forgotPW = async function (username) {
+	const user = await this.findOne({ username });
 
-	const msg = await Message.add('Forgot Password', content, ['admin'], 'request');
-	return msg;
+	if (!user) {
+		return null;
+	}
 
+	const content = 
+	`
+		Requesting for password change<br/><br/>
+		Email: ${user.email}<br/>
+		Username: ${username}<br/>
+	`;
+
+	return Message.add('Forgot Password', content, ['admin'], 'forgotpw');
 };
 // TODO hashing
 schema.statics.updatePW = async function (id, password) {

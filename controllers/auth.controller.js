@@ -46,9 +46,15 @@ module.exports = {
 	// POST
 	forgotPW: async function (req, res) {
 		try {
-			const { email, username } = req.body;
+			const { username } = req.body;
 
-			await Account.forgotPW(email, username);
+			const u = await Account.forgotPW(username);
+
+			if (!u) {
+				return res.status(404).json({
+					error: "User not found",
+				});
+			}
 
 			res.status(200).json({
 				message: "Request Sent",

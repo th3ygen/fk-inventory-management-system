@@ -105,6 +105,8 @@ module.exports = {
             const order = await Order.updateOrder(id, comment, orderItems);
             
             if(order){
+                const msg = await Message.findOneAndDelete({ orderId: id });
+
                 res.status(200).json(order);
             }
             else{
@@ -126,6 +128,8 @@ module.exports = {
             const { id, status, managerRemarks } = req.body;
             const order = await Order.verifiedOrder(id, status, managerRemarks, req.user._id);
             if(order){
+                const msg = await Message.findOneAndDelete({ orderId: id });
+
                 res.status(200).json(order);
             }
             else{
