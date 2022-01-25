@@ -3,6 +3,7 @@ import styles from "styles/admin/account/UpdateAccount.module.scss";
 import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
 
 import { FaRegSave, FaUndoAlt } from "react-icons/fa";
+import Swal from "sweetalert";
 import PageHeader from "components/PageHeader.component";
 
 function UpdateAccount() {
@@ -46,7 +47,14 @@ function UpdateAccount() {
 		);
 
 		if (request.status === 200) {
-			alert("Account updated successfully");
+			await Swal({
+                title: "Success",
+                text: "Password updated successfully",
+                icon: "success",
+                button: "OK",
+            });
+
+            navigate(-1);
 		} else {
 			console.log(request);
 			alert("Error updating account");

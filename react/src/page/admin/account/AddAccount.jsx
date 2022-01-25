@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import styles from 'styles/admin/account/AddAccount.module.scss';
 
 import { FaRegSave, FaUndoAlt} from 'react-icons/fa';
+import Swal from "sweetalert";
 
 function AddAccount() {
+    const navigate = useNavigate();
     const [user] = useOutletContext();
 
 	const nameInput = useRef("");
@@ -36,7 +38,14 @@ function AddAccount() {
 		});
 		
 		if (request.status === 200) {
-			alert("Account added successfully");
+            await Swal({
+                title: "Success",
+                text: "Password updated successfully",
+                icon: "success",
+                button: "OK",
+            });
+
+            navigate(-1);
 		} else {
 			console.log(request);
 			alert("Error adding account");
