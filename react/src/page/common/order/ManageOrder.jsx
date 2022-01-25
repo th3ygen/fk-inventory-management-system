@@ -312,7 +312,6 @@ function ManageOrder() {
 							icon: "FaEdit",
 							callback: (n) => {
 								navigate(basePath + "/order/update", {
-									replace: true,
 									state: { id: n, status: orderStatus[n] || 'unknown' },
 								});
 							},
@@ -323,7 +322,6 @@ function ManageOrder() {
 							icon: "FaEye",
 							callback: (n) => {
 								navigate(basePath + "/order/approve", {
-									replace: true,
 									state: { id: n, readOnly: true, status: orderStatus[n] || 'unknown' },
 								});
 							},
@@ -342,7 +340,6 @@ function ManageOrder() {
 							icon: "FaCheckSquare",
 							callback: (n) => {
 								navigate(basePath + "/order/approve", {
-									replace: true,
 									state: { id: n },
 								});
 							},
