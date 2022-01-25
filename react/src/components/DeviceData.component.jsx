@@ -1,10 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useSubscription } from "mqtt-react-hooks";
 
 import styles from "styles/component/DeviceData.module.scss";
 
 import SimpleLineChart from "components/SimpleLineChart";
 
 function DeviceData(props) {
+	const { message, connectionStatus } = useSubscription('server/state');
+
+	let setup = useRef(false);
+
 	const [tds, setTds] = useState([]);
 	const [oxy, setOxy] = useState([]);
 	const [ph, setPh] = useState([]);
@@ -40,8 +45,23 @@ function DeviceData(props) {
 
 	};
 
+	useEffect(() => {
+		if (message) {
+			const s = message.message.split(':');
+			if (s.length > 1) {
+				if (s[0] === 'UPDATE' && s[1] === props.name) {
+					requestData();
+				}
+			}
+		}
+	}, [message]);
+
+	useEffect(() => {
+		requestData();
+	}, []);
+
 	// generate dummy data for all charts
-	const generateData = () => {
+	/* const generateData = () => {
 		const tdsData = [];
 		const oxyData = [];
 		const phData = [];
@@ -78,31 +98,33 @@ function DeviceData(props) {
 
 			
 		}
-		/* console.log(tdsData); */
-		/* setTds(tdsData);
+		console.log(tdsData);
+		setTds(tdsData);
 		setOxy(oxyData);
 		setPh(phData);
-		setTemp(tempData); */
+		setTemp(tempData);
 	};
 
 	useEffect(() => {
 		if (props.uid) {
-			/* generateData(); */
 			requestData();
 		}
 	}, [props.uid]);
 
 	useEffect(() => {
+		console.log(props.mqtt);
 		if (props.mqtt) {
+
 			props.mqtt.on('message', (topic, message) => {
 				const state = message.toString();
 
 				if (state === 'UPDATE') {
+					console.log('UPDATE');
 					requestData();
 				}
 			})
 		}
-	}, [props.mqtt]);
+	}, [props.mqtt]); */
 
 	return (
 		<div className={styles.container}>

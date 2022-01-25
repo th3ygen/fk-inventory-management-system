@@ -49,7 +49,7 @@ mqtt.on('message', async (topic, message) => {
             });
 
             // notify the frontend to request for device updates
-            mqtt.publish('server/state', "UPDATE");
+            mqtt.publish('server/state', "UPDATE:" + name);
         }
 
     } catch(e) {
