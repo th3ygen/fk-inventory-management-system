@@ -101,9 +101,9 @@ function DisplayReport() {
 				setMostSoldItem(mSold);
 				setLeastSoldItem(lSold);
 
-				setTotalSales(tSales.toFixed(2));
-				setAvrSales((tSales / tItems).toFixed(2));
-				setTotalSoldItems(tItems);
+				setTotalSales(tSales.toFixed(2) || "0");
+				setAvrSales((tSales / tItems).toFixed(2) || "0");
+				setTotalSoldItems(tItems || "0");
 				setItems(rows);
 			}
 			const mostSold = await fetch(

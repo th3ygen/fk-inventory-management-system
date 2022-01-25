@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import styles from 'styles/admin/account/AddAccount.module.scss';
 
 import { FaRegSave, FaUndoAlt} from 'react-icons/fa';
 
 function AddAccount() {
+    const [user] = useOutletContext();
+
 	const nameInput = useRef("");
 	const emailInput = useRef("");
 	const roleInput = useRef("");
@@ -27,6 +30,7 @@ function AddAccount() {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
+                authorization: "Bearer " + user.token,
 			},
 			body: JSON.stringify(account),
 		});
