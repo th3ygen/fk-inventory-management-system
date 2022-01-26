@@ -1,13 +1,78 @@
-import { useLayoutEffect, useEffect, useRef } from "react";
+import { useLayoutEffect, useEffect, useRef, useState } from "react";
 
 // amcharts
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
+import styles from "styles/component/MultiAverageChart.module.scss";
+
 function SimpleLineChart(props) {
-	const ch = useRef(null);
-	const ch2 = useRef(null);
+	const mainChart = useRef(null);
+	const mainRoot = useRef(null);
+	const mainXAxis = useRef(null);
+	const mainYAxis = useRef(null);
+	const legend = useRef(null);
+
+	const [seriesList, setSeriesList] = useState([]);
+
+	function createSeries(name, field) {
+		let series = mainChart.current.series.push(
+			am5xy.SmoothedXLineSeries.new(mainRoot.current, {
+				name: name,
+				xAxis: mainXAxis.current,
+				yAxis: mainYAxis.current,
+				valueYField: field,
+				valueXField: "date",
+				tooltip: am5.Tooltip.new(mainRoot.current, {}),
+				/* stroke: am5.color("#2179FF"), */
+			}),
+			{
+				legendLabelText: "[bold {stroke}]{name}:[/]",
+				legendRangeLabelText: "[{stroke}]{name}:[/]",
+				legendValueText: "[bold {stroke}]{valueY}[/]",
+				legendRangeValueText: "[{stroke}]{valueYClose}[/]",
+			}
+		);
+
+		series.bullets.push(function () {
+			return am5.Bullet.new(mainRoot.current, {
+				sprite: am5.Circle.new(mainRoot.current, {
+					radius: 4,
+					fill: series.get("fill"),
+				}),
+			});
+		});
+
+		series.strokes.template.set("strokeWidth", 2);
+
+		series
+			.get("tooltip")
+			.label.set(
+				"text",
+				"[bold]{name}[/]\n{valueX.formatDate()}: {valueY}"
+			);
+
+		series.appear(1000);
+		mainChart.current.appear(1000, 100);
+
+		return series;
+	}
+
+	const generateDummyData = () => {
+		const data = [];
+
+		for (let i = 0; i < 10; i++) {
+			data.push({
+				date: new Date(2020, 0, i + 1).getTime(),
+				value: Math.random() * 100,
+				value2: Math.random() * 100,
+				value3: Math.random() * 100,
+			});
+		}
+
+		return data;
+	};
 
 	useLayoutEffect(() => {
 		let root = am5.Root.new(props.label);
@@ -18,7 +83,7 @@ function SimpleLineChart(props) {
 			am5xy.XYChart.new(root, {
 				panY: false,
 				layout: root.verticalLayout,
-				maxTooltipDistance: 0
+				maxTooltipDistance: 0,
 			})
 		);
 
@@ -27,7 +92,6 @@ function SimpleLineChart(props) {
 			am5xy.ValueAxis.new(root, {
 				extraTooltipPrecision: 1,
 				renderer: am5xy.AxisRendererY.new(root, {}),
-				/* visible: false, */
 			})
 		);
 
@@ -36,61 +100,12 @@ function SimpleLineChart(props) {
 			am5xy.DateAxis.new(root, {
 				baseInterval: { timeUnit: "day", count: 1 },
 				renderer: am5xy.AxisRendererX.new(root, {}),
-				/* visible: false, */
 			})
 		);
 
 		xAxis.get("dateFormats")["second"] = "HH:mm";
 		xAxis.get("periodChangeDateFormats")["day"] = "MMMM";
 
-		/* xAxis.get("renderer").grid.template.setAll({
-			visible: false,
-		});
-		yAxis.get("renderer").grid.template.setAll({
-			visible: false,
-		}); */
-
-		// Create series
-		function createSeries(name, field) {
-			let series = chart.series.push(
-				am5xy.LineSeries.new(root, {
-					name: name,
-					xAxis: xAxis,
-					yAxis: yAxis,
-					valueYField: field,
-					valueXField: "date",
-					tooltip: am5.Tooltip.new(root, {}),
-					stroke: am5.color("#2179FF"),
-				}),
-				{
-					legendLabelText: "[bold {stroke}]{name}:[/]",
-					legendRangeLabelText: "[{stroke}]{name}:[/]",
-					legendValueText: "[bold {stroke}]{valueY}[/]",
-					legendRangeValueText: "[{stroke}]{valueYClose}[/]",
-				}
-			);
-
-			/* series.bullets.push(function () {
-				return am5.Bullet.new(root, {
-					sprite: am5.Circle.new(root, {
-						radius: 4,
-						fill: series.get("fill"),
-					}),
-				});
-			}); */
-
-			series.strokes.template.set("strokeWidth", 2);
-
-			series.get("tooltip").label.set("text", "[bold]{name}[/]\n{valueX.formatDate()}: {valueY}")
-
-			series.appear(1000);
-			chart.appear(1000, 100);
-
-			return series;
-		}
-
-		ch.current = createSeries("Pond #1", "value");
-		ch2.current = createSeries("Pond #2", "value2");
 
 		// Add cursor
 		chart.set(
@@ -115,9 +130,10 @@ function SimpleLineChart(props) {
 			})
 		);
 
-		var legend = chart.children.push(am5.Legend.new(root, {}));
-
-		legend.data.setAll(chart.series.values);
+		mainChart.current = chart;
+		mainRoot.current = root;
+		mainXAxis.current = xAxis;
+		mainYAxis.current = yAxis;
 
 		return () => {
 			root.dispose();
@@ -125,12 +141,30 @@ function SimpleLineChart(props) {
 	}, []);
 
 	useEffect(() => {
-		ch.current.data.setAll(props.data);
-		ch2.current.data.setAll(props.data);
-	}, [props.data, props.data.length]);
+		if (!props.series) return;
+
+		if (props.series.length > 0) {
+			if (!legend.current) {
+				for (let x = 0; x < props.series.length; x++) {
+					let s = props.series[x];
+					let series = createSeries(s.name, s.field);
+
+					setSeriesList([...seriesList, series]);
+					series.data.setAll(generateDummyData());
+				}
+
+				console.log("update", props.series);
+
+				legend.current = mainChart.current.children.push(
+					am5.Legend.new(mainRoot.current, {})
+				);
+				legend.current.data.setAll(mainChart.current.series.values);
+			}
+		}
+	}, [props.series]);
 
 	return (
-		<div style={{ border: "2px solid #2179FFFF", height: "fit-content" }}>
+		<div className={styles.container} style={{ border: "2px solid #2179FFFF", height: "fit-content" }}>
 			<div
 				id={props.label}
 				style={{ width: "100%", height: `${props.height}` }}
