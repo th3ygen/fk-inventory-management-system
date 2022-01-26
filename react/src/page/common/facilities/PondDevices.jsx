@@ -34,7 +34,11 @@ function DisplayReport(props) {
 	useEffect(() => {
 		if (!mqtt) return;
 
-		console.log("mqtt", mqtt);
+		if (mqtt.topic === 'server/state') {
+			if (mqtt.message === 'NEWDEVICE') {
+				requestLabels();
+			}
+		}
 	}, [mqtt]);
 
 	return (
@@ -53,7 +57,7 @@ function DisplayReport(props) {
 							name={item.label}
 							uid={item.id}
 							chartHeight={"120px"}
-							mqtt={props.mqtt}
+							mqtt={mqtt}
 						/>
 					))}
 				</div>

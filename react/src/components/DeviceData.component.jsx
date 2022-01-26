@@ -6,15 +6,17 @@ import SimpleLineChart from "components/SimpleLineChart";
 
 function DeviceData(props) {
 
-	let setup = useRef(false);
+	const [name, setName] = useState('');
+	const [uid, setUID] = useState('');
 
 	const [tds, setTds] = useState([]);
 	const [oxy, setOxy] = useState([]);
 	const [ph, setPh] = useState([]);
 	const [temp, setTemp] = useState([]);
+	const [lastUpdate, setLastUpdate] = useState('');
 	
-	const requestData = async () => {
-		const response = await fetch(`http://localhost:8080/api/device/data?id=${props.uid}&limit=10`);
+	const requestData = async (id) => {
+		const response = await fetch(`http://localhost:8080/api/device/data?id=${id}&limit=10`);
 		const data = await response.json();
 
 		if (data && data.length) {
@@ -35,94 +37,46 @@ function DeviceData(props) {
 				value: d.values.temp,
 			}));
 			
+			// setLastUpdate to dd/mm/yyyy hh:mm:ss
+			const l = new Date(data[0].timestamp).toLocaleString();
+
 			setTds(tdsData);
 			setOxy(oxyData);
 			setPh(phData);
 			setTemp(tempData);
+			setLastUpdate(l);
 		}
 
 	};
 
-	/* useEffect(() => {
-		if (message) {
-			const s = message.message.split(':');
-			if (s.length > 1) {
-				if (s[0] === 'UPDATE' && s[1] === props.name) {
-					requestData();
+	useEffect(() => {
+		if (!props.mqtt) return;
+
+		if (props.mqtt.topic === 'server/state') {
+			const d = props.mqtt.message.split(':');
+
+			if (d.length > 0) {
+				if (d[0] === 'UPDATE' && d[1] === name) {
+					requestData(uid);
 				}
+
 			}
-		}
-	}, [message]); */
 
+		}
+
+	}, [props.mqtt]);
+
+	
 	useEffect(() => {
-		requestData();
-	}, []);
+		if (!props.name) return;
+		if (!props.uid) return;
 
-	// generate dummy data for all charts
-	/* const generateData = () => {
-		const tdsData = [];
-		const oxyData = [];
-		const phData = [];
-		const tempData = [];
+		setName(props.name);
+		setUID(props.uid);
 
-		for (let i = 0; i < 20; i++) {
-			const newDate = new Date(2021, 0, 1);
-			newDate.setDate(newDate.getDate() + i);
+		requestData(props.uid);
+	}, [props.name, props.uid]);
 
-			const newTds = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
-			const newOxy = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
-			const newPh = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
-			const newTemp = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
-
-			tdsData.push({
-				date: newDate.getTime(),
-				value: newTds,
-			});
-
-			oxyData.push({
-				date: newDate.getTime(),
-				value: newOxy,
-			});
-
-			phData.push({
-				date: newDate.getTime(),
-				value: newPh,
-			});
-
-			tempData.push({
-				date: newDate.getTime(),
-				value: newTemp,
-			});
-
-			
-		}
-		console.log(tdsData);
-		setTds(tdsData);
-		setOxy(oxyData);
-		setPh(phData);
-		setTemp(tempData);
-	};
-
-	useEffect(() => {
-		if (props.uid) {
-			requestData();
-		}
-	}, [props.uid]);
-
-	useEffect(() => {
-		console.log(props.mqtt);
-		if (props.mqtt) {
-
-			props.mqtt.on('message', (topic, message) => {
-				const state = message.toString();
-
-				if (state === 'UPDATE') {
-					console.log('UPDATE');
-					requestData();
-				}
-			})
-		}
-	}, [props.mqtt]); */
 
 	return (
 		<div className={styles.container}>
@@ -137,7 +91,7 @@ function DeviceData(props) {
 					<div className={styles.chart}>
 						<div className={styles.label}>
 							<div className={styles.name}>pH</div>
-							<div className={styles.value}>{(ph.length) && ph[ph.length - 1].value}</div>
+							<div className={styles.value}>{(ph.length) && ph[0].value}</div>
 						</div>
 						<SimpleLineChart
 							data={ph}
@@ -149,7 +103,7 @@ function DeviceData(props) {
 					<div className={styles.chart}>
 						<div className={styles.label}>
 							<div className={styles.name}>DO</div>
-							<div className={styles.value}>{(oxy.length) && oxy[oxy.length - 1].value}</div>
+							<div className={styles.value}>{(oxy.length) && oxy[0].value}</div>
 						</div>
 						<SimpleLineChart
 							data={oxy}
@@ -161,7 +115,7 @@ function DeviceData(props) {
 					<div className={styles.chart}>
 						<div className={styles.label}>
 							<div className={styles.name}>Temperature</div>
-							<div className={styles.value}>{(temp.length) && temp[temp.length - 1].value}</div>
+							<div className={styles.value}>{(temp.length) && temp[0].value}</div>
 						</div>
 						<SimpleLineChart
 							data={temp}
@@ -173,7 +127,7 @@ function DeviceData(props) {
 					<div className={styles.chart}>
 						<div className={styles.label}>
 							<div className={styles.name}>Turbidity</div>
-							<div className={styles.value}>{(tds.length) && tds[tds.length - 1].value}</div>
+							<div className={styles.value}>{(tds.length) && tds[0].value}</div>
 						</div>
 						<SimpleLineChart
 							data={tds}
@@ -189,7 +143,7 @@ function DeviceData(props) {
 						Last updated at
 					</div>
 					<div className={styles.value}>
-						{new Date().toLocaleString()}
+						{lastUpdate}
 					</div>	
 				</div>
 			</div>

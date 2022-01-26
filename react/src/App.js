@@ -10,8 +10,8 @@ import UserLayout from "layouts/User.layout";
 import AdminLayout from "layouts/Admin.layout";
 
 
-// Report page
-import DisplayReportPage from "page/common/facilities/PondDevices";
+import PondDevices from "page/common/facilities/PondDevices";
+import Visualization from "page/common/visualization/Visualization";
 
 
 function Home() {
@@ -68,18 +68,18 @@ function App() {
 			<Routes>
 				<Route path="/user" element={<UserLayout mqtt={mqttData}/>}>
 					<Route index element={<Home />} />
-					<Route
+					{/* <Route
 						path="productivity"
 						element={<DisplayReportPage />}
-					/>
+					/> */}
 
 					<Route
 						path="visualization"
-						element={<DisplayReportPage />}
+						element={<Visualization />}
 					/>
 					<Route
 						path="facilities"
-						element={<DisplayReportPage />}
+						element={<PondDevices />}
 					/>
 				</Route>
 				<Route path="/admin" element={<AdminLayout />}>
