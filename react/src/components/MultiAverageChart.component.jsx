@@ -140,7 +140,7 @@ function SimpleLineChart(props) {
 		};
 	}, []);
 
-	useEffect(() => {
+	/* useEffect(() => {
 		if (!props.series) return;
 
 		if (props.series.length > 0) {
@@ -153,15 +153,57 @@ function SimpleLineChart(props) {
 					series.data.setAll(generateDummyData());
 				}
 
-				console.log("update", props.series);
-
 				legend.current = mainChart.current.children.push(
 					am5.Legend.new(mainRoot.current, {})
 				);
 				legend.current.data.setAll(mainChart.current.series.values);
 			}
 		}
-	}, [props.series]);
+	}, [props.series]); */
+
+	useEffect(() => {
+		if (!props.field) return;
+
+		if (legend.current) return;
+
+		(async () => {
+			try {
+				let request = await fetch('http://localhost:8080/api/device/data/average/hourly/all', {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				query: {
+					total: 20
+				}
+			});
+
+			if (request.status === 200) {
+				const response = await request.json();
+
+				for (let x = 0; x < response.length; x++) {
+					let s = response[x].device_name;
+					let series = createSeries(s, props.field);
+
+					setSeriesList([...seriesList, series]);
+					series.data.setAll(response[x].data.map(d => {
+						d.date = new Date(d.date).getTime();
+
+						return d;
+					}));
+				}
+
+				legend.current = mainChart.current.children.push(
+					am5.Legend.new(mainRoot.current, {})
+				);
+
+				legend.current.data.setAll(mainChart.current.series.values);
+			}
+			} catch (e) {
+				console.log(e);
+			}
+		})();
+	}, [props.field]);
 
 	return (
 		<div className={styles.container} style={{ border: "2px solid #2179FFFF", height: "fit-content" }}>

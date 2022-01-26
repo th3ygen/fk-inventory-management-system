@@ -71,5 +71,170 @@ module.exports = {
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
+    },
+    getHourlyAverage: async (req, res) => {
+        try {
+            const { device_id, total_hours } = req.query;
+
+            if (!device_id) {
+                res.status(400).json({ message: 'Missing device_id' });
+            }
+
+            if (!total_hours) {
+                res.status(400).json({ message: 'Missing total_hours' });
+            }
+
+            const start = new Date();
+            start.setHours(start.getHours() - parseInt(total_hours));
+
+            const data = await Data.getAverage(device_id, start, new Date());
+
+            res.status(200).json(data);
+        } catch (e) {
+            res.status(500).json({ message: e.message });
+        }
+    },
+    getLatestAverages: async (req, res) => {
+        try {
+            const { device_id, total } = req.query;
+
+            if (!device_id) {
+                res.status(400).json({ message: 'Missing device_id' });
+            }
+
+            if (!total) {
+                res.status(400).json({ message: 'Missing total' });
+            }
+
+            const data = await Data.getLatestAverages(device_id, total);
+
+            res.status(200).json(data);
+        } catch (e) {
+            res.status(500).json({ message: e.message });
+        }
+    },
+    getAllLatestAverages: async (req, res) => {
+        try {
+            const { total } = req.query;
+
+            const devices = await Device.find();
+
+            const data = [];
+
+            for (let i = 0; i < devices.length; i++) {
+                const device = devices[i];
+                const deviceData = await Data.getLatestAverages(device._id, total);
+
+                data.push({
+                    device_id: device._id,
+                    device_name: device.name,
+                    data: deviceData
+                });
+            }
+
+            res.status(200).json(data);
+        } catch (e) {
+            res.status(500).json({ message: e.message });
+        }
+    },
+    getOverallAverage: async (req, res) => {
+        try {
+            const devices = await Device.find();
+
+            const data = [];
+
+            for (let i = 0; i < devices.length; i++) {
+                const device = devices[i];
+                const deviceData = await Data.getOverallAverages(device._id);
+
+                data.push({
+                    device_id: device._id,
+                    device_name: device.name,
+                    data: deviceData
+                });
+            }
+
+            res.status(200).json(data);
+        } catch (e) {
+            res.status(500).json({ message: e.message });
+        }
+    },
+    getHighest: async (req, res) => {
+        try {
+            const devices = await Device.find();
+
+            const data = [];
+
+            let highestOxy = {
+                device_id: '',
+                device_name: '',
+                value: -1000000
+            };
+            let highestTemp = {
+                device_id: '',
+                device_name: '',
+                value: -1000000
+            };
+            let highestPh = {
+                device_id: '',
+                device_name: '',
+                value: -1000000
+            };
+            let highestTDS = {
+                device_id: '',
+                device_name: '',
+                value: -1000000
+            };
+
+            for (let i = 0; i < devices.length; i++) {
+                const device = devices[i];
+                const deviceData = await Data.getHighest(device._id);
+
+                if (deviceData.oxy > highestOxy.value) {
+                    highestOxy = {
+                        device_id: device._id,
+                        device_name: device.name,
+                        value: deviceData.oxy
+                    }
+
+                }
+
+                if (deviceData.temp > highestTemp.value) {
+                    highestTemp = {
+                        device_id: device._id,
+                        device_name: device.name,
+                        value: deviceData.temp
+                    }
+
+                }
+
+                if (deviceData.ph > highestPh.value) {
+                    highestPh = {
+                        device_id: device._id,
+                        device_name: device.name,
+                        value: deviceData.ph
+                    }
+
+                }
+
+                if (deviceData.tds > highestTDS.value) {
+                    highestTDS = {
+                        device_id: device._id,
+                        device_name: device.name,
+                        value: deviceData.tds
+                    }
+
+                }
+            }
+
+            res.status(200).json({
+                oxy: highestOxy,
+                temp: highestTemp,
+                ph: highestPh,
+                tds: highestTDS
+            });
+        } catch (e) {
+            res.status(500).json({ message: e.message });
+        }
     }
 };

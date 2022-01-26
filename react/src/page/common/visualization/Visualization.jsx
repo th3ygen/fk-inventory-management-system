@@ -13,8 +13,26 @@ import styles from "styles/common/facilities/PondDevices.module.scss";
 import exStyles from "styles/common/visualization/Visualization.module.scss";
 
 function DisplayReport(props) {
-	const [data, setData] = useState([]);
-	const [data2, setData2] = useState([]);
+	const [averages, setAverages] = useState([]);
+	const [highest, setHighest] = useState({
+		oxy: {
+			value: 0,
+			device_name: ''
+		},
+		ph: {
+			value: 0,
+			device_name: ''
+		},
+		temp: {
+			value: 0,
+			device_name: ''
+
+		},
+		tds: {
+			value: 0,
+			device_name: ''
+		}
+	});
 
 	const generateDummyData = () => {
 		const data = [];
@@ -34,7 +52,33 @@ function DisplayReport(props) {
 	};
 
 	useEffect(() => {
-		setData(generateDummyData());
+		(async () => {
+			let request = await fetch('http://localhost:8080/api/device/data/average/all', {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+
+			if (request.status === 200) {
+				const response = await request.json();
+
+				setAverages(response);
+			}
+
+			request = await fetch('http://localhost:8080/api/device/data/highest/all', {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+
+			if (request.status === 200) {
+				const response = await request.json();
+
+				setHighest(response);
+			}
+		})();
 	}, []);
 
 	return (
@@ -58,18 +102,17 @@ function DisplayReport(props) {
 						<div className={exStyles.title}>Data count</div>
 					</div>
 					<div className={exStyles.data}>
-						{Array(6)
-							.fill(0)
+						{averages
 							.map((_, i) => (
-								<div className={exStyles.dataRow}>
+								<div key={i} className={exStyles.dataRow}>
 									<div className={exStyles.dataCell}>
-										Pond 1
+										{_.device_name}
 									</div>
-									<div className={exStyles.dataCell}>7.5</div>
-									<div className={exStyles.dataCell}>7.5</div>
-									<div className={exStyles.dataCell}>7.5</div>
-									<div className={exStyles.dataCell}>7.5</div>
-									<div className={exStyles.dataCell}>7</div>
+									<div className={exStyles.dataCell}>{_.data.ph.value.toFixed(2)}</div>
+									<div className={exStyles.dataCell}>{_.data.oxy.value.toFixed(2)}</div>
+									<div className={exStyles.dataCell}>{_.data.temp.value.toFixed(2)}</div>
+									<div className={exStyles.dataCell}>{_.data.tds.value.toFixed(2)}</div>
+									<div className={exStyles.dataCell}>{_.data.count}</div>
 								</div>
 							))}
 					</div>
@@ -78,29 +121,29 @@ function DisplayReport(props) {
 				<StatWrapper>
 					<StatNumber
 						title="Highest pH"
-						value={10}
-						unit="pH"
+						value={highest.ph.value || 0}
+						unit={highest.ph.device_name || 0}
 						icon="FaLevelUpAlt"
 					/>
 
 					<StatNumber
 						title="Highest DO"
-						value={10}
-						unit="mg/l"
+						value={highest.oxy.value || 0}
+						unit={highest.oxy.device_name || 0}
 						icon="FaLevelUpAlt"
 					/>
 
 					<StatNumber
 						title="Highest Temp"
-						value={10}
+						value={highest.temp.value || 0}
+						unit={highest.temp.device_name || 0}
 						icon="FaLevelUpAlt"
-						unit="℃"
 					/>
 
 					<StatNumber
 						title="Highest Turbidity"
-						value={10}
-						unit="mg/l"
+						value={highest.tds.value || 0}
+						unit={highest.tds.device_name || 0}
 						icon="FaLevelUpAlt"
 					/>
 				</StatWrapper>
@@ -125,6 +168,7 @@ function DisplayReport(props) {
 								]}
 								label="averagePH"
 								height="300px"
+								field="ph"
 							/>
 						</div>
 					</div>
@@ -148,6 +192,7 @@ function DisplayReport(props) {
 								]}
 								label="averageDO"
 								height="300px"
+								field="oxy"
 							/>
 						</div>
 					</div>
@@ -173,6 +218,7 @@ function DisplayReport(props) {
 								]}
 								label="averageTemp"
 								height="300px"
+								field="temp"
 							/>
 						</div>
 					</div>
@@ -196,6 +242,7 @@ function DisplayReport(props) {
 								]}
 								label="averageTDS"
 								height="300px"
+								field="tds"
 							/>
 						</div>
 					</div>
