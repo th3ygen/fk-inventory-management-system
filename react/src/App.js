@@ -8,9 +8,6 @@ import * as alertify from "alertifyjs";
 import UserLayout from "layouts/User.layout";
 import AdminLayout from "layouts/Admin.layout";
 
-// pages
-import TestPage from "page/Test";
-
 // Vendor page
 import ManageVendor from "page/common/vendor/ManageVendor";
 import RegisterVendor from "page/common/vendor/RegisterVendor";
@@ -153,7 +150,6 @@ function App() {
 						element={<UpdatePasswordPage />}
 					/>
 
-					<Route path="tests" element={<TestPage />} />
 					<Route path="inbox" element={<InboxPage />} />
 				</Route>
 				<Route path="/admin" element={<AdminLayout />}>
