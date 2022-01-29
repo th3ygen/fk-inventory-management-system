@@ -1,6 +1,8 @@
+import 'dotenv/config'
+
 import { Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Connector } from "mqtt-react-hooks";
+
 import mqtt from "mqtt";
 
 import logo from "./logo.svg";
@@ -60,6 +62,7 @@ function App() {
 	};
 
 	useEffect(() => {
+		console.log(process.env.REACT_APP_MQTT_HOSTNAME);
 		mqttConnect();
 	}, []);
 
