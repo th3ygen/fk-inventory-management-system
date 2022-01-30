@@ -1,20 +1,22 @@
-import 'dotenv/config'
+import "dotenv/config";
 
 import { Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
+
+import useToken from "hooks/useToken";
 
 import mqtt from "mqtt";
 
 import logo from "./logo.svg";
 import "styles/App.module.scss";
 
+import Login from "page/common/Login";
+
 import UserLayout from "layouts/User.layout";
 import AdminLayout from "layouts/Admin.layout";
 
-
 import PondDevices from "page/common/facilities/PondDevices";
 import Visualization from "page/common/visualization/Visualization";
-
 
 function Home() {
 	return (
@@ -36,6 +38,7 @@ function Home() {
 }
 
 function App() {
+	const { token, setToken } = useToken();
 	const [mqttData, setMqttData] = useState(null);
 
 	const mqttConnect = () => {
@@ -49,7 +52,8 @@ function App() {
 
 			client.on("message", (topic, message) => {
 				setMqttData({
-					topic, message: message.toString(),
+					topic,
+					message: message.toString(),
 				});
 			});
 
@@ -62,32 +66,24 @@ function App() {
 	};
 
 	useEffect(() => {
-		console.log(process.env.REACT_APP_MQTT_HOSTNAME);
 		mqttConnect();
 	}, []);
+
+	if (!token) {
+		return <Login setToken={setToken} />;
+	}
 
 	return (
 		<div className="App">
 			<Routes>
-				<Route path="/user" element={<UserLayout mqtt={mqttData}/>}>
+				<Route path="/user" element={<UserLayout mqtt={mqttData} />}>
 					<Route index element={<Home />} />
-					{/* <Route
-						path="productivity"
-						element={<DisplayReportPage />}
-					/> */}
 
-					<Route
-						path="visualization"
-						element={<Visualization />}
-					/>
-					<Route
-						path="facilities"
-						element={<PondDevices />}
-					/>
+					<Route path="visualization" element={<Visualization />} />
+					<Route path="facilities" element={<PondDevices />} />
 				</Route>
 				<Route path="/admin" element={<AdminLayout />}>
 					<Route index element={<Home />} />
-					
 				</Route>
 			</Routes>
 		</div>

@@ -15,7 +15,7 @@ function DisplayReport(props) {
 	const [labels, setLabels] = useState([]);
 
 	const requestLabels = async () => {
-		const response = await fetch("http://localhost:8080/api/device/list");
+		const response = await fetch(`${process.env.REACT_APP_SERVER_HOSTNAME}:${process.env.REACT_APP_SERVER_PORT}/api/device/list`);
 
 		const data = await response.json();
 

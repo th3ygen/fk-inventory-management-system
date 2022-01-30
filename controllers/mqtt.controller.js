@@ -21,8 +21,8 @@ const parseData = (payload) => {
         const dir = topic.split('/');
     
         try {
-            if (dir[0] === 'device' && dir[2] === 'data') {
-                const name = dir[1];
+            if (dir[1] === 'device' && dir[3] === 'data') {
+                const name = dir[2];
                 const data = parseData(message);
         
                 console.log(name, data);
