@@ -168,7 +168,7 @@ function SimpleLineChart(props) {
 
 		(async () => {
 			try {
-				let request = await fetch('http://localhost:8080/api/device/data/average/hourly/all', {
+				let request = await fetch(`${process.env.REACT_APP_SERVER_HOSTNAME}:${process.env.REACT_APP_SERVER_PORT}/api/device/data/average/hourly/all`, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',

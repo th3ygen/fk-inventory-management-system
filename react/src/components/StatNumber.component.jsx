@@ -43,11 +43,11 @@ function StatNumber(props) {
 		<div className={`animate__animated animate__zoomInDown ${styles.stat}`}>
 			<div className={styles.header}>
 				<Icon name={icon}/>
-				<label>{title}</label>
+				<label>{title || '-'}</label>
 			</div>
 			<div className={styles.body}>
-				<div className={` ${styles.value}`} style={{fontSize: valueSize}}>{value}</div>
-                {unit && <div className={styles.unit}>{unit}</div>}
+				<div className={` ${styles.value}`} style={{fontSize: valueSize}}>{value || '-'}</div>
+                {unit && <div className={styles.unit}>{unit || '-'}</div>}
 			</div>
 		</div>
 	);

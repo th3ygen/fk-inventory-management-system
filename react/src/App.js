@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import useToken from "hooks/useToken";
@@ -38,6 +38,9 @@ function Home() {
 }
 
 function App() {
+	const location = useLocation();
+	const navigate = useNavigate();
+
 	const { token, setToken } = useToken();
 	const [mqttData, setMqttData] = useState(null);
 
@@ -69,9 +72,15 @@ function App() {
 		mqttConnect();
 	}, []);
 
-	if (!token) {
+	/* if (!token) {
 		return <Login setToken={setToken} />;
-	}
+	} */
+
+	useEffect(() => {
+		if (!['/user/visualization', '/user/facilities'].includes(location.pathname)) {
+			navigate('/user/visualization', { replace: true });
+		}
+	}, [location.pathname]);
 
 	return (
 		<div className="App">

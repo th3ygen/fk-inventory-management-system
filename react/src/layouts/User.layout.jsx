@@ -42,7 +42,7 @@ export default function UserLayout(props) {
 
     return (
         <div>
-            <Topbar />
+            <Topbar className="animate__animated animate__slideInLeft"/>
             <Navbar paths={ paths }/>
             <div className={ styles.content }>
                 <Outlet context={[mqtt]} path={paths}/>

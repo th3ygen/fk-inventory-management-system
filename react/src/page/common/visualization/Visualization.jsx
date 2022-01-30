@@ -92,31 +92,6 @@ function DisplayReport(props) {
 				</div>
 			</div>
 			<div className={exStyles.body}>
-				<div className={exStyles.avrTable}>
-					<div className={exStyles.header}>
-						<div className={exStyles.title}>Device name</div>
-						<div className={exStyles.title}>pH</div>
-						<div className={exStyles.title}>DO</div>
-						<div className={exStyles.title}>Temp</div>
-						<div className={exStyles.title}>Turbidity</div>
-						<div className={exStyles.title}>Data count</div>
-					</div>
-					<div className={exStyles.data}>
-						{averages
-							.map((_, i) => (
-								<div key={i} className={exStyles.dataRow}>
-									<div className={exStyles.dataCell}>
-										{_.device_name}
-									</div>
-									<div className={exStyles.dataCell}>{_.data.ph.value.toFixed(2)}</div>
-									<div className={exStyles.dataCell}>{_.data.oxy.value.toFixed(2)}</div>
-									<div className={exStyles.dataCell}>{_.data.temp.value.toFixed(2)}</div>
-									<div className={exStyles.dataCell}>{_.data.tds.value.toFixed(2)}</div>
-									<div className={exStyles.dataCell}>{_.data.count}</div>
-								</div>
-							))}
-					</div>
-				</div>
 
 				<StatWrapper>
 					<StatNumber
@@ -147,6 +122,31 @@ function DisplayReport(props) {
 						icon="FaLevelUpAlt"
 					/>
 				</StatWrapper>
+				<div className={exStyles.avrTable}>
+					<div className={exStyles.header}>
+						<div className={exStyles.title}>Device name</div>
+						<div className={exStyles.title}>pH</div>
+						<div className={exStyles.title}>DO</div>
+						<div className={exStyles.title}>Temp</div>
+						<div className={exStyles.title}>Turbidity</div>
+						<div className={exStyles.title}>Data count</div>
+					</div>
+					<div className={exStyles.data}>
+						{averages
+							.map((_, i) => (
+								<div key={i} className={exStyles.dataRow}>
+									<div className={exStyles.dataCell}>
+										{_.device_name}
+									</div>
+									<div className={exStyles.dataCell}>{_.data.ph.value.toFixed(2)}</div>
+									<div className={exStyles.dataCell}>{_.data.oxy.value.toFixed(2)}</div>
+									<div className={exStyles.dataCell}>{_.data.temp.value.toFixed(2)}</div>
+									<div className={exStyles.dataCell}>{_.data.tds.value.toFixed(2)}</div>
+									<div className={exStyles.dataCell}>{_.data.count}</div>
+								</div>
+							))}
+					</div>
+				</div>
 				<div className={exStyles.averages}>
 					<div className={exStyles.item}>
 						<div className={exStyles.title}>Average pH</div>
