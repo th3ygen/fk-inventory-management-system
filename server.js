@@ -18,7 +18,7 @@ app.use(cors());
         await require('./services/mqtt.service').connect();
     
         require('./controllers/mqtt.controller');
-    
+
         app.use(require('./routes'));
         
         app.listen(process.env.PORT, () => {

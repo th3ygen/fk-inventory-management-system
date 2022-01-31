@@ -165,25 +165,30 @@ module.exports = {
 
             const data = [];
 
+            const oxy = [0];
+            const temp = [0];
+            const ph = [0];
+            const tds = [0];
+
             let highestOxy = {
                 device_id: '',
                 device_name: '',
-                value: -1000000
+                value: 0
             };
             let highestTemp = {
                 device_id: '',
                 device_name: '',
-                value: -1000000
+                value: 0
             };
             let highestPh = {
                 device_id: '',
                 device_name: '',
-                value: -1000000
+                value: 0
             };
             let highestTDS = {
                 device_id: '',
                 device_name: '',
-                value: -1000000
+                value: 0
             };
 
             for (let i = 0; i < devices.length; i++) {
@@ -191,41 +196,53 @@ module.exports = {
                 const deviceData = await Data.getHighest(device._id);
 
                 if (deviceData.oxy > highestOxy.value) {
+                    oxy.push(deviceData.oxy);
+                    
                     highestOxy = {
                         device_id: device._id,
                         device_name: device.name,
-                        value: deviceData.oxy
+                        value: 0
                     }
-
                 }
 
                 if (deviceData.temp > highestTemp.value) {
+                    temp.push(deviceData.temp);
+
                     highestTemp = {
                         device_id: device._id,
                         device_name: device.name,
-                        value: deviceData.temp
+                        value: 0
                     }
 
                 }
 
                 if (deviceData.ph > highestPh.value) {
+                    ph.push(deviceData.ph);
+
                     highestPh = {
                         device_id: device._id,
                         device_name: device.name,
-                        value: deviceData.ph
+                        value: 0
                     }
 
                 }
 
                 if (deviceData.tds > highestTDS.value) {
+                    tds.push(deviceData.tds);
+
                     highestTDS = {
                         device_id: device._id,
                         device_name: device.name,
-                        value: deviceData.tds
+                        value: 0
                     }
 
                 }
             }
+
+            highestOxy.value = Math.max(...oxy);
+            highestTemp.value = Math.max(...temp);
+            highestPh.value = Math.max(...ph);
+            highestTDS.value = Math.max(...tds);
 
             res.status(200).json({
                 oxy: highestOxy,
